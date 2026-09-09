@@ -1,0 +1,9 @@
+{
+  "name": "dagaar-motors",
+  "private": true,
+  "version": "0.2.1",
+  "description": "Desk assets for Motors (dagaar_motors)",
+  "scripts": {
+    "lint": "eslint dagaar_motors/public/js --ext .js"
+  }
+}

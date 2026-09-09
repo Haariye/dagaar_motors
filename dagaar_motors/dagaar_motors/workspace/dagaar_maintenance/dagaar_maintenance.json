@@ -1,0 +1,204 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"dm-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Preventive maintenance, workshop execution, and downtime</b></span>\",\"col\":12}},{\"id\":\"dm-spacer-top\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dm-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Workshop\",\"col\":4}},{\"id\":\"dm-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Planning\",\"col\":4}},{\"id\":\"dm-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Maintenance Reports\",\"col\":4}}]",
+  "creation": "2026-08-09 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "tool",
+  "idx": 4,
+  "is_hidden": 0,
+  "label": "Dagaar Maintenance",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Workshop",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Maintenance",
+      "link_count": 0,
+      "link_to": "Vehicle Maintenance",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Maintenance Work Order",
+      "link_count": 0,
+      "link_to": "Maintenance Work Order",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Expense",
+      "link_count": 0,
+      "link_to": "Vehicle Expense",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Inspection",
+      "link_count": 0,
+      "link_to": "Vehicle Inspection",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Planning",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Maintenance Rule",
+      "link_count": 0,
+      "link_to": "Vehicle Maintenance Rule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Inspection Template",
+      "link_count": 0,
+      "link_to": "Inspection Template",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Motor Vehicle",
+      "link_count": 0,
+      "link_to": "Motor Vehicle",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Maintenance Reports",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Maintenance Due",
+      "link_count": 0,
+      "link_to": "Maintenance Due",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Downtime",
+      "link_count": 0,
+      "link_to": "Vehicle Downtime",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Mileage",
+      "link_count": 0,
+      "link_to": "Vehicle Mileage",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Profitability",
+      "link_count": 0,
+      "link_to": "Vehicle Profitability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Dagaar Maintenance",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Dagaar Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager"
+    },
+    {
+      "role": "Dagaar Motors Workshop User"
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Accountant"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    },
+    {
+      "role": "Dagaar Motors Read Only"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 4.0,
+  "shortcuts": [],
+  "title": "Dagaar Maintenance",
+  "type": "Workspace"
+}

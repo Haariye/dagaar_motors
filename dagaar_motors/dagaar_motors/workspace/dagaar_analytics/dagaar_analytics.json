@@ -1,0 +1,255 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"dm-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Drill from executive KPIs to source records</b></span>\",\"col\":12}},{\"id\":\"dm-spacer-top\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dm-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Command Center\",\"col\":4}},{\"id\":\"dm-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Commercial Analytics\",\"col\":4}},{\"id\":\"dm-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Operational Analytics\",\"col\":4}}]",
+  "creation": "2026-08-09 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "chart",
+  "idx": 7,
+  "is_hidden": 0,
+  "label": "Dagaar Analytics",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Command Center",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Executive Dashboard",
+      "link_count": 0,
+      "link_to": "dagaar-motors-dashboard",
+      "link_type": "Page",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Motor Vehicle",
+      "link_count": 0,
+      "link_to": "Motor Vehicle",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Agreement",
+      "link_count": 0,
+      "link_to": "Rental Agreement",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Commercial Analytics",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Rental Revenue",
+      "link_count": 0,
+      "link_to": "Rental Revenue",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Rental Revenue by Vehicle",
+      "link_count": 0,
+      "link_to": "Rental Revenue by Vehicle",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Profitability",
+      "link_count": 0,
+      "link_to": "Vehicle Profitability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Sale Profit",
+      "link_count": 0,
+      "link_to": "Vehicle Sale Profit",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Branch Performance",
+      "link_count": 0,
+      "link_to": "Branch Performance",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Operational Analytics",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Availability",
+      "link_count": 0,
+      "link_to": "Fleet Availability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Utilization",
+      "link_count": 0,
+      "link_to": "Fleet Utilization",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Aging",
+      "link_count": 0,
+      "link_to": "Fleet Aging",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Maintenance Due",
+      "link_count": 0,
+      "link_to": "Maintenance Due",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Downtime",
+      "link_count": 0,
+      "link_to": "Vehicle Downtime",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Traffic Fines",
+      "link_count": 0,
+      "link_to": "Traffic Fines",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Dagaar Analytics",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Dagaar Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "Dagaar Motors Rental Manager"
+    },
+    {
+      "role": "Dagaar Motors Rental Agent"
+    },
+    {
+      "role": "Dagaar Motors Reservation Agent"
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager"
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager"
+    },
+    {
+      "role": "Dagaar Motors Workshop User"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Sales Manager"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Salesperson"
+    },
+    {
+      "role": "Dagaar Motors Accountant"
+    },
+    {
+      "role": "Dagaar Motors Cashier"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    },
+    {
+      "role": "Dagaar Motors Read Only"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 7.0,
+  "shortcuts": [],
+  "title": "Dagaar Analytics",
+  "type": "Workspace"
+}

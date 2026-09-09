@@ -1,0 +1,229 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_section",
+    "rule_name",
+    "active",
+    "maintenance_type",
+    "service_item",
+    "scope_section",
+    "vehicle_category",
+    "vehicle",
+    "company",
+    "scope_col",
+    "expense_account",
+    "estimated_cost",
+    "trigger_section",
+    "interval_km",
+    "interval_months",
+    "interval_engine_hours",
+    "whichever_occurs_first",
+    "lead_km",
+    "lead_days",
+    "instructions"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Maintenance Rule"
+    },
+    {
+      "fieldname": "rule_name",
+      "fieldtype": "Data",
+      "label": "Rule Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "maintenance_type",
+      "fieldtype": "Select",
+      "label": "Maintenance Type",
+      "options": "Preventive\nScheduled\nCorrective\nBreakdown\nAccident Repair\nInspection\nWarranty Repair",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "service_item",
+      "fieldtype": "Link",
+      "label": "Service Item",
+      "options": "Item"
+    },
+    {
+      "fieldname": "scope_section",
+      "fieldtype": "Section Break",
+      "label": "Scope"
+    },
+    {
+      "fieldname": "vehicle_category",
+      "fieldtype": "Link",
+      "label": "Vehicle Category",
+      "options": "Vehicle Category"
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle"
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company"
+    },
+    {
+      "fieldname": "scope_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "expense_account",
+      "fieldtype": "Link",
+      "label": "Expense Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "estimated_cost",
+      "fieldtype": "Currency",
+      "label": "Estimated Cost"
+    },
+    {
+      "fieldname": "trigger_section",
+      "fieldtype": "Section Break",
+      "label": "Triggers"
+    },
+    {
+      "fieldname": "interval_km",
+      "fieldtype": "Float",
+      "label": "Interval KM"
+    },
+    {
+      "fieldname": "interval_months",
+      "fieldtype": "Int",
+      "label": "Interval Months"
+    },
+    {
+      "fieldname": "interval_engine_hours",
+      "fieldtype": "Float",
+      "label": "Interval Engine Hours"
+    },
+    {
+      "fieldname": "whichever_occurs_first",
+      "fieldtype": "Check",
+      "label": "Whichever Occurs First",
+      "default": "1"
+    },
+    {
+      "fieldname": "lead_km",
+      "fieldtype": "Float",
+      "label": "Lead KM"
+    },
+    {
+      "fieldname": "lead_days",
+      "fieldtype": "Int",
+      "label": "Lead Days"
+    },
+    {
+      "fieldname": "instructions",
+      "fieldtype": "Small Text",
+      "label": "Instructions"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Vehicle Maintenance Rule",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:rule_name",
+  "title_field": "rule_name",
+  "show_title_field_in_link": 1,
+  "allow_import": 1
+}

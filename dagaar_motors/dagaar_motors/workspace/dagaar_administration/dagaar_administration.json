@@ -1,0 +1,211 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"dm-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Configuration over code</b></span>\",\"col\":12}},{\"id\":\"dm-spacer-top\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dm-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Organization\",\"col\":4}},{\"id\":\"dm-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Commercial Rules\",\"col\":4}},{\"id\":\"dm-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Compliance & Workshop\",\"col\":4}}]",
+  "creation": "2026-08-09 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "settings",
+  "idx": 8,
+  "is_hidden": 0,
+  "label": "Dagaar Administration",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Organization",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Dagaar Motors Settings",
+      "link_count": 0,
+      "link_to": "Dagaar Motors Settings",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Motor Branch",
+      "link_count": 0,
+      "link_to": "Motor Branch",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Category",
+      "link_count": 0,
+      "link_to": "Vehicle Category",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Type",
+      "link_count": 0,
+      "link_to": "Rental Type",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Commercial Rules",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Pricing Rule",
+      "link_count": 0,
+      "link_to": "Rental Pricing Rule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Seasonal Pricing Rule",
+      "link_count": 0,
+      "link_to": "Seasonal Pricing Rule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Deposit Rule",
+      "link_count": 0,
+      "link_to": "Deposit Rule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Discount Authority",
+      "link_count": 0,
+      "link_to": "Discount Authority",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Charge Type",
+      "link_count": 0,
+      "link_to": "Rental Charge Type",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Extra",
+      "link_count": 0,
+      "link_to": "Rental Extra",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Compliance & Workshop",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental Document Requirement",
+      "link_count": 0,
+      "link_to": "Rental Document Requirement",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Inspection Template",
+      "link_count": 0,
+      "link_to": "Inspection Template",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Maintenance Rule",
+      "link_count": 0,
+      "link_to": "Vehicle Maintenance Rule",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Dagaar Administration",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Dagaar Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    }
+  ],
+  "sequence_id": 8.0,
+  "shortcuts": [],
+  "title": "Dagaar Administration",
+  "type": "Workspace"
+}

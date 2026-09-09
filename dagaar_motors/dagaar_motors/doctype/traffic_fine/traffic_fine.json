@@ -1,0 +1,232 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "fine_section",
+    "vehicle",
+    "plate_number",
+    "violation_datetime",
+    "authority",
+    "status",
+    "responsibility_section",
+    "rental_agreement",
+    "customer",
+    "driver",
+    "fine_amount",
+    "administration_fee",
+    "customer_charge_status",
+    "sales_invoice",
+    "reference_number",
+    "attachment",
+    "description"
+  ],
+  "fields": [
+    {
+      "fieldname": "fine_section",
+      "fieldtype": "Section Break",
+      "label": "Traffic Fine"
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "plate_number",
+      "fieldtype": "Data",
+      "label": "Plate Number",
+      "fetch_from": "vehicle.license_plate",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "violation_datetime",
+      "fieldtype": "Datetime",
+      "label": "Violation Date and Time",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "authority",
+      "fieldtype": "Data",
+      "label": "Authority",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Received\nIdentified\nCustomer Notified\nInvoiced\nPaid\nDisputed\nClosed",
+      "default": "Received",
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "responsibility_section",
+      "fieldtype": "Section Break",
+      "label": "Responsibility"
+    },
+    {
+      "fieldname": "rental_agreement",
+      "fieldtype": "Link",
+      "label": "Rental Agreement",
+      "options": "Rental Agreement",
+      "read_only": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "read_only": 1
+    },
+    {
+      "fieldname": "driver",
+      "fieldtype": "Data",
+      "label": "Driver Name",
+      "read_only": 1
+    },
+    {
+      "fieldname": "fine_amount",
+      "fieldtype": "Currency",
+      "label": "Fine Amount",
+      "reqd": 1
+    },
+    {
+      "fieldname": "administration_fee",
+      "fieldtype": "Currency",
+      "label": "Administration Fee"
+    },
+    {
+      "fieldname": "customer_charge_status",
+      "fieldtype": "Select",
+      "label": "Customer Charge Status",
+      "options": "Not Charged\nPending\nCharged\nWaived"
+    },
+    {
+      "fieldname": "sales_invoice",
+      "fieldtype": "Link",
+      "label": "Sales Invoice",
+      "options": "Sales Invoice",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reference_number",
+      "fieldtype": "Data",
+      "label": "Fine Reference"
+    },
+    {
+      "fieldname": "attachment",
+      "fieldtype": "Attach",
+      "label": "Attachment"
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Traffic Fine",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Accountant",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "TF-.YYYY.-.#####",
+  "title_field": "vehicle",
+  "show_title_field_in_link": 1,
+  "search_fields": "vehicle,reference_number,customer",
+  "allow_import": 1
+}

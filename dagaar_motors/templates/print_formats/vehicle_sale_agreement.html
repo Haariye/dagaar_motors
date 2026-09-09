@@ -1,0 +1,55 @@
+{% set print_title = "Vehicle Sale Agreement" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set buyer_name = frappe.db.get_value("Customer", doc.buyer, "customer_name") if doc.buyer else "—" %}
+{% set vehicle = frappe.db.get_value("Motor Vehicle", doc.vehicle, ["vehicle_title", "license_plate", "vin", "engine_number", "manufacturer", "model", "model_year", "color", "current_odometer"], as_dict=True) if doc.vehicle else None %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Buyer</span><strong>{{ buyer_name }}</strong></div>
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ vehicle.vehicle_title if vehicle and vehicle.vehicle_title else doc.vehicle }}</strong></div>
+    <div class="dm-meta"><span>Sale date</span><strong>{{ frappe.utils.formatdate(doc.sale_date, "MMM d, yyyy") if doc.sale_date else "—" }}</strong></div>
+    <div class="dm-meta"><span>Sale price</span><strong>{{ money(doc.sale_price) }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Vehicle identification</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Registration</span><strong>{{ vehicle.license_plate if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>VIN / Chassis</span><strong>{{ vehicle.vin if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>Engine number</span><strong>{{ vehicle.engine_number if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>Odometer</span><strong>{{ "{:,.0f}".format(vehicle.current_odometer or 0) if vehicle else "—" }} km</strong></div>
+      </div>
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Manufacturer</span><strong>{{ vehicle.manufacturer if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>Model</span><strong>{{ vehicle.model if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>Model year</span><strong>{{ vehicle.model_year if vehicle else "—" }}</strong></div>
+        <div class="dm-kv"><span>Color</span><strong>{{ vehicle.color if vehicle else "—" }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Commercial terms</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel"><div class="dm-kv"><span>Asking price</span><strong>{{ money(doc.asking_price) }}</strong></div><div class="dm-kv"><span>Discount</span><strong>{{ money(doc.discount_amount) }}</strong></div><div class="dm-kv"><span>Deposit received</span><strong>{{ money(doc.deposit_amount) }}</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Minimum approved price</span><strong>{{ money(doc.minimum_price) }}</strong></div><div class="dm-kv"><span>Salesperson</span><strong>{{ doc.salesperson or "—" }}</strong></div><div class="dm-kv"><span>Approval</span><strong>{{ doc.approved_by or ("Required" if doc.approval_required else "Not required") }}</strong></div></div>
+    </div>
+    <div class="dm-total-box" style="margin-top:10px"><div class="dm-total-row"><span>Final sale price</span><strong>{{ money(doc.sale_price) }}</strong></div></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">ERPNext and ownership references</h2>
+    <table class="dm-table"><thead><tr><th>Quotation</th><th>Sales order</th><th>Delivery note</th><th>Sales invoice</th></tr></thead><tbody><tr><td>{{ doc.quotation or "—" }}</td><td>{{ doc.sales_order or "—" }}</td><td>{{ doc.delivery_note or "—" }}</td><td>{{ doc.sales_invoice or "—" }}</td></tr></tbody></table>
+    <div class="dm-two-col" style="margin-top:10px"><div class="dm-panel"><div class="dm-kv"><span>Transfer reference</span><strong>{{ doc.ownership_transfer_reference or "—" }}</strong></div></div><div class="dm-panel"><div class="dm-kv"><span>Transfer date</span><strong>{{ frappe.utils.formatdate(doc.ownership_transfer_date, "MMM d, yyyy") if doc.ownership_transfer_date else "—" }}</strong></div></div></div>
+  </div>
+
+  {% if doc.disposal_notes %}<div class="dm-section"><h2 class="dm-section-title">Sale and handover terms</h2><div class="dm-panel dm-terms">{{ doc.disposal_notes }}</div></div>{% endif %}
+  <div class="dm-alert">Delivery and final sale are valid only after the system confirms there is no active rental, overlapping reservation, maintenance block, or duplicate prior sale for this vehicle.</div>
+  <div class="dm-signatures"><div class="dm-signature"><strong>Buyer</strong><span>{{ buyer_name }}</span></div><div class="dm-signature"><strong>Seller / Authorized representative</strong><span>{{ doc.salesperson or "Dagaar Motors" }}</span></div></div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

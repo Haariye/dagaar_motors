@@ -1,0 +1,535 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reservation_tab",
+  "identity_section",
+  "naming_series",
+  "company",
+  "branch",
+  "customer",
+  "contact",
+  "status",
+  "identity_col",
+  "quotation",
+  "rental_agreement",
+  "reservation_source",
+  "rental_agent",
+  "promo_code",
+  "payment_status",
+  "rental_request_section",
+  "pickup_datetime",
+  "return_datetime",
+  "pickup_location",
+  "return_location",
+  "rental_type",
+  "vehicle_category",
+  "requested_vehicle",
+  "vehicle",
+  "pricing_tab",
+  "pricing_section",
+  "currency",
+  "base_amount",
+  "extras_amount",
+  "discount_percent",
+  "discount_amount",
+  "net_amount",
+  "pricing_col",
+  "tax_template",
+  "tax_amount",
+  "grand_total",
+  "pricing_rule",
+  "price_override_approved_by",
+  "extras_section",
+  "extras",
+  "deposit_section",
+  "deposit_required",
+  "deposit_collected",
+  "security_deposit",
+  "deposit_waived",
+  "deposit_waiver_approved_by",
+  "documents_tab",
+  "documents_section",
+  "documents_complete",
+  "document_notes",
+  "notes",
+  "breakdown_section",
+  "pricing_breakdown",
+  "pricing_snapshot",
+  "idempotency_key",
+  "audit_log"
+ ],
+ "fields": [
+  {
+   "fieldname": "reservation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Reservation"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Reservation"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "RSV-.YYYY.-.#####",
+   "default": "RSV-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Motor Branch",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "contact",
+   "fieldtype": "Link",
+   "label": "Contact",
+   "options": "Contact",
+   "description": "Fetched automatically from the Customer; you can change it."
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nQuotation\nPending\nConfirmed\nVehicle Assigned\nChecked Out\nCompleted\nCancelled\nNo Show",
+   "default": "Draft",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "identity_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Rental Quotation",
+   "options": "Rental Quotation"
+  },
+  {
+   "fieldname": "rental_agreement",
+   "fieldtype": "Link",
+   "label": "Rental Agreement",
+   "options": "Rental Agreement",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reservation_source",
+   "fieldtype": "Select",
+   "label": "Reservation Source",
+   "options": "Walk-in\nPhone\nEmail\nWebsite\nAgent\nCorporate\nOther"
+  },
+  {
+   "fieldname": "rental_agent",
+   "fieldtype": "Link",
+   "label": "Rental Agent",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "promo_code",
+   "fieldtype": "Data",
+   "label": "Promo Code"
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Unpaid\nPartly Paid\nPaid\nRefunded",
+   "default": "Unpaid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rental_request_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Request"
+  },
+  {
+   "fieldname": "pickup_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pickup",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "return_datetime",
+   "fieldtype": "Datetime",
+   "label": "Expected Return",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "pickup_location",
+   "fieldtype": "Data",
+   "label": "Pickup Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "return_location",
+   "fieldtype": "Data",
+   "label": "Return Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rental_type",
+   "fieldtype": "Link",
+   "label": "Rental Type",
+   "options": "Rental Type",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "vehicle_category",
+   "fieldtype": "Link",
+   "label": "Vehicle Category",
+   "options": "Vehicle Category",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "requested_vehicle",
+   "fieldtype": "Link",
+   "label": "Requested Vehicle",
+   "options": "Motor Vehicle"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Assigned Vehicle",
+   "options": "Motor Vehicle",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "pricing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pricing & Deposit"
+  },
+  {
+   "fieldname": "pricing_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "Base Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extras_amount",
+   "fieldtype": "Currency",
+   "label": "Extras Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "discount_percent",
+   "fieldtype": "Percent",
+   "label": "Discount %"
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "label": "Net Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "tax_template",
+   "fieldtype": "Link",
+   "label": "Tax Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "tax_amount",
+   "fieldtype": "Currency",
+   "label": "Tax Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_rule",
+   "fieldtype": "Link",
+   "label": "Pricing Rule",
+   "options": "Rental Pricing Rule",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "price_override_approved_by",
+   "fieldtype": "Link",
+   "label": "Rate Override Approved By",
+   "options": "User",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "extras_section",
+   "fieldtype": "Section Break",
+   "label": "Extras"
+  },
+  {
+   "fieldname": "extras",
+   "fieldtype": "Table",
+   "label": "Extras",
+   "options": "Rental Reservation Extra"
+  },
+  {
+   "fieldname": "deposit_section",
+   "fieldtype": "Section Break",
+   "label": "Security Deposit"
+  },
+  {
+   "fieldname": "deposit_required",
+   "fieldtype": "Currency",
+   "label": "Deposit Required",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "deposit_collected",
+   "fieldtype": "Currency",
+   "label": "Deposit Collected",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "security_deposit",
+   "fieldtype": "Link",
+   "label": "Security Deposit",
+   "options": "Security Deposit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "deposit_waived",
+   "fieldtype": "Check",
+   "label": "Deposit Waived"
+  },
+  {
+   "fieldname": "deposit_waiver_approved_by",
+   "fieldtype": "Link",
+   "label": "Waiver Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "documents_tab",
+   "fieldtype": "Tab Break",
+   "label": "Documents & Notes"
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Documents"
+  },
+  {
+   "fieldname": "documents_complete",
+   "fieldtype": "Check",
+   "label": "Required Documents Complete"
+  },
+  {
+   "fieldname": "document_notes",
+   "fieldtype": "Small Text",
+   "label": "Document Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Reservation Notes"
+  },
+  {
+   "fieldname": "breakdown_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing Breakdown"
+  },
+  {
+   "fieldname": "pricing_breakdown",
+   "fieldtype": "Table",
+   "label": "Pricing Breakdown",
+   "options": "Pricing Breakdown Line",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_snapshot",
+   "fieldtype": "Long Text",
+   "label": "Pricing Snapshot",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "idempotency_key",
+   "fieldtype": "Data",
+   "label": "Idempotency Key",
+   "hidden": 1,
+   "unique": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "audit_log",
+   "fieldtype": "Long Text",
+   "label": "Audit Log",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Rental Reservation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Dagaar Motors Administrator",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "Dagaar Motors Rental Manager",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Dagaar Motors Rental Agent",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Dagaar Motors Reservation Agent",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Dagaar Motors Auditor",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  },
+  {
+   "role": "Dagaar Motors Read Only",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "title_field": "customer",
+ "show_title_field_in_link": 1,
+ "search_fields": "customer,vehicle,requested_vehicle",
+ "allow_import": 1,
+ "hidden": 1
+}

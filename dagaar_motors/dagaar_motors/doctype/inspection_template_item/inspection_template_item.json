@@ -1,0 +1,63 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "area",
+    "item",
+    "response_type",
+    "photo_required_on_fail",
+    "mandatory"
+  ],
+  "fields": [
+    {
+      "fieldname": "area",
+      "fieldtype": "Data",
+      "label": "Area",
+      "in_list_view": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "item",
+      "fieldtype": "Data",
+      "label": "Checklist Item",
+      "in_list_view": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "response_type",
+      "fieldtype": "Select",
+      "label": "Response Type",
+      "options": "Pass/Fail\nYes/No\nCondition\nText\nNumber\nFuel Level",
+      "default": "Pass/Fail",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "photo_required_on_fail",
+      "fieldtype": "Check",
+      "label": "Photo Required on Fail"
+    },
+    {
+      "fieldname": "mandatory",
+      "fieldtype": "Check",
+      "label": "Mandatory",
+      "default": "1"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Inspection Template Item",
+  "owner": "Administrator",
+  "permissions": [],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 0,
+  "istable": 1,
+  "editable_grid": 1
+}

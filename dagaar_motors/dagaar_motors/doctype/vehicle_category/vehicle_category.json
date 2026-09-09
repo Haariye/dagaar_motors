@@ -1,0 +1,304 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_tab",
+    "identity_section",
+    "category_name",
+    "code",
+    "active",
+    "description",
+    "eligibility_section",
+    "rentable",
+    "sellable",
+    "minimum_driver_age",
+    "replacement_eligible",
+    "eligibility_col",
+    "required_license_class",
+    "territory_restrictions",
+    "insurance_class",
+    "commercial_tab",
+    "rental_defaults_section",
+    "base_daily_rate",
+    "default_deposit_amount",
+    "included_km_per_day",
+    "excess_km_rate",
+    "rental_defaults_col",
+    "minimum_rental_hours",
+    "sales_commission_percent",
+    "maintenance_plan",
+    "account_overrides_section",
+    "rental_income_account",
+    "maintenance_expense_account",
+    "vehicle_operating_expense_account",
+    "deposit_liability_account"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_tab",
+      "fieldtype": "Tab Break",
+      "label": "General"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Category"
+    },
+    {
+      "fieldname": "category_name",
+      "fieldtype": "Data",
+      "label": "Category Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "code",
+      "fieldtype": "Data",
+      "label": "Code",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description"
+    },
+    {
+      "fieldname": "eligibility_section",
+      "fieldtype": "Section Break",
+      "label": "Eligibility"
+    },
+    {
+      "fieldname": "rentable",
+      "fieldtype": "Check",
+      "label": "Rentable",
+      "default": "1"
+    },
+    {
+      "fieldname": "sellable",
+      "fieldtype": "Check",
+      "label": "Sellable",
+      "default": "1"
+    },
+    {
+      "fieldname": "minimum_driver_age",
+      "fieldtype": "Int",
+      "label": "Minimum Driver Age",
+      "default": "18"
+    },
+    {
+      "fieldname": "replacement_eligible",
+      "fieldtype": "Check",
+      "label": "Replacement Vehicle Eligible",
+      "default": "1"
+    },
+    {
+      "fieldname": "eligibility_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "required_license_class",
+      "fieldtype": "Data",
+      "label": "Required License Class"
+    },
+    {
+      "fieldname": "territory_restrictions",
+      "fieldtype": "Small Text",
+      "label": "Territory Restrictions"
+    },
+    {
+      "fieldname": "insurance_class",
+      "fieldtype": "Data",
+      "label": "Insurance Class"
+    },
+    {
+      "fieldname": "commercial_tab",
+      "fieldtype": "Tab Break",
+      "label": "Commercial"
+    },
+    {
+      "fieldname": "rental_defaults_section",
+      "fieldtype": "Section Break",
+      "label": "Rental Defaults"
+    },
+    {
+      "fieldname": "base_daily_rate",
+      "fieldtype": "Currency",
+      "label": "Base Daily Rate"
+    },
+    {
+      "fieldname": "default_deposit_amount",
+      "fieldtype": "Currency",
+      "label": "Default Deposit"
+    },
+    {
+      "fieldname": "included_km_per_day",
+      "fieldtype": "Float",
+      "label": "Included KM per Day"
+    },
+    {
+      "fieldname": "excess_km_rate",
+      "fieldtype": "Currency",
+      "label": "Excess KM Rate"
+    },
+    {
+      "fieldname": "rental_defaults_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "minimum_rental_hours",
+      "fieldtype": "Float",
+      "label": "Minimum Rental Hours"
+    },
+    {
+      "fieldname": "sales_commission_percent",
+      "fieldtype": "Percent",
+      "label": "Sales Commission %"
+    },
+    {
+      "fieldname": "maintenance_plan",
+      "fieldtype": "Link",
+      "label": "Maintenance Plan",
+      "options": "Vehicle Maintenance Rule"
+    },
+    {
+      "fieldname": "account_overrides_section",
+      "fieldtype": "Section Break",
+      "label": "Account Overrides"
+    },
+    {
+      "fieldname": "rental_income_account",
+      "fieldtype": "Link",
+      "label": "Rental Income Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "maintenance_expense_account",
+      "fieldtype": "Link",
+      "label": "Maintenance Expense Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "vehicle_operating_expense_account",
+      "fieldtype": "Link",
+      "label": "Operating Expense Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "deposit_liability_account",
+      "fieldtype": "Link",
+      "label": "Deposit Liability Account",
+      "options": "Account"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Vehicle Category",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Vehicle Sales Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:code",
+  "title_field": "category_name",
+  "show_title_field_in_link": 1,
+  "search_fields": "category_name,code",
+  "allow_import": 1
+}

@@ -1,0 +1,178 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"m-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Sell only vehicles marked sellable</b></span>\",\"col\":12}},{\"id\":\"m-spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Sales\",\"col\":4}},{\"id\":\"m-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Inventory\",\"col\":4}},{\"id\":\"m-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Performance\",\"col\":4}}]",
+  "creation": "2026-08-10 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "tag",
+  "idx": 5,
+  "is_hidden": 0,
+  "label": "Sales",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Sales",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Sales",
+      "link_count": 0,
+      "link_to": "Vehicle Sale",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Customers",
+      "link_count": 0,
+      "link_to": "Customer",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Sales Invoices",
+      "link_count": 0,
+      "link_to": "Sales Invoice",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Inventory",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicles for Sale",
+      "link_count": 0,
+      "link_to": "Vehicles for Sale",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicles",
+      "link_count": 0,
+      "link_to": "Motor Vehicle",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Performance",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Sale Profit",
+      "link_count": 0,
+      "link_to": "Vehicle Sale Profit",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Profitability",
+      "link_count": 0,
+      "link_to": "Vehicle Profitability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-10 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Sales",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "Dagaar Motors Rental Manager"
+    },
+    {
+      "role": "Dagaar Motors Rental Agent"
+    },
+    {
+      "role": "Dagaar Motors Reservation Agent"
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager"
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager"
+    },
+    {
+      "role": "Dagaar Motors Workshop User"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Sales Manager"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Salesperson"
+    },
+    {
+      "role": "Dagaar Motors Accountant"
+    },
+    {
+      "role": "Dagaar Motors Cashier"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    },
+    {
+      "role": "Dagaar Motors Read Only"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 5.0,
+  "shortcuts": [],
+  "title": "Sales",
+  "type": "Workspace"
+}

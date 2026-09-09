@@ -1,0 +1,381 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "sale_tab",
+    "identity_section",
+    "naming_series",
+    "vehicle",
+    "company",
+    "branch",
+    "buyer",
+    "salesperson",
+    "status",
+    "commercial_section",
+    "currency",
+    "asking_price",
+    "minimum_price",
+    "sale_price",
+    "discount_amount",
+    "commission_percent",
+    "commission_amount",
+    "commercial_col",
+    "deposit_amount",
+    "approval_required",
+    "approved_by",
+    "approval_timestamp",
+    "sale_date",
+    "erp_section",
+    "item",
+    "quotation",
+    "sales_order",
+    "delivery_note",
+    "sales_invoice",
+    "disposal_section",
+    "ownership_transfer_reference",
+    "ownership_transfer_date",
+    "disposal_notes",
+    "profit_loss",
+    "idempotency_key",
+    "audit_log"
+  ],
+  "fields": [
+    {
+      "fieldname": "sale_tab",
+      "fieldtype": "Tab Break",
+      "label": "Vehicle Sale"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Vehicle Sale"
+    },
+    {
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "VS-.YYYY.-.#####",
+      "default": "VS-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1,
+      "in_standard_filter": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Link",
+      "label": "Branch",
+      "options": "Motor Branch",
+      "reqd": 1,
+      "in_standard_filter": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "buyer",
+      "fieldtype": "Link",
+      "label": "Buyer",
+      "options": "Customer",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "salesperson",
+      "fieldtype": "Link",
+      "label": "Salesperson",
+      "options": "Sales Person"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nQualified\nReserved\nAwaiting Approval\nApproved\nInvoiced\nDelivered\nCompleted\nCancelled",
+      "default": "Draft",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "commercial_section",
+      "fieldtype": "Section Break",
+      "label": "Commercial"
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "asking_price",
+      "fieldtype": "Currency",
+      "label": "Asking Price",
+      "options": "currency"
+    },
+    {
+      "fieldname": "minimum_price",
+      "fieldtype": "Currency",
+      "label": "Minimum Price",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sale_price",
+      "fieldtype": "Currency",
+      "label": "Sale Price",
+      "options": "currency",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "discount_amount",
+      "fieldtype": "Currency",
+      "label": "Discount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "commission_percent",
+      "fieldtype": "Percent",
+      "label": "Commission %"
+    },
+    {
+      "fieldname": "commission_amount",
+      "fieldtype": "Currency",
+      "label": "Commission Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "commercial_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "deposit_amount",
+      "fieldtype": "Currency",
+      "label": "Sale Deposit",
+      "options": "currency"
+    },
+    {
+      "fieldname": "approval_required",
+      "fieldtype": "Check",
+      "label": "Approval Required",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_by",
+      "fieldtype": "Link",
+      "label": "Approved By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approval_timestamp",
+      "fieldtype": "Datetime",
+      "label": "Approval Time",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sale_date",
+      "fieldtype": "Date",
+      "label": "Sale Date"
+    },
+    {
+      "fieldname": "erp_section",
+      "fieldtype": "Section Break",
+      "label": "ERP Documents"
+    },
+    {
+      "fieldname": "item",
+      "fieldtype": "Link",
+      "label": "Selling Item",
+      "options": "Item",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "quotation",
+      "fieldtype": "Link",
+      "label": "Quotation",
+      "options": "Quotation"
+    },
+    {
+      "fieldname": "sales_order",
+      "fieldtype": "Link",
+      "label": "Sales Order",
+      "options": "Sales Order"
+    },
+    {
+      "fieldname": "delivery_note",
+      "fieldtype": "Link",
+      "label": "Delivery Note",
+      "options": "Delivery Note",
+      "read_only": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "sales_invoice",
+      "fieldtype": "Link",
+      "label": "Sales Invoice",
+      "options": "Sales Invoice",
+      "read_only": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "disposal_section",
+      "fieldtype": "Section Break",
+      "label": "Ownership Transfer and Disposal"
+    },
+    {
+      "fieldname": "ownership_transfer_reference",
+      "fieldtype": "Data",
+      "label": "Ownership Transfer Reference"
+    },
+    {
+      "fieldname": "ownership_transfer_date",
+      "fieldtype": "Date",
+      "label": "Ownership Transfer Date"
+    },
+    {
+      "fieldname": "disposal_notes",
+      "fieldtype": "Text Editor",
+      "label": "Disposal Notes"
+    },
+    {
+      "fieldname": "profit_loss",
+      "fieldtype": "Currency",
+      "label": "Profit / Loss",
+      "options": "currency",
+      "read_only": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "idempotency_key",
+      "fieldtype": "Data",
+      "label": "Idempotency Key",
+      "hidden": 1,
+      "unique": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "audit_log",
+      "fieldtype": "Long Text",
+      "label": "Audit Log",
+      "read_only": 1,
+      "allow_on_submit": 1
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Vehicle Sale",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Vehicle Sales Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Vehicle Salesperson",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "naming_series:",
+  "is_submittable": 1,
+  "title_field": "vehicle",
+  "show_title_field_in_link": 1,
+  "search_fields": "vehicle,buyer,sales_invoice",
+  "allow_import": 1
+}

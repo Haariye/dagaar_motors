@@ -1,0 +1,43 @@
+{% set print_title = "Vehicle Inspection Report" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = frappe.db.get_value("Motor Vehicle", doc.vehicle, "company") if doc.vehicle else None %}
+{% set vehicle = frappe.db.get_value("Motor Vehicle", doc.vehicle, ["vehicle_title", "license_plate", "vin", "manufacturer", "model", "model_year"], as_dict=True) if doc.vehicle else None %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ vehicle.vehicle_title if vehicle and vehicle.vehicle_title else doc.vehicle }}</strong></div>
+    <div class="dm-meta"><span>Inspection type</span><strong>{{ doc.inspection_type }}</strong></div>
+    <div class="dm-meta"><span>Inspection date</span><strong>{{ frappe.utils.format_datetime(doc.inspection_datetime, "MMM d, yyyy h:mm a") if doc.inspection_datetime else "—" }}</strong></div>
+    <div class="dm-meta"><span>Inspector</span><strong>{{ doc.inspector or "—" }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Vehicle and context</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel"><div class="dm-kv"><span>Registration</span><strong>{{ vehicle.license_plate if vehicle else "—" }}</strong></div><div class="dm-kv"><span>VIN / Chassis</span><strong>{{ vehicle.vin if vehicle else "—" }}</strong></div><div class="dm-kv"><span>Vehicle</span><strong>{{ (vehicle.manufacturer ~ " " ~ vehicle.model ~ " " ~ vehicle.model_year) if vehicle else doc.vehicle }}</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Rental agreement</span><strong>{{ doc.rental_agreement or "—" }}</strong></div><div class="dm-kv"><span>Rental return</span><strong>{{ doc.rental_return or "—" }}</strong></div><div class="dm-kv"><span>Work order / Sale</span><strong>{{ doc.maintenance_work_order or doc.vehicle_sale or "—" }}</strong></div></div>
+    </div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Readings and overall condition</h2>
+    <div class="dm-three-col"><div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Odometer</span><strong>{{ "{:,.0f}".format(doc.odometer or 0) }} km</strong></div></div><div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Fuel level</span><strong>{{ doc.fuel_level or "—" }}</strong></div></div><div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Condition</span><strong>{{ doc.overall_condition or "—" }}</strong></div></div></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Inspection checklist</h2>
+    <table class="dm-table">
+      <thead><tr><th>Area</th><th>Inspection item</th><th>Result</th><th>Reading</th><th>Notes</th><th>Damage report</th></tr></thead>
+      <tbody>
+        {% for row in doc.items %}<tr><td>{{ row.area or "—" }}</td><td>{{ row.item or "—" }}</td><td><strong>{{ row.result or "—" }}</strong></td><td>{{ row.reading or "—" }}</td><td>{{ row.notes or "—" }}</td><td>{{ row.damage_report or "—" }}</td></tr>{% else %}<tr><td colspan="6" class="dm-center">No checklist items recorded.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if doc.photos or doc.items %}<div class="dm-section"><h2 class="dm-section-title">Inspection evidence</h2><div class="dm-photo-grid">{% if doc.photos %}<div class="dm-photo"><img src="{{ doc.photos }}" alt="Inspection photo"></div>{% endif %}{% for row in doc.items %}{% if row.photo %}<div class="dm-photo"><img src="{{ row.photo }}" alt="{{ row.area or row.item or 'Inspection evidence' }}"></div>{% endif %}{% endfor %}</div></div>{% endif %}
+  {% if doc.remarks %}<div class="dm-section"><h2 class="dm-section-title">Inspector remarks</h2><div class="dm-panel dm-terms">{{ doc.remarks }}</div></div>{% endif %}
+  <div class="dm-signatures"><div class="dm-signature"><strong>Inspector</strong><span>{{ doc.inspector or "Name, signature, and date" }}</span></div><div class="dm-signature"><strong>Customer / Responsible party</strong><span>Acknowledgment of recorded condition</span></div></div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

@@ -1,0 +1,691 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "creation": "2026-08-09 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "agreement_tab",
+  "identity_section",
+  "naming_series",
+  "company",
+  "branch",
+  "customer",
+  "contact",
+  "vehicle",
+  "status",
+  "identity_col",
+  "reservation",
+  "rental_type",
+  "vehicle_category",
+  "rental_agent",
+  "current_invoice",
+  "security_deposit",
+  "status_reason",
+  "period_section",
+  "pickup_datetime",
+  "expected_return_datetime",
+  "actual_return_datetime",
+  "pickup_location",
+  "return_location",
+  "period_col",
+  "original_end_datetime",
+  "invoiced_through_datetime",
+  "duration_units",
+  "duration_label",
+  "one_way",
+  "drivers_tab",
+  "drivers_section",
+  "drivers",
+  "checkout_tab",
+  "checkout_section",
+  "checkout_odometer",
+  "checkout_fuel_level",
+  "checkout_inspection",
+  "checkout_completed_on",
+  "checkout_col",
+  "return_odometer",
+  "return_fuel_level",
+  "return_inspection",
+  "rental_return",
+  "pricing_tab",
+  "pricing_summary_section",
+  "currency",
+  "base_rate",
+  "base_amount",
+  "extras_amount",
+  "discount_percent",
+  "discount_amount",
+  "net_amount",
+  "pricing_summary_col",
+  "tax_template",
+  "tax_amount",
+  "grand_total",
+  "deposit_required",
+  "pricing_rule",
+  "approved_by",
+  "charges_section",
+  "charges",
+  "extras_section",
+  "extras",
+  "breakdown_section",
+  "pricing_breakdown",
+  "pricing_snapshot",
+  "documents_tab",
+  "documents_section",
+  "documents_complete",
+  "insurance_option",
+  "customer_signature",
+  "agent_signature",
+  "terms",
+  "remarks",
+  "audit_tab",
+  "idempotency_key",
+  "audit_log",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "agreement_tab",
+   "fieldtype": "Tab Break",
+   "label": "Agreement"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Agreement"
+  },
+  {
+   "default": "RA-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "RA-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Branch",
+   "options": "Motor Branch",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "description": "Fetched automatically from the Customer; you can change it.",
+   "fieldname": "contact",
+   "fieldtype": "Link",
+   "label": "Contact",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Vehicle",
+   "options": "Motor Vehicle",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nAwaiting Approval\nReserved\nReady for Pickup\nActive\nExtension Requested\nExtended\nOverdue\nReturn Processing\nCompleted\nClosed\nCancelled",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "identity_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reservation",
+   "fieldtype": "Link",
+   "label": "Reservation",
+   "options": "Rental Reservation",
+   "hidden": 1,
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "rental_type",
+   "fieldtype": "Link",
+   "label": "Rental Type",
+   "options": "Rental Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vehicle_category",
+   "fieldtype": "Link",
+   "label": "Vehicle Category",
+   "options": "Vehicle Category",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rental_agent",
+   "fieldtype": "Link",
+   "label": "Rental Agent",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "current_invoice",
+   "fieldtype": "Link",
+   "label": "Current Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "security_deposit",
+   "fieldtype": "Link",
+   "label": "Security Deposit",
+   "options": "Security Deposit",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status_reason",
+   "fieldtype": "Small Text",
+   "label": "Status Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "period_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Period"
+  },
+  {
+   "fieldname": "pickup_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Pickup",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "expected_return_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Expected Return",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actual_return_datetime",
+   "fieldtype": "Datetime",
+   "label": "Actual Return",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pickup_location",
+   "fieldtype": "Data",
+   "label": "Pickup Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "return_location",
+   "fieldtype": "Data",
+   "label": "Return Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "original_end_datetime",
+   "fieldtype": "Datetime",
+   "label": "Original End",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "invoiced_through_datetime",
+   "fieldtype": "Datetime",
+   "label": "Invoiced Through",
+   "read_only": 1
+  },
+  {
+   "fieldname": "duration_units",
+   "fieldtype": "Float",
+   "label": "Original Billable Units",
+   "read_only": 1
+  },
+  {
+   "fieldname": "duration_label",
+   "fieldtype": "Data",
+   "label": "Duration",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "one_way",
+   "fieldtype": "Check",
+   "label": "One-way Rental"
+  },
+  {
+   "fieldname": "drivers_tab",
+   "fieldtype": "Tab Break",
+   "label": "Drivers"
+  },
+  {
+   "fieldname": "drivers_section",
+   "fieldtype": "Section Break",
+   "label": "Authorized Drivers"
+  },
+  {
+   "description": "Customer is suggested as the primary driver. Edit the row or add another driver; no driver master is required.",
+   "fieldname": "drivers",
+   "fieldtype": "Table",
+   "label": "Drivers",
+   "options": "Rental Agreement Driver"
+  },
+  {
+   "fieldname": "checkout_tab",
+   "fieldtype": "Tab Break",
+   "label": "Checkout & Return"
+  },
+  {
+   "fieldname": "checkout_section",
+   "fieldtype": "Section Break",
+   "label": "Checkout"
+  },
+  {
+   "fieldname": "checkout_odometer",
+   "fieldtype": "Float",
+   "label": "Checkout Odometer"
+  },
+  {
+   "fieldname": "checkout_fuel_level",
+   "fieldtype": "Select",
+   "label": "Checkout Fuel",
+   "options": "Empty\n1/8\n1/4\n3/8\n1/2\n5/8\n3/4\n7/8\nFull"
+  },
+  {
+   "fieldname": "checkout_inspection",
+   "fieldtype": "Link",
+   "label": "Checkout Inspection",
+   "options": "Vehicle Inspection"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "checkout_completed_on",
+   "fieldtype": "Datetime",
+   "label": "Checkout Completed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "checkout_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "return_odometer",
+   "fieldtype": "Float",
+   "label": "Return Odometer",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "return_fuel_level",
+   "fieldtype": "Select",
+   "label": "Return Fuel",
+   "options": "Empty\n1/8\n1/4\n3/8\n1/2\n5/8\n3/4\n7/8\nFull",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "return_inspection",
+   "fieldtype": "Link",
+   "label": "Return Inspection",
+   "options": "Vehicle Inspection",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "rental_return",
+   "fieldtype": "Link",
+   "label": "Rental Return",
+   "options": "Rental Return",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "pricing_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Original Pricing"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "base_rate",
+   "fieldtype": "Currency",
+   "label": "Base Rate",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "Base Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extras_amount",
+   "fieldtype": "Currency",
+   "label": "Extras Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "discount_percent",
+   "fieldtype": "Percent",
+   "label": "Discount %"
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "label": "Net Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_summary_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tax_template",
+   "fieldtype": "Link",
+   "label": "Tax Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "tax_amount",
+   "fieldtype": "Currency",
+   "label": "Tax Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "deposit_required",
+   "fieldtype": "Currency",
+   "label": "Deposit Required",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_rule",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Pricing Rule",
+   "options": "Rental Pricing Rule",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Commercial Approval",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "charges_section",
+   "fieldtype": "Section Break",
+   "label": "Charges"
+  },
+  {
+   "fieldname": "charges",
+   "fieldtype": "Table",
+   "label": "Charges",
+   "options": "Rental Agreement Charge"
+  },
+  {
+   "fieldname": "extras_section",
+   "fieldtype": "Section Break",
+   "label": "Extras"
+  },
+  {
+   "fieldname": "extras",
+   "fieldtype": "Table",
+   "label": "Extras",
+   "options": "Rental Agreement Extra"
+  },
+  {
+   "fieldname": "breakdown_section",
+   "fieldtype": "Section Break",
+   "label": "Pricing Breakdown"
+  },
+  {
+   "fieldname": "pricing_breakdown",
+   "fieldtype": "Table",
+   "label": "Pricing Breakdown",
+   "options": "Pricing Breakdown Line",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_snapshot",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "Pricing Snapshot",
+   "read_only": 1
+  },
+  {
+   "fieldname": "documents_tab",
+   "fieldtype": "Tab Break",
+   "label": "Documents & Terms"
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Requirements"
+  },
+  {
+   "default": "0",
+   "fieldname": "documents_complete",
+   "fieldtype": "Check",
+   "label": "Required Documents Complete"
+  },
+  {
+   "fieldname": "insurance_option",
+   "fieldtype": "Data",
+   "label": "Insurance Option"
+  },
+  {
+   "fieldname": "customer_signature",
+   "fieldtype": "Attach",
+   "label": "Customer Signature"
+  },
+  {
+   "fieldname": "agent_signature",
+   "fieldtype": "Attach",
+   "label": "Agent Signature"
+  },
+  {
+   "fieldname": "terms",
+   "fieldtype": "Text Editor",
+   "label": "Terms and Conditions"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "audit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "idempotency_key",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Idempotency Key",
+   "no_copy": 1,
+   "unique": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "audit_log",
+   "fieldtype": "Long Text",
+   "hidden": 1,
+   "label": "Audit Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Rental Agreement",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-08 22:47:06.371367",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Rental Agreement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Administrator",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Rental Manager",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Rental Agent",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Auditor"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Read Only"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "customer,vehicle,reservation,current_invoice",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer",
+ "track_changes": 1
+}

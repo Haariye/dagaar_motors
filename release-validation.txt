@@ -1,0 +1,10 @@
+Dagaar Motors static release gate
+====================================
+Doctypes                 49
+Javascript Files         48
+Print Templates          11
+Python Files             239
+Reports                  34
+Workspaces               7
+
+PASSED: source structure, metadata, syntax, hooks, reports, workspaces, SQL fields, and print templates.

@@ -1,0 +1,326 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_tab",
+    "identity_section",
+    "full_name",
+    "customer",
+    "date_of_birth",
+    "nationality",
+    "national_id",
+    "national_id_expiry_date",
+    "passport_number",
+    "passport_issue_date",
+    "passport_expiry_date",
+    "identity_col",
+    "phone",
+    "email",
+    "address",
+    "active",
+    "blacklisted",
+    "risk_classification",
+    "license_tab",
+    "license_section",
+    "license_number",
+    "license_country",
+    "license_issue_date",
+    "license_expiry_date",
+    "license_class",
+    "license_col",
+    "international_permit_number",
+    "international_permit_expiry",
+    "license_attachment",
+    "passport_attachment",
+    "id_attachment",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_tab",
+      "fieldtype": "Tab Break",
+      "label": "Identity"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Driver Identity"
+    },
+    {
+      "fieldname": "full_name",
+      "fieldtype": "Data",
+      "label": "Full Name",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Related Customer",
+      "options": "Customer",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "date_of_birth",
+      "fieldtype": "Date",
+      "label": "Date of Birth",
+      "reqd": 1
+    },
+    {
+      "fieldname": "nationality",
+      "fieldtype": "Link",
+      "label": "Nationality",
+      "options": "Country"
+    },
+    {
+      "fieldname": "national_id",
+      "fieldtype": "Data",
+      "label": "National ID",
+      "search_index": 1
+    },
+    {
+      "fieldname": "national_id_expiry_date",
+      "fieldtype": "Date",
+      "label": "National ID Expiry"
+    },
+    {
+      "fieldname": "passport_number",
+      "fieldtype": "Data",
+      "label": "Passport Number",
+      "search_index": 1
+    },
+    {
+      "fieldname": "passport_issue_date",
+      "fieldtype": "Date",
+      "label": "Passport Issue Date"
+    },
+    {
+      "fieldname": "passport_expiry_date",
+      "fieldtype": "Date",
+      "label": "Passport Expiry",
+      "search_index": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "phone",
+      "fieldtype": "Data",
+      "label": "Phone",
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "email",
+      "fieldtype": "Data",
+      "label": "Email",
+      "options": "Email"
+    },
+    {
+      "fieldname": "address",
+      "fieldtype": "Small Text",
+      "label": "Address"
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "blacklisted",
+      "fieldtype": "Check",
+      "label": "Blacklisted",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "risk_classification",
+      "fieldtype": "Select",
+      "label": "Risk Classification",
+      "options": "Low\nNormal\nElevated\nHigh"
+    },
+    {
+      "fieldname": "license_tab",
+      "fieldtype": "Tab Break",
+      "label": "Driving License"
+    },
+    {
+      "fieldname": "license_section",
+      "fieldtype": "Section Break",
+      "label": "License"
+    },
+    {
+      "fieldname": "license_number",
+      "fieldtype": "Data",
+      "label": "License Number",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "license_country",
+      "fieldtype": "Link",
+      "label": "License Country",
+      "options": "Country",
+      "reqd": 1
+    },
+    {
+      "fieldname": "license_issue_date",
+      "fieldtype": "Date",
+      "label": "Issue Date"
+    },
+    {
+      "fieldname": "license_expiry_date",
+      "fieldtype": "Date",
+      "label": "Expiry Date",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "license_class",
+      "fieldtype": "Data",
+      "label": "License Class"
+    },
+    {
+      "fieldname": "license_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "international_permit_number",
+      "fieldtype": "Data",
+      "label": "International Permit Number"
+    },
+    {
+      "fieldname": "international_permit_expiry",
+      "fieldtype": "Date",
+      "label": "International Permit Expiry"
+    },
+    {
+      "fieldname": "license_attachment",
+      "fieldtype": "Attach",
+      "label": "License Attachment"
+    },
+    {
+      "fieldname": "passport_attachment",
+      "fieldtype": "Attach",
+      "label": "Passport Attachment"
+    },
+    {
+      "fieldname": "id_attachment",
+      "fieldtype": "Attach",
+      "label": "ID Attachment"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Rental Driver",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Agent",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Reservation Agent",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "hash",
+  "title_field": "full_name",
+  "show_title_field_in_link": 1,
+  "search_fields": "full_name,phone,license_number,passport_number,national_id",
+  "allow_import": 1
+}

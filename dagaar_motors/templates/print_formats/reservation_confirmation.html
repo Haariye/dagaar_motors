@@ -1,0 +1,70 @@
+{% set print_title = "Reservation Confirmation" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set customer_name = frappe.db.get_value("Customer", doc.customer, "customer_name") if doc.customer else "—" %}
+{% set vehicle = frappe.db.get_value("Motor Vehicle", doc.vehicle or doc.requested_vehicle, ["vehicle_title", "license_plate"], as_dict=True) if (doc.vehicle or doc.requested_vehicle) else None %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% macro dt(value) -%}{{ frappe.utils.format_datetime(value, "MMM d, yyyy h:mm a") if value else "—" }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Pickup</span><strong>{{ dt(doc.pickup_datetime) }}</strong></div>
+    <div class="dm-meta"><span>Return</span><strong>{{ dt(doc.return_datetime) }}</strong></div>
+    <div class="dm-meta"><span>Payment</span><strong>{{ doc.payment_status or "Unpaid" }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Booking details</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Rental type</span><strong>{{ doc.rental_type or "—" }}</strong></div>
+        <div class="dm-kv"><span>Vehicle category</span><strong>{{ doc.vehicle_category or "—" }}</strong></div>
+        <div class="dm-kv"><span>Assigned vehicle</span><strong>{{ vehicle.vehicle_title if vehicle and vehicle.vehicle_title else (doc.vehicle or "Not yet assigned") }}</strong></div>
+        <div class="dm-kv"><span>Registration</span><strong>{{ vehicle.license_plate if vehicle and vehicle.license_plate else "—" }}</strong></div>
+        <div class="dm-kv"><span>Driver</span><strong>Confirmed on rental agreement</strong></div>
+      </div>
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Pickup location</span><strong>{{ doc.pickup_location or "—" }}</strong></div>
+        <div class="dm-kv"><span>Return location</span><strong>{{ doc.return_location or "—" }}</strong></div>
+        <div class="dm-kv"><span>Booking source</span><strong>{{ doc.reservation_source or "—" }}</strong></div>
+        <div class="dm-kv"><span>Agent</span><strong>{{ doc.rental_agent or "—" }}</strong></div>
+        <div class="dm-kv"><span>Promo code</span><strong>{{ doc.promo_code or "—" }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  {% if doc.extras %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Selected extras</h2>
+    <table class="dm-table">
+      <thead><tr><th>Extra</th><th>Pricing basis</th><th class="dm-right">Quantity</th><th class="dm-right">Rate</th><th class="dm-right">Amount</th></tr></thead>
+      <tbody>{% for row in doc.extras %}<tr><td>{{ row.description or row.rental_extra }}</td><td>{{ row.price_basis or "—" }}</td><td class="dm-right">{{ row.quantity or 0 }}</td><td class="dm-right">{{ money(row.rate) }}</td><td class="dm-right">{{ money(row.amount) }}</td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <div class="dm-total-box">
+      <div class="dm-total-row"><span>Base rental</span><strong>{{ money(doc.base_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Extras</span><strong>{{ money(doc.extras_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Discount</span><strong>-{{ money(doc.discount_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Tax</span><strong>{{ money(doc.tax_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Reservation total</span><strong>{{ money(doc.grand_total) }}</strong></div>
+    </div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Deposit and readiness</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Deposit required</span><strong>{{ money(doc.deposit_required) }}</strong></div><div class="dm-kv"><span>Deposit collected</span><strong>{{ money(doc.deposit_collected) }}</strong></div></div>
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Documents complete</span><strong>{{ "Yes" if doc.documents_complete else "No" }}</strong></div><div class="dm-kv"><span>Deposit record</span><strong>{{ doc.security_deposit or "—" }}</strong></div></div>
+    </div>
+  </div>
+
+  {% if doc.notes or doc.document_notes %}<div class="dm-section"><h2 class="dm-section-title">Important notes</h2><div class="dm-panel dm-terms">{{ doc.notes or "" }}{% if doc.document_notes %}\n\n{{ doc.document_notes }}{% endif %}</div></div>{% endif %}
+  <div class="dm-alert">This confirmation reserves the requested category or assigned vehicle for the stated period. Final checkout remains subject to valid driver documents, required payment, deposit, inspection, and vehicle availability.</div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

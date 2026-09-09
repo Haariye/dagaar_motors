@@ -1,0 +1,171 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_section",
+    "authority_name",
+    "enabled",
+    "user",
+    "role",
+    "identity_col",
+    "company",
+    "branch",
+    "priority",
+    "limits_section",
+    "maximum_discount_percent",
+    "maximum_fixed_discount",
+    "approval_threshold_percent",
+    "approval_role"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Authority"
+    },
+    {
+      "fieldname": "authority_name",
+      "fieldtype": "Data",
+      "label": "Authority Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "Enabled",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "user",
+      "fieldtype": "Link",
+      "label": "User",
+      "options": "User",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "role",
+      "fieldtype": "Link",
+      "label": "Role",
+      "options": "Role",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company"
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Link",
+      "label": "Branch",
+      "options": "Motor Branch"
+    },
+    {
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority",
+      "default": "10"
+    },
+    {
+      "fieldname": "limits_section",
+      "fieldtype": "Section Break",
+      "label": "Limits"
+    },
+    {
+      "fieldname": "maximum_discount_percent",
+      "fieldtype": "Percent",
+      "label": "Maximum Discount %",
+      "reqd": 1
+    },
+    {
+      "fieldname": "maximum_fixed_discount",
+      "fieldtype": "Currency",
+      "label": "Maximum Fixed Discount"
+    },
+    {
+      "fieldname": "approval_threshold_percent",
+      "fieldtype": "Percent",
+      "label": "Approval Threshold %"
+    },
+    {
+      "fieldname": "approval_role",
+      "fieldtype": "Link",
+      "label": "Approval Role",
+      "options": "Role"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Discount Authority",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:authority_name",
+  "title_field": "authority_name",
+  "show_title_field_in_link": 1,
+  "allow_import": 1
+}

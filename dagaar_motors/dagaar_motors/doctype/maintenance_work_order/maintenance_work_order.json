@@ -1,0 +1,325 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "work_order_tab",
+  "identity_section",
+  "naming_series",
+  "vehicle",
+  "vehicle_maintenance",
+  "company",
+  "branch",
+  "workshop_type",
+  "supplier",
+  "status",
+  "schedule_section",
+  "planned_start",
+  "planned_end",
+  "actual_start",
+  "actual_end",
+  "odometer",
+  "downtime_hours",
+  "items_section",
+  "items",
+  "parts_total",
+  "labor_total",
+  "expense_total",
+  "grand_total",
+  "erp_section",
+  "purchase_invoice",
+  "warehouse",
+  "project",
+  "cost_center",
+  "attachments",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "work_order_tab",
+   "fieldtype": "Tab Break",
+   "label": "Work Order"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Maintenance Work Order"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "MWO-.YYYY.-.#####",
+   "default": "MWO-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Motor Vehicle",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "vehicle_maintenance",
+   "fieldtype": "Link",
+   "label": "Vehicle Maintenance",
+   "options": "Vehicle Maintenance",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Motor Branch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "workshop_type",
+   "fieldtype": "Select",
+   "label": "Workshop Type",
+   "options": "Internal\nExternal",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "External Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nApproved\nIn Progress\nWaiting for Parts\nQuality Check\nCompleted\nCancelled",
+   "default": "Draft",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "schedule_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "fieldname": "planned_start",
+   "fieldtype": "Datetime",
+   "label": "Planned Start",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "planned_end",
+   "fieldtype": "Datetime",
+   "label": "Planned End",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "actual_start",
+   "fieldtype": "Datetime",
+   "label": "Actual Start",
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "actual_end",
+   "fieldtype": "Datetime",
+   "label": "Actual End",
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "odometer",
+   "fieldtype": "Float",
+   "label": "Odometer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "downtime_hours",
+   "fieldtype": "Float",
+   "label": "Downtime Hours",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Parts and Labor"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Work Items",
+   "options": "Maintenance Work Order Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "parts_total",
+   "fieldtype": "Currency",
+   "label": "Parts Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "labor_total",
+   "fieldtype": "Currency",
+   "label": "Labor Total",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expense_total",
+   "fieldtype": "Currency",
+   "label": "Other Expense",
+   "read_only": 1
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "erp_section",
+   "fieldtype": "Section Break",
+   "label": "ERP"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice",
+   "read_only": 1,
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Parts Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Attach",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Text Editor",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Maintenance Work Order",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Dagaar Motors Administrator",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "Dagaar Motors Maintenance Manager",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1
+  },
+  {
+   "role": "Dagaar Motors Workshop User",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Dagaar Motors Auditor",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  },
+  {
+   "role": "Dagaar Motors Read Only",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "is_submittable": 1,
+ "title_field": "vehicle",
+ "show_title_field_in_link": 1,
+ "search_fields": "vehicle,vehicle_maintenance,purchase_invoice",
+ "allow_import": 1
+}

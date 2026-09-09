@@ -1,0 +1,913 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:vehicle_title",
+ "creation": "2026-08-09 00:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "overview_tab",
+  "overview_section",
+  "vehicle_title",
+  "status",
+  "company",
+  "branch",
+  "overview_col",
+  "vehicle_image",
+  "current_location",
+  "current_customer",
+  "current_rental_agreement",
+  "available_from",
+  "status_reason",
+  "quick_metrics_section",
+  "current_odometer",
+  "fuel_level",
+  "utilization_percent",
+  "profit",
+  "identity_tab",
+  "identity_section",
+  "license_plate",
+  "vin",
+  "engine_number",
+  "manufacturer",
+  "brand",
+  "model",
+  "trim",
+  "identity_col",
+  "model_year",
+  "body_style",
+  "category",
+  "color",
+  "country_of_origin",
+  "specification_section",
+  "transmission",
+  "fuel_type",
+  "engine_capacity",
+  "number_of_seats",
+  "number_of_doors",
+  "drive_type",
+  "ownership_tab",
+  "ownership_section",
+  "ownership_type",
+  "supplier",
+  "purchase_invoice",
+  "purchase_date",
+  "ownership_col",
+  "purchase_price",
+  "acquisition_taxes",
+  "import_cost",
+  "customs_cost",
+  "registration_cost",
+  "preparation_cost",
+  "initial_total_cost",
+  "rental_tab",
+  "rental_configuration_section",
+  "rentable",
+  "sellable",
+  "rental_category",
+  "allowed_rental_types",
+  "base_daily_rate",
+  "deposit_class",
+  "minimum_driver_age",
+  "rental_configuration_col",
+  "included_km_per_day",
+  "excess_km_rate",
+  "license_requirements",
+  "territory_restrictions",
+  "insurance_class",
+  "sales_tab",
+  "sales_configuration_section",
+  "selling_item",
+  "selling_price",
+  "minimum_selling_price",
+  "sales_configuration_col",
+  "sales_commission_percent",
+  "sale_date",
+  "buyer",
+  "sale_invoice",
+  "erp_links_tab",
+  "erp_links_section",
+  "item",
+  "asset",
+  "project",
+  "warehouse",
+  "cost_center",
+  "mileage_tab",
+  "mileage_section",
+  "acquisition_odometer",
+  "last_checkout_odometer",
+  "last_return_odometer",
+  "mileage_updated_on",
+  "mileage_col",
+  "last_service_odometer",
+  "last_service_date",
+  "next_service_odometer",
+  "next_service_date",
+  "financial_tab",
+  "revenue_section",
+  "total_rental_revenue",
+  "total_extension_revenue",
+  "total_other_revenue",
+  "total_sale_revenue",
+  "revenue_col",
+  "maintenance_cost",
+  "operating_cost",
+  "total_cost",
+  "profit_margin",
+  "roi",
+  "usage_metrics_section",
+  "rental_days",
+  "available_days",
+  "idle_days",
+  "maintenance_downtime_days",
+  "average_daily_revenue",
+  "revenue_per_km",
+  "cost_per_km",
+  "audit_tab",
+  "audit_section",
+  "audit_log"
+ ],
+ "fields": [
+  {
+   "fieldname": "overview_tab",
+   "fieldtype": "Tab Break",
+   "label": "Overview"
+  },
+  {
+   "fieldname": "overview_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Overview"
+  },
+  {
+   "fieldname": "vehicle_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Vehicle Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "Preparation",
+   "description": "Managed automatically by rental, maintenance, transfer, and sale workflows.",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Preparation\nAvailable\nReserved\nRented\nInspection\nMaintenance\nBlocked\nIn Transit\nFor Sale\nSold\nRetired",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Branch",
+   "options": "Motor Branch",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "overview_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vehicle_image",
+   "fieldtype": "Attach Image",
+   "label": "Vehicle Image"
+  },
+  {
+   "fieldname": "current_location",
+   "fieldtype": "Data",
+   "label": "Current Location"
+  },
+  {
+   "fieldname": "current_customer",
+   "fieldtype": "Link",
+   "label": "Current Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "current_rental_agreement",
+   "fieldtype": "Link",
+   "label": "Current Rental Agreement",
+   "options": "Rental Agreement",
+   "read_only": 1
+  },
+  {
+   "fieldname": "available_from",
+   "fieldtype": "Datetime",
+   "label": "Available From",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status_reason",
+   "fieldtype": "Small Text",
+   "label": "Status Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quick_metrics_section",
+   "fieldtype": "Section Break",
+   "label": "Current Metrics"
+  },
+  {
+   "fieldname": "current_odometer",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Current Odometer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fuel_level",
+   "fieldtype": "Select",
+   "label": "Fuel Level",
+   "options": "Empty\n1/8\n1/4\n3/8\n1/2\n5/8\n3/4\n7/8\nFull"
+  },
+  {
+   "fieldname": "utilization_percent",
+   "fieldtype": "Percent",
+   "label": "Utilization %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "profit",
+   "fieldtype": "Currency",
+   "label": "Lifetime Profit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "identity_tab",
+   "fieldtype": "Tab Break",
+   "label": "Identity"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Registration and Identity"
+  },
+  {
+   "fieldname": "license_plate",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "License Plate",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "vin",
+   "fieldtype": "Data",
+   "label": "VIN / Chassis Number",
+   "unique": 1
+  },
+  {
+   "fieldname": "engine_number",
+   "fieldtype": "Data",
+   "label": "Engine Number",
+   "unique": 1
+  },
+  {
+   "fieldname": "manufacturer",
+   "fieldtype": "Data",
+   "label": "Manufacturer"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Brand"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Model"
+  },
+  {
+   "fieldname": "trim",
+   "fieldtype": "Data",
+   "label": "Trim"
+  },
+  {
+   "fieldname": "identity_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "model_year",
+   "fieldtype": "Int",
+   "label": "Model Year"
+  },
+  {
+   "fieldname": "body_style",
+   "fieldtype": "Data",
+   "label": "Body Style"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Vehicle Category",
+   "options": "Vehicle Category",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Color"
+  },
+  {
+   "fieldname": "country_of_origin",
+   "fieldtype": "Link",
+   "label": "Country of Origin",
+   "options": "Country"
+  },
+  {
+   "fieldname": "specification_section",
+   "fieldtype": "Section Break",
+   "label": "Specification"
+  },
+  {
+   "fieldname": "transmission",
+   "fieldtype": "Select",
+   "label": "Transmission",
+   "options": "Automatic\nManual\nCVT\nOther"
+  },
+  {
+   "fieldname": "fuel_type",
+   "fieldtype": "Select",
+   "label": "Fuel Type",
+   "options": "Petrol\nDiesel\nHybrid\nElectric\nLPG\nOther"
+  },
+  {
+   "fieldname": "engine_capacity",
+   "fieldtype": "Data",
+   "label": "Engine Capacity"
+  },
+  {
+   "fieldname": "number_of_seats",
+   "fieldtype": "Int",
+   "label": "Seats"
+  },
+  {
+   "fieldname": "number_of_doors",
+   "fieldtype": "Int",
+   "label": "Doors"
+  },
+  {
+   "fieldname": "drive_type",
+   "fieldtype": "Select",
+   "label": "Drive Type",
+   "options": "FWD\nRWD\nAWD\n4x4\nOther"
+  },
+  {
+   "fieldname": "ownership_tab",
+   "fieldtype": "Tab Break",
+   "label": "Ownership & Acquisition"
+  },
+  {
+   "fieldname": "ownership_section",
+   "fieldtype": "Section Break",
+   "label": "Ownership"
+  },
+  {
+   "default": "Owned",
+   "fieldname": "ownership_type",
+   "fieldtype": "Select",
+   "label": "Ownership Type",
+   "options": "Owned\nFinanced\nLeased\nConsignment\nThird-party Managed"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "label": "Purchase Invoice",
+   "options": "Purchase Invoice"
+  },
+  {
+   "default": "Today",
+   "description": "Used as the ERP Asset purchase date.",
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "ownership_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Required because Motors creates the linked ERP Asset automatically.",
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "label": "Purchase Price",
+   "reqd": 1
+  },
+  {
+   "fieldname": "acquisition_taxes",
+   "fieldtype": "Currency",
+   "label": "Acquisition Taxes"
+  },
+  {
+   "fieldname": "import_cost",
+   "fieldtype": "Currency",
+   "label": "Import Cost"
+  },
+  {
+   "fieldname": "customs_cost",
+   "fieldtype": "Currency",
+   "label": "Customs Cost"
+  },
+  {
+   "fieldname": "registration_cost",
+   "fieldtype": "Currency",
+   "label": "Registration Cost"
+  },
+  {
+   "fieldname": "preparation_cost",
+   "fieldtype": "Currency",
+   "label": "Preparation Cost"
+  },
+  {
+   "fieldname": "initial_total_cost",
+   "fieldtype": "Currency",
+   "label": "Initial Total Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rental_tab",
+   "fieldtype": "Tab Break",
+   "label": "Rental"
+  },
+  {
+   "fieldname": "rental_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Configuration"
+  },
+  {
+   "default": "1",
+   "fieldname": "rentable",
+   "fieldtype": "Check",
+   "label": "Rentable"
+  },
+  {
+   "fieldname": "rental_category",
+   "fieldtype": "Link",
+   "label": "Rental Category",
+   "options": "Vehicle Category"
+  },
+  {
+   "fieldname": "allowed_rental_types",
+   "fieldtype": "Table",
+   "label": "Allowed Rental Types",
+   "options": "Vehicle Rental Type"
+  },
+  {
+   "fieldname": "base_daily_rate",
+   "fieldtype": "Currency",
+   "label": "Base Daily Rate"
+  },
+  {
+   "fieldname": "deposit_class",
+   "fieldtype": "Data",
+   "label": "Deposit Class"
+  },
+  {
+   "fieldname": "minimum_driver_age",
+   "fieldtype": "Int",
+   "label": "Minimum Driver Age"
+  },
+  {
+   "fieldname": "rental_configuration_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "included_km_per_day",
+   "fieldtype": "Float",
+   "label": "Included KM per Day"
+  },
+  {
+   "fieldname": "excess_km_rate",
+   "fieldtype": "Currency",
+   "label": "Excess KM Rate"
+  },
+  {
+   "fieldname": "license_requirements",
+   "fieldtype": "Small Text",
+   "label": "License Requirements"
+  },
+  {
+   "fieldname": "territory_restrictions",
+   "fieldtype": "Small Text",
+   "label": "Territory Restrictions"
+  },
+  {
+   "fieldname": "insurance_class",
+   "fieldtype": "Data",
+   "label": "Insurance Class"
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "sales_tab",
+   "fieldtype": "Tab Break",
+   "label": "Vehicle Sales"
+  },
+  {
+   "fieldname": "sales_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Sales Configuration"
+  },
+  {
+   "default": "0",
+   "fieldname": "sellable",
+   "fieldtype": "Check",
+   "label": "Available for Sale",
+   "description": "Mark a vehicle for sale only when it is not being rented out. Untick Rentable first.",
+   "depends_on": "eval:doc.rentable==0 && ['Available','For Sale','Preparation','Inspection','Maintenance'].includes(doc.status)"
+  },
+  {
+   "fieldname": "selling_item",
+   "fieldtype": "Link",
+   "label": "Selling Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "selling_price",
+   "fieldtype": "Currency",
+   "label": "Selling Price"
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "minimum_selling_price",
+   "fieldtype": "Currency",
+   "label": "Minimum Selling Price"
+  },
+  {
+   "fieldname": "sales_configuration_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "sales_commission_percent",
+   "fieldtype": "Percent",
+   "label": "Commission %"
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "sale_date",
+   "fieldtype": "Date",
+   "label": "Sale Date",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "buyer",
+   "fieldtype": "Link",
+   "label": "Buyer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.sellable == 1",
+   "fieldname": "sale_invoice",
+   "fieldtype": "Link",
+   "label": "Sale Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "erp_links_tab",
+   "fieldtype": "Tab Break",
+   "label": "ERP Links"
+  },
+  {
+   "fieldname": "erp_links_section",
+   "fieldtype": "Section Break",
+   "label": "ERP Records"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Fleet Item",
+   "options": "Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "asset",
+   "fieldtype": "Link",
+   "label": "Asset",
+   "options": "Asset",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "mileage_tab",
+   "fieldtype": "Tab Break",
+   "label": "Mileage & Service"
+  },
+  {
+   "fieldname": "mileage_section",
+   "fieldtype": "Section Break",
+   "label": "Mileage"
+  },
+  {
+   "fieldname": "acquisition_odometer",
+   "fieldtype": "Float",
+   "label": "Acquisition Odometer"
+  },
+  {
+   "fieldname": "last_checkout_odometer",
+   "fieldtype": "Float",
+   "label": "Last Checkout Odometer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_return_odometer",
+   "fieldtype": "Float",
+   "label": "Last Return Odometer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mileage_updated_on",
+   "fieldtype": "Datetime",
+   "label": "Mileage Updated On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mileage_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_service_odometer",
+   "fieldtype": "Float",
+   "label": "Last Service Odometer"
+  },
+  {
+   "fieldname": "last_service_date",
+   "fieldtype": "Date",
+   "label": "Last Service Date"
+  },
+  {
+   "fieldname": "next_service_odometer",
+   "fieldtype": "Float",
+   "label": "Next Service Odometer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_service_date",
+   "fieldtype": "Date",
+   "label": "Next Service Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "financial_tab",
+   "fieldtype": "Tab Break",
+   "label": "Performance"
+  },
+  {
+   "fieldname": "revenue_section",
+   "fieldtype": "Section Break",
+   "label": "Revenue"
+  },
+  {
+   "fieldname": "total_rental_revenue",
+   "fieldtype": "Currency",
+   "label": "Rental Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_extension_revenue",
+   "fieldtype": "Currency",
+   "label": "Extension Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_other_revenue",
+   "fieldtype": "Currency",
+   "label": "Other Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_sale_revenue",
+   "fieldtype": "Currency",
+   "label": "Sale Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revenue_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "maintenance_cost",
+   "fieldtype": "Currency",
+   "label": "Maintenance Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "operating_cost",
+   "fieldtype": "Currency",
+   "label": "Operating Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "profit_margin",
+   "fieldtype": "Percent",
+   "label": "Profit Margin %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "roi",
+   "fieldtype": "Percent",
+   "label": "ROI %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "usage_metrics_section",
+   "fieldtype": "Section Break",
+   "label": "Usage Metrics"
+  },
+  {
+   "fieldname": "rental_days",
+   "fieldtype": "Float",
+   "label": "Rental Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "available_days",
+   "fieldtype": "Float",
+   "label": "Available Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "idle_days",
+   "fieldtype": "Float",
+   "label": "Idle Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "maintenance_downtime_days",
+   "fieldtype": "Float",
+   "label": "Maintenance Downtime Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "average_daily_revenue",
+   "fieldtype": "Currency",
+   "label": "Average Daily Revenue",
+   "read_only": 1
+  },
+  {
+   "fieldname": "revenue_per_km",
+   "fieldtype": "Currency",
+   "label": "Revenue per KM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cost_per_km",
+   "fieldtype": "Currency",
+   "label": "Cost per KM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "audit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Controlled History"
+  },
+  {
+   "fieldname": "audit_log",
+   "fieldtype": "Long Text",
+   "label": "Audit Log",
+   "read_only": 1
+  }
+ ],
+ "image_field": "vehicle_image",
+ "links": [],
+ "modified": "2026-09-08 23:26:18.653550",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Motor Vehicle",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Fleet Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Vehicle Sales Manager",
+   "write": 1
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Auditor"
+  },
+  {
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dagaar Motors Read Only"
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "vehicle_title,license_plate,vin,engine_number,brand,model",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "vehicle_title",
+ "track_changes": 1
+}

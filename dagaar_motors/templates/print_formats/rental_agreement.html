@@ -1,0 +1,113 @@
+{% set print_title = "Rental Agreement" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set customer_name = frappe.db.get_value("Customer", doc.customer, "customer_name") if doc.customer else "—" %}
+{% set vehicle = frappe.db.get_value("Motor Vehicle", doc.vehicle, ["vehicle_title", "license_plate", "vin"], as_dict=True) if doc.vehicle else None %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% macro dt(value) -%}{{ frappe.utils.format_datetime(value, "MMM d, yyyy h:mm a") if value else "—" }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ vehicle.vehicle_title if vehicle and vehicle.vehicle_title else doc.vehicle or "—" }}</strong></div>
+    <div class="dm-meta"><span>Pickup</span><strong>{{ dt(doc.pickup_datetime) }}</strong></div>
+    <div class="dm-meta"><span>Expected return</span><strong>{{ dt(doc.expected_return_datetime) }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Contract summary</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Agreement</span><strong>{{ doc.name }}</strong></div>
+        <div class="dm-kv"><span>Reservation</span><strong>{{ doc.reservation or "—" }}</strong></div>
+        <div class="dm-kv"><span>Rental type</span><strong>{{ doc.rental_type or "—" }}</strong></div>
+        <div class="dm-kv"><span>Category</span><strong>{{ doc.vehicle_category or "—" }}</strong></div>
+        <div class="dm-kv"><span>Rental agent</span><strong>{{ doc.rental_agent or "—" }}</strong></div>
+      </div>
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Registration</span><strong>{{ vehicle.license_plate if vehicle and vehicle.license_plate else "—" }}</strong></div>
+        <div class="dm-kv"><span>VIN / Chassis</span><strong>{{ vehicle.vin if vehicle and vehicle.vin else "—" }}</strong></div>
+        <div class="dm-kv"><span>Pickup location</span><strong>{{ doc.pickup_location or "—" }}</strong></div>
+        <div class="dm-kv"><span>Return location</span><strong>{{ doc.return_location or "—" }}</strong></div>
+        <div class="dm-kv"><span>Duration</span><strong>{{ doc.duration_label or (doc.duration_units ~ " units" if doc.duration_units else "—") }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  {% if doc.drivers %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Authorized drivers</h2>
+    <table class="dm-table">
+      <thead><tr><th>Driver</th><th>License</th><th>License expiry</th><th class="dm-center">Primary</th><th class="dm-center">Approved</th></tr></thead>
+      <tbody>
+        {% for row in doc.drivers %}
+        <tr>
+          <td>{{ row.full_name }}</td>
+          <td>{{ row.license_number or "—" }}</td>
+          <td>{{ frappe.utils.formatdate(row.license_expiry_date, "MMM d, yyyy") if row.license_expiry_date else "—" }}</td>
+          <td class="dm-center">{{ "Yes" if row.primary_driver else "No" }}</td>
+          <td class="dm-center">{{ "Yes" if row.approved else "No" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Vehicle handover</h2>
+    <div class="dm-three-col">
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Checkout odometer</span><strong>{{ "{:,.0f}".format(doc.checkout_odometer or 0) }} km</strong></div></div>
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Checkout fuel</span><strong>{{ doc.checkout_fuel_level or "—" }}</strong></div></div>
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Checkout inspection</span><strong>{{ doc.checkout_inspection or "—" }}</strong></div></div>
+    </div>
+  </div>
+
+  {% if doc.extras or doc.charges %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Charges and extras</h2>
+    <table class="dm-table">
+      <thead><tr><th>Description</th><th>Basis</th><th class="dm-right">Quantity</th><th class="dm-right">Rate</th><th class="dm-right">Amount</th></tr></thead>
+      <tbody>
+        {% for row in doc.extras %}
+        <tr><td>{{ row.description or row.rental_extra }}</td><td>{{ row.price_basis or "Extra" }}</td><td class="dm-right">{{ row.quantity or 0 }}</td><td class="dm-right">{{ money(row.rate) }}</td><td class="dm-right">{{ money(row.amount) }}</td></tr>
+        {% endfor %}
+        {% for row in doc.charges %}
+        <tr><td>{{ row.description or row.charge_type }}</td><td>Charge</td><td class="dm-right">{{ row.quantity or 0 }}</td><td class="dm-right">{{ money(row.rate) }}</td><td class="dm-right">{{ money(row.amount) }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <div class="dm-total-box">
+      <div class="dm-total-row"><span>Base rental</span><strong>{{ money(doc.base_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Extras</span><strong>{{ money(doc.extras_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Discount</span><strong>-{{ money(doc.discount_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Tax</span><strong>{{ money(doc.tax_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Agreement total</span><strong>{{ money(doc.grand_total) }}</strong></div>
+    </div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Security deposit</h2>
+    <div class="dm-alert">Required deposit: <strong>{{ money(doc.deposit_required) }}</strong>{% if doc.security_deposit %} · Deposit record: <strong>{{ doc.security_deposit }}</strong>{% endif %}. A deposit is held separately and is not rental revenue.</div>
+  </div>
+
+  {% if doc.terms or doc.remarks %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Terms and notes</h2>
+    <div class="dm-panel dm-terms">{{ doc.terms or "" }}{% if doc.remarks %}\n\n<strong>Remarks:</strong> {{ doc.remarks }}{% endif %}</div>
+  </div>
+  {% endif %}
+
+  <div class="dm-signatures">
+    <div class="dm-signature">{% if doc.customer_signature %}<img src="{{ doc.customer_signature }}" alt="Customer signature">{% endif %}<strong>Customer / Authorized driver</strong><span>I accept the agreement, condition, charges, and terms.</span></div>
+    <div class="dm-signature">{% if doc.agent_signature %}<img src="{{ doc.agent_signature }}" alt="Agent signature">{% endif %}<strong>Dagaar Motors representative</strong><span>{{ doc.rental_agent or "Authorized representative" }}</span></div>
+  </div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

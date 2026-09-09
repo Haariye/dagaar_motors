@@ -1,0 +1,419 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "quotation_tab",
+    "identity_section",
+    "naming_series",
+    "company",
+    "branch",
+    "customer",
+    "contact",
+    "status",
+    "identity_col",
+    "valid_till",
+    "sales_agent",
+    "currency",
+    "converted_reservation",
+    "rental_section",
+    "rental_type",
+    "vehicle_category",
+    "vehicle",
+    "pickup_datetime",
+    "return_datetime",
+    "pickup_location",
+    "return_location",
+    "pricing_tab",
+    "pricing_section",
+    "base_amount",
+    "extras_amount",
+    "discount_percent",
+    "discount_amount",
+    "net_amount",
+    "pricing_col",
+    "tax_template",
+    "tax_amount",
+    "grand_total",
+    "deposit_required",
+    "pricing_rule",
+    "extras_section",
+    "extras",
+    "breakdown_section",
+    "pricing_breakdown",
+    "pricing_snapshot",
+    "terms_tab",
+    "terms",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "quotation_tab",
+      "fieldtype": "Tab Break",
+      "label": "Quotation"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Quotation"
+    },
+    {
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "RQ-.YYYY.-.#####",
+      "default": "RQ-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Link",
+      "label": "Branch",
+      "options": "Motor Branch",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "contact",
+      "fieldtype": "Link",
+      "label": "Contact",
+      "options": "Contact"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nOpen\nAccepted\nExpired\nConverted\nCancelled",
+      "default": "Draft",
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "valid_till",
+      "fieldtype": "Date",
+      "label": "Valid Till"
+    },
+    {
+      "fieldname": "sales_agent",
+      "fieldtype": "Link",
+      "label": "Sales / Rental Agent",
+      "options": "User"
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "converted_reservation",
+      "fieldtype": "Link",
+      "label": "Converted Reservation",
+      "options": "Rental Reservation",
+      "read_only": 1
+    },
+    {
+      "fieldname": "rental_section",
+      "fieldtype": "Section Break",
+      "label": "Rental Request"
+    },
+    {
+      "fieldname": "rental_type",
+      "fieldtype": "Link",
+      "label": "Rental Type",
+      "options": "Rental Type",
+      "reqd": 1
+    },
+    {
+      "fieldname": "vehicle_category",
+      "fieldtype": "Link",
+      "label": "Vehicle Category",
+      "options": "Vehicle Category",
+      "reqd": 1
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Tentative Vehicle",
+      "options": "Motor Vehicle"
+    },
+    {
+      "fieldname": "pickup_datetime",
+      "fieldtype": "Datetime",
+      "label": "Pickup",
+      "reqd": 1
+    },
+    {
+      "fieldname": "return_datetime",
+      "fieldtype": "Datetime",
+      "label": "Return",
+      "reqd": 1
+    },
+    {
+      "fieldname": "pickup_location",
+      "fieldtype": "Data",
+      "label": "Pickup Location"
+    },
+    {
+      "fieldname": "return_location",
+      "fieldtype": "Data",
+      "label": "Return Location"
+    },
+    {
+      "fieldname": "pricing_tab",
+      "fieldtype": "Tab Break",
+      "label": "Pricing"
+    },
+    {
+      "fieldname": "pricing_section",
+      "fieldtype": "Section Break",
+      "label": "Calculated Price"
+    },
+    {
+      "fieldname": "base_amount",
+      "fieldtype": "Currency",
+      "label": "Base Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "extras_amount",
+      "fieldtype": "Currency",
+      "label": "Extras Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "discount_percent",
+      "fieldtype": "Percent",
+      "label": "Discount %"
+    },
+    {
+      "fieldname": "discount_amount",
+      "fieldtype": "Currency",
+      "label": "Discount Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "net_amount",
+      "fieldtype": "Currency",
+      "label": "Net Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "tax_template",
+      "fieldtype": "Link",
+      "label": "Tax Template",
+      "options": "Sales Taxes and Charges Template"
+    },
+    {
+      "fieldname": "tax_amount",
+      "fieldtype": "Currency",
+      "label": "Estimated Tax",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "grand_total",
+      "fieldtype": "Currency",
+      "label": "Grand Total",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "deposit_required",
+      "fieldtype": "Currency",
+      "label": "Deposit Required",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_rule",
+      "fieldtype": "Link",
+      "label": "Pricing Rule",
+      "options": "Rental Pricing Rule",
+      "read_only": 1
+    },
+    {
+      "fieldname": "extras_section",
+      "fieldtype": "Section Break",
+      "label": "Extras"
+    },
+    {
+      "fieldname": "extras",
+      "fieldtype": "Table",
+      "label": "Extras",
+      "options": "Rental Quotation Extra"
+    },
+    {
+      "fieldname": "breakdown_section",
+      "fieldtype": "Section Break",
+      "label": "Pricing Breakdown"
+    },
+    {
+      "fieldname": "pricing_breakdown",
+      "fieldtype": "Table",
+      "label": "Pricing Breakdown",
+      "options": "Pricing Breakdown Line",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_snapshot",
+      "fieldtype": "Long Text",
+      "label": "Pricing Snapshot",
+      "hidden": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "terms_tab",
+      "fieldtype": "Tab Break",
+      "label": "Terms"
+    },
+    {
+      "fieldname": "terms",
+      "fieldtype": "Text Editor",
+      "label": "Terms and Conditions"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Rental Quotation",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Agent",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Reservation Agent",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "naming_series:",
+  "is_submittable": 1,
+  "title_field": "customer",
+  "show_title_field_in_link": 1,
+  "search_fields": "customer,vehicle",
+  "allow_import": 1
+}

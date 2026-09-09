@@ -1,0 +1,375 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_section",
+    "naming_series",
+    "rental_agreement",
+    "vehicle",
+    "company",
+    "branch",
+    "status",
+    "period_section",
+    "original_end_datetime",
+    "new_end_datetime",
+    "duration_units",
+    "duration_label",
+    "period_col",
+    "reason",
+    "requested_by",
+    "approved_by",
+    "approval_timestamp",
+    "pricing_section",
+    "currency",
+    "rate",
+    "base_amount",
+    "discount_percent",
+    "discount_amount",
+    "net_amount",
+    "pricing_col",
+    "tax_template",
+    "tax_amount",
+    "grand_total",
+    "pricing_rule",
+    "sales_invoice",
+    "breakdown_section",
+    "pricing_breakdown",
+    "pricing_snapshot",
+    "idempotency_key",
+    "audit_log"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Rental Extension"
+    },
+    {
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "RE-.YYYY.-.#####",
+      "default": "RE-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "rental_agreement",
+      "fieldtype": "Link",
+      "label": "Rental Agreement",
+      "options": "Rental Agreement",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Link",
+      "label": "Branch",
+      "options": "Motor Branch",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nAwaiting Approval\nApproved\nInvoiced\nCancelled",
+      "default": "Draft",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "period_section",
+      "fieldtype": "Section Break",
+      "label": "Extension Period"
+    },
+    {
+      "fieldname": "original_end_datetime",
+      "fieldtype": "Datetime",
+      "label": "Original End",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "new_end_datetime",
+      "fieldtype": "Datetime",
+      "label": "New End",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "duration_units",
+      "fieldtype": "Float",
+      "label": "Billable Units",
+      "read_only": 1
+    },
+    {
+      "fieldname": "duration_label",
+      "fieldtype": "Data",
+      "label": "Duration",
+      "read_only": 1
+    },
+    {
+      "fieldname": "period_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "reason",
+      "fieldtype": "Small Text",
+      "label": "Reason",
+      "reqd": 1
+    },
+    {
+      "fieldname": "requested_by",
+      "fieldtype": "Link",
+      "label": "Requested By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_by",
+      "fieldtype": "Link",
+      "label": "Approved By",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approval_timestamp",
+      "fieldtype": "Datetime",
+      "label": "Approval Time",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_section",
+      "fieldtype": "Section Break",
+      "label": "Extension Pricing"
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency",
+      "reqd": 1
+    },
+    {
+      "fieldname": "rate",
+      "fieldtype": "Currency",
+      "label": "Rate",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "base_amount",
+      "fieldtype": "Currency",
+      "label": "Base Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "discount_percent",
+      "fieldtype": "Percent",
+      "label": "Discount %"
+    },
+    {
+      "fieldname": "discount_amount",
+      "fieldtype": "Currency",
+      "label": "Discount Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "net_amount",
+      "fieldtype": "Currency",
+      "label": "Net Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "tax_template",
+      "fieldtype": "Link",
+      "label": "Tax Template",
+      "options": "Sales Taxes and Charges Template"
+    },
+    {
+      "fieldname": "tax_amount",
+      "fieldtype": "Currency",
+      "label": "Tax Amount",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "grand_total",
+      "fieldtype": "Currency",
+      "label": "Grand Total",
+      "options": "currency",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_rule",
+      "fieldtype": "Link",
+      "label": "Pricing Rule",
+      "options": "Rental Pricing Rule",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sales_invoice",
+      "fieldtype": "Link",
+      "label": "Sales Invoice",
+      "options": "Sales Invoice",
+      "read_only": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "breakdown_section",
+      "fieldtype": "Section Break",
+      "label": "Pricing Breakdown"
+    },
+    {
+      "fieldname": "pricing_breakdown",
+      "fieldtype": "Table",
+      "label": "Pricing Breakdown",
+      "options": "Pricing Breakdown Line",
+      "read_only": 1
+    },
+    {
+      "fieldname": "pricing_snapshot",
+      "fieldtype": "Long Text",
+      "label": "Pricing Snapshot",
+      "hidden": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "idempotency_key",
+      "fieldtype": "Data",
+      "label": "Idempotency Key",
+      "hidden": 1,
+      "unique": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "audit_log",
+      "fieldtype": "Long Text",
+      "label": "Audit Log",
+      "read_only": 1,
+      "allow_on_submit": 1
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Rental Extension",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Agent",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "naming_series:",
+  "is_submittable": 1,
+  "title_field": "rental_agreement",
+  "show_title_field_in_link": 1,
+  "search_fields": "rental_agreement,vehicle,sales_invoice",
+  "allow_import": 1
+}

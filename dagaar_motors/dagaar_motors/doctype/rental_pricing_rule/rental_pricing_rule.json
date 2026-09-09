@@ -1,0 +1,405 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_tab",
+    "identity_section",
+    "rule_name",
+    "enabled",
+    "priority",
+    "currency",
+    "identity_col",
+    "company",
+    "branch",
+    "valid_from",
+    "valid_to",
+    "dimensions_section",
+    "vehicle",
+    "vehicle_category",
+    "rental_type",
+    "customer",
+    "customer_group",
+    "territory",
+    "dimensions_col",
+    "booking_channel",
+    "promo_code",
+    "pickup_location",
+    "return_location",
+    "one_way",
+    "seasonal_pricing_rule",
+    "pricing_tab",
+    "base_rate_section",
+    "rate_basis",
+    "rate",
+    "minimum_charge",
+    "included_km",
+    "base_rate_col",
+    "excess_km_rate",
+    "whole_duration_pricing",
+    "tax_template",
+    "rates_include_tax",
+    "adjustment_section",
+    "discount_type",
+    "discount_value",
+    "surcharge_type",
+    "surcharge_value",
+    "weekend_adjustment_percent",
+    "tiers_section",
+    "duration_tiers",
+    "explanation_section",
+    "explanation"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_tab",
+      "fieldtype": "Tab Break",
+      "label": "Rule"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Identity and Priority"
+    },
+    {
+      "fieldname": "rule_name",
+      "fieldtype": "Data",
+      "label": "Rule Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "Enabled",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "priority",
+      "fieldtype": "Int",
+      "label": "Priority",
+      "default": "10",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "branch",
+      "fieldtype": "Link",
+      "label": "Branch",
+      "options": "Motor Branch",
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "valid_from",
+      "fieldtype": "Date",
+      "label": "Valid From",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "valid_to",
+      "fieldtype": "Date",
+      "label": "Valid To",
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "dimensions_section",
+      "fieldtype": "Section Break",
+      "label": "Matching Dimensions"
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "search_index": 1
+    },
+    {
+      "fieldname": "vehicle_category",
+      "fieldtype": "Link",
+      "label": "Vehicle Category",
+      "options": "Vehicle Category",
+      "search_index": 1
+    },
+    {
+      "fieldname": "rental_type",
+      "fieldtype": "Link",
+      "label": "Rental Type",
+      "options": "Rental Type",
+      "search_index": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "search_index": 1
+    },
+    {
+      "fieldname": "customer_group",
+      "fieldtype": "Link",
+      "label": "Customer Group",
+      "options": "Customer Group"
+    },
+    {
+      "fieldname": "territory",
+      "fieldtype": "Link",
+      "label": "Territory",
+      "options": "Territory"
+    },
+    {
+      "fieldname": "dimensions_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "booking_channel",
+      "fieldtype": "Data",
+      "label": "Booking Channel"
+    },
+    {
+      "fieldname": "promo_code",
+      "fieldtype": "Data",
+      "label": "Promo Code"
+    },
+    {
+      "fieldname": "pickup_location",
+      "fieldtype": "Data",
+      "label": "Pickup Location"
+    },
+    {
+      "fieldname": "return_location",
+      "fieldtype": "Data",
+      "label": "Return Location"
+    },
+    {
+      "fieldname": "one_way",
+      "fieldtype": "Check",
+      "label": "One-way Only"
+    },
+    {
+      "fieldname": "seasonal_pricing_rule",
+      "fieldtype": "Link",
+      "label": "Seasonal Rule",
+      "options": "Seasonal Pricing Rule"
+    },
+    {
+      "fieldname": "pricing_tab",
+      "fieldtype": "Tab Break",
+      "label": "Pricing"
+    },
+    {
+      "fieldname": "base_rate_section",
+      "fieldtype": "Section Break",
+      "label": "Base Rate"
+    },
+    {
+      "fieldname": "rate_basis",
+      "fieldtype": "Select",
+      "label": "Rate Basis",
+      "options": "Hourly\nDaily\nWeekly\nMonthly\nFixed Trip\nKilometer\nCustom Duration",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "rate",
+      "fieldtype": "Currency",
+      "label": "Rate",
+      "options": "currency",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "minimum_charge",
+      "fieldtype": "Currency",
+      "label": "Minimum Charge",
+      "options": "currency"
+    },
+    {
+      "fieldname": "included_km",
+      "fieldtype": "Float",
+      "label": "Included KM"
+    },
+    {
+      "fieldname": "base_rate_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "excess_km_rate",
+      "fieldtype": "Currency",
+      "label": "Excess KM Rate",
+      "options": "currency"
+    },
+    {
+      "fieldname": "whole_duration_pricing",
+      "fieldtype": "Check",
+      "label": "Whole-duration Tier Pricing",
+      "default": "1"
+    },
+    {
+      "fieldname": "tax_template",
+      "fieldtype": "Link",
+      "label": "Sales Tax Template",
+      "options": "Sales Taxes and Charges Template"
+    },
+    {
+      "fieldname": "rates_include_tax",
+      "fieldtype": "Check",
+      "label": "Rate Includes Tax"
+    },
+    {
+      "fieldname": "adjustment_section",
+      "fieldtype": "Section Break",
+      "label": "Adjustments"
+    },
+    {
+      "fieldname": "discount_type",
+      "fieldtype": "Select",
+      "label": "Automatic Discount Type",
+      "options": "\nPercentage\nFixed"
+    },
+    {
+      "fieldname": "discount_value",
+      "fieldtype": "Currency",
+      "label": "Automatic Discount",
+      "options": "currency"
+    },
+    {
+      "fieldname": "surcharge_type",
+      "fieldtype": "Select",
+      "label": "Surcharge Type",
+      "options": "\nPercentage\nFixed"
+    },
+    {
+      "fieldname": "surcharge_value",
+      "fieldtype": "Currency",
+      "label": "Surcharge",
+      "options": "currency"
+    },
+    {
+      "fieldname": "weekend_adjustment_percent",
+      "fieldtype": "Percent",
+      "label": "Weekend Adjustment %"
+    },
+    {
+      "fieldname": "tiers_section",
+      "fieldtype": "Section Break",
+      "label": "Duration Tiers"
+    },
+    {
+      "fieldname": "duration_tiers",
+      "fieldtype": "Table",
+      "label": "Duration Tiers",
+      "options": "Duration Pricing Tier"
+    },
+    {
+      "fieldname": "explanation_section",
+      "fieldtype": "Section Break",
+      "label": "Explanation"
+    },
+    {
+      "fieldname": "explanation",
+      "fieldtype": "Small Text",
+      "label": "Rule Explanation"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Rental Pricing Rule",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:rule_name",
+  "title_field": "rule_name",
+  "show_title_field_in_link": 1,
+  "search_fields": "rule_name,vehicle,vehicle_category,rental_type,customer",
+  "allow_import": 1
+}

@@ -1,0 +1,61 @@
+{% set print_title = "Rental Return & Reconciliation" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set customer_name = frappe.db.get_value("Customer", doc.customer, "customer_name") if doc.customer else "—" %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% macro dt(value) -%}{{ frappe.utils.format_datetime(value, "MMM d, yyyy h:mm a") if value else "—" }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Rental agreement</span><strong>{{ doc.rental_agreement }}</strong></div>
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ doc.vehicle }}</strong></div>
+    <div class="dm-meta"><span>Returned</span><strong>{{ dt(doc.return_datetime) }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Return readings</h2>
+    <div class="dm-three-col">
+      <div class="dm-panel"><div class="dm-kv"><span>Checkout odometer</span><strong>{{ "{:,.0f}".format(doc.checkout_odometer or 0) }} km</strong></div><div class="dm-kv"><span>Return odometer</span><strong>{{ "{:,.0f}".format(doc.return_odometer or 0) }} km</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Mileage used</span><strong>{{ "{:,.0f}".format(doc.mileage_used or 0) }} km</strong></div><div class="dm-kv"><span>Included mileage</span><strong>{{ "{:,.0f}".format(doc.included_mileage or 0) }} km</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Excess mileage</span><strong>{{ "{:,.0f}".format(doc.excess_mileage or 0) }} km</strong></div><div class="dm-kv"><span>Condition</span><strong>{{ doc.condition or "—" }}</strong></div></div>
+    </div>
+    <div class="dm-two-col" style="margin-top:10px">
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Checkout fuel</span><strong>{{ doc.checkout_fuel_level or "—" }}</strong></div></div>
+      <div class="dm-panel dm-panel-soft"><div class="dm-kv"><span>Return fuel</span><strong>{{ doc.return_fuel_level or "—" }}</strong></div></div>
+    </div>
+  </div>
+
+  {% if doc.charges %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Additional charges</h2>
+    <table class="dm-table"><thead><tr><th>Charge</th><th>Description</th><th class="dm-right">Quantity</th><th class="dm-right">Rate</th><th class="dm-right">Amount</th></tr></thead><tbody>{% for row in doc.charges %}<tr><td>{{ row.charge_type }}</td><td>{{ row.description or "—" }}</td><td class="dm-right">{{ row.quantity or 0 }}</td><td class="dm-right">{{ money(row.rate) }}</td><td class="dm-right">{{ money(row.amount) }}</td></tr>{% endfor %}</tbody></table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Final reconciliation</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Original invoice</span><strong>{{ money(doc.original_invoice_total) }}</strong></div>
+        <div class="dm-kv"><span>Extension invoices</span><strong>{{ money(doc.extension_invoice_total) }}</strong></div>
+        <div class="dm-kv"><span>Additional charges</span><strong>{{ money(doc.additional_invoice_total or doc.additional_charge_total) }}</strong></div>
+        <div class="dm-kv"><span>Payments received</span><strong>{{ money(doc.payments_received) }}</strong></div>
+      </div>
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Deposit available</span><strong>{{ money(doc.deposit_available) }}</strong></div>
+        <div class="dm-kv"><span>Deposit utilized</span><strong>{{ money(doc.deposit_utilized) }}</strong></div>
+        <div class="dm-kv"><span>Refund due</span><strong>{{ money(doc.refund_amount) }}</strong></div>
+        <div class="dm-kv"><span>Final invoice</span><strong>{{ doc.final_sales_invoice or "—" }}</strong></div>
+      </div>
+    </div>
+    <div class="dm-total-box" style="margin-top:10px"><div class="dm-total-row"><span>Outstanding balance</span><strong>{{ money(doc.outstanding_balance) }}</strong></div></div>
+  </div>
+
+  <div class="dm-section"><h2 class="dm-section-title">Inspection and damage</h2><div class="dm-two-col"><div class="dm-panel"><div class="dm-kv"><span>Return inspection</span><strong>{{ doc.inspection or "—" }}</strong></div></div><div class="dm-panel"><div class="dm-kv"><span>Damage report</span><strong>{{ doc.damage_report or "None recorded" }}</strong></div></div></div></div>
+  {% if doc.remarks %}<div class="dm-section"><h2 class="dm-section-title">Return remarks</h2><div class="dm-panel dm-terms">{{ doc.remarks }}</div></div>{% endif %}
+  <div class="dm-signatures"><div class="dm-signature"><strong>Customer acknowledgment</strong><span>I acknowledge the readings, condition, and reconciliation shown.</span></div><div class="dm-signature"><strong>Return processed by</strong><span>Authorized Dagaar Motors representative</span></div></div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

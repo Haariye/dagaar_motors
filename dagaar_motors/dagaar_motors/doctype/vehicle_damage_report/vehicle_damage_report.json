@@ -1,0 +1,286 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "damage_tab",
+    "identity_section",
+    "vehicle",
+    "rental_agreement",
+    "customer",
+    "driver",
+    "inspection",
+    "reported_on",
+    "status",
+    "damage_details_section",
+    "damage_type",
+    "severity",
+    "location_on_vehicle",
+    "description",
+    "before_photo",
+    "after_photo",
+    "financial_section",
+    "repair_estimate",
+    "actual_repair_cost",
+    "customer_liability",
+    "company_liability",
+    "financial_col",
+    "insurance_claim",
+    "amount_charged",
+    "sales_invoice",
+    "maintenance_work_order"
+  ],
+  "fields": [
+    {
+      "fieldname": "damage_tab",
+      "fieldtype": "Tab Break",
+      "label": "Damage"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Vehicle Damage"
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "rental_agreement",
+      "fieldtype": "Link",
+      "label": "Rental Agreement",
+      "options": "Rental Agreement",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer"
+    },
+    {
+      "fieldname": "driver",
+      "fieldtype": "Data",
+      "label": "Driver Name"
+    },
+    {
+      "fieldname": "inspection",
+      "fieldtype": "Link",
+      "label": "Inspection",
+      "options": "Vehicle Inspection"
+    },
+    {
+      "fieldname": "reported_on",
+      "fieldtype": "Datetime",
+      "label": "Reported On",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Reported\nEstimated\nApproved\nRepairing\nRepaired\nInvoiced\nClosed\nRejected",
+      "default": "Reported",
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "damage_details_section",
+      "fieldtype": "Section Break",
+      "label": "Damage Details"
+    },
+    {
+      "fieldname": "damage_type",
+      "fieldtype": "Select",
+      "label": "Damage Type",
+      "options": "Scratch\nDent\nGlass\nTire\nWheel\nInterior\nMechanical\nMissing Part\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "severity",
+      "fieldtype": "Select",
+      "label": "Severity",
+      "options": "Minor\nModerate\nMajor\nUnsafe",
+      "reqd": 1
+    },
+    {
+      "fieldname": "location_on_vehicle",
+      "fieldtype": "Select",
+      "label": "Location",
+      "options": "Front\nRear\nLeft\nRight\nWindshield\nRoof\nWheels\nInterior\nEngine\nOther",
+      "reqd": 1
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Text Editor",
+      "label": "Description",
+      "reqd": 1
+    },
+    {
+      "fieldname": "before_photo",
+      "fieldtype": "Attach",
+      "label": "Before Photo"
+    },
+    {
+      "fieldname": "after_photo",
+      "fieldtype": "Attach",
+      "label": "After Photo"
+    },
+    {
+      "fieldname": "financial_section",
+      "fieldtype": "Section Break",
+      "label": "Financial Responsibility"
+    },
+    {
+      "fieldname": "repair_estimate",
+      "fieldtype": "Currency",
+      "label": "Repair Estimate"
+    },
+    {
+      "fieldname": "actual_repair_cost",
+      "fieldtype": "Currency",
+      "label": "Actual Repair Cost"
+    },
+    {
+      "fieldname": "customer_liability",
+      "fieldtype": "Currency",
+      "label": "Customer Liability"
+    },
+    {
+      "fieldname": "company_liability",
+      "fieldtype": "Currency",
+      "label": "Company Liability"
+    },
+    {
+      "fieldname": "financial_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "insurance_claim",
+      "fieldtype": "Data",
+      "label": "Insurance Claim Reference"
+    },
+    {
+      "fieldname": "amount_charged",
+      "fieldtype": "Currency",
+      "label": "Amount Charged",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sales_invoice",
+      "fieldtype": "Link",
+      "label": "Sales Invoice",
+      "options": "Sales Invoice",
+      "read_only": 1
+    },
+    {
+      "fieldname": "maintenance_work_order",
+      "fieldtype": "Link",
+      "label": "Maintenance Work Order",
+      "options": "Maintenance Work Order"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Vehicle Damage Report",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "VDR-.YYYY.-.#####",
+  "title_field": "vehicle",
+  "show_title_field_in_link": 1,
+  "search_fields": "vehicle,rental_agreement,customer",
+  "allow_import": 1
+}

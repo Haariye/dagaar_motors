@@ -1,0 +1,1006 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "general_tab",
+  "general_section",
+  "default_company",
+  "default_branch",
+  "general_col",
+  "default_currency",
+  "timezone_behavior",
+  "naming_section",
+  "reservation_series",
+  "agreement_series",
+  "naming_col",
+  "extension_series",
+  "return_series",
+  "sale_series",
+  "accounting_tab",
+  "income_accounts_section",
+  "rental_income_account",
+  "extension_income_account",
+  "late_return_income_account",
+  "excess_mileage_income_account",
+  "fuel_charge_income_account",
+  "damage_recovery_income_account",
+  "cleaning_charge_income_account",
+  "income_accounts_col",
+  "cancellation_income_account",
+  "driver_service_income_account",
+  "delivery_income_account",
+  "collection_income_account",
+  "insurance_charge_income_account",
+  "miscellaneous_rental_income_account",
+  "vehicle_sale_income_account",
+  "deposit_accounts_section",
+  "deposit_liability_account",
+  "deposit_clearing_account",
+  "deposit_accounts_col",
+  "customer_receivable_account",
+  "expense_accounts_section",
+  "vehicle_operating_expense_account",
+  "maintenance_expense_account",
+  "repair_expense_account",
+  "accident_expense_account",
+  "insurance_expense_account",
+  "expense_accounts_col",
+  "registration_expense_account",
+  "fuel_expense_account",
+  "gain_on_vehicle_sale_account",
+  "loss_on_vehicle_sale_account",
+  "dimensions_section",
+  "default_cost_center",
+  "default_warehouse",
+  "default_project",
+  "dimensions_col",
+  "project_per_vehicle",
+  "auto_create_vehicle_item",
+  "auto_create_vehicle_asset",
+  "item_mapping_section",
+  "vehicle_item_group",
+  "vehicle_asset_category",
+  "default_stock_uom",
+  "default_rental_item",
+  "default_extension_item",
+  "default_mileage_item",
+  "default_fuel_item",
+  "item_mapping_col",
+  "default_damage_item",
+  "default_cleaning_item",
+  "default_misc_item",
+  "pricing_tab",
+  "pricing_defaults_section",
+  "default_pricing_method",
+  "rounding_minutes",
+  "grace_period_minutes",
+  "minimum_rental_hours",
+  "pricing_defaults_col",
+  "currency_precision",
+  "rates_include_tax",
+  "default_tax_template",
+  "weekend_days",
+  "pricing_controls_section",
+  "prevent_overbooking",
+  "allow_manual_rate_override",
+  "manual_rate_requires_approval",
+  "default_salesperson_discount_percent",
+  "default_manager_discount_percent",
+  "rental_policy_tab",
+  "deposit_policy_section",
+  "require_deposit",
+  "default_deposit_amount",
+  "default_deposit_percentage",
+  "allow_deposit_waiver",
+  "deposit_waiver_requires_approval",
+  "deposit_policy_col",
+  "default_deposit_payment_account",
+  "default_refund_payment_account",
+  "mileage_fuel_section",
+  "default_mileage_behavior",
+  "default_included_km_per_day",
+  "default_excess_km_rate",
+  "mileage_fuel_col",
+  "odometer_tolerance_km",
+  "default_fuel_policy",
+  "fuel_unit_price",
+  "rental_limits_section",
+  "minimum_rental_duration_hours",
+  "maximum_rental_duration_days",
+  "minimum_checkout_payment_percent",
+  "require_checkout_inspection",
+  "rental_limits_col",
+  "require_return_inspection",
+  "checkout_inspection_template",
+  "return_inspection_template",
+  "automation_tab",
+  "invoice_automation_section",
+  "invoice_timing",
+  "auto_submit_rental_invoice",
+  "auto_invoice_extensions",
+  "auto_invoice_return_charges",
+  "invoice_automation_col",
+  "periodic_invoice_days",
+  "payment_terms_template",
+  "sale_automation_section",
+  "block_sale_for_future_reservations",
+  "vehicle_sale_below_minimum_requires_approval",
+  "auto_mark_vehicle_sold",
+  "notifications_tab",
+  "notification_lead_section",
+  "pickup_reminder_hours",
+  "return_reminder_hours",
+  "document_expiry_days",
+  "notification_lead_col",
+  "maintenance_due_days",
+  "insurance_expiry_days",
+  "registration_expiry_days",
+  "setup_tab",
+  "setup_status_section",
+  "setup_readiness_html",
+  "setup_complete",
+  "last_setup_validation",
+  "setup_notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_tab",
+   "fieldtype": "Tab Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "Organization"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_branch",
+   "fieldtype": "Link",
+   "label": "Default Branch",
+   "options": "Motor Branch"
+  },
+  {
+   "fieldname": "general_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "default_currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "timezone_behavior",
+   "fieldtype": "Select",
+   "label": "Timezone Behavior",
+   "options": "Site Timezone\nCompany Timezone\nUTC",
+   "default": "Site Timezone"
+  },
+  {
+   "fieldname": "naming_section",
+   "fieldtype": "Section Break",
+   "label": "Numbering"
+  },
+  {
+   "fieldname": "reservation_series",
+   "fieldtype": "Data",
+   "label": "Reservation Series",
+   "default": "RSV-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "agreement_series",
+   "fieldtype": "Data",
+   "label": "Agreement Series",
+   "default": "RA-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "naming_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "extension_series",
+   "fieldtype": "Data",
+   "label": "Extension Series",
+   "default": "RE-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "return_series",
+   "fieldtype": "Data",
+   "label": "Return Series",
+   "default": "RR-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "sale_series",
+   "fieldtype": "Data",
+   "label": "Sale Series",
+   "default": "VS-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "accounting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Accounting"
+  },
+  {
+   "fieldname": "income_accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Income Accounts"
+  },
+  {
+   "fieldname": "rental_income_account",
+   "fieldtype": "Link",
+   "label": "Rental Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "extension_income_account",
+   "fieldtype": "Link",
+   "label": "Extension Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "late_return_income_account",
+   "fieldtype": "Link",
+   "label": "Late Return Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "excess_mileage_income_account",
+   "fieldtype": "Link",
+   "label": "Excess Mileage Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "fuel_charge_income_account",
+   "fieldtype": "Link",
+   "label": "Fuel Charge Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "damage_recovery_income_account",
+   "fieldtype": "Link",
+   "label": "Damage Recovery Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "cleaning_charge_income_account",
+   "fieldtype": "Link",
+   "label": "Cleaning Charge Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "income_accounts_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "cancellation_income_account",
+   "fieldtype": "Link",
+   "label": "Cancellation Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "driver_service_income_account",
+   "fieldtype": "Link",
+   "label": "Driver Service Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "delivery_income_account",
+   "fieldtype": "Link",
+   "label": "Delivery Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "collection_income_account",
+   "fieldtype": "Link",
+   "label": "Collection Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "insurance_charge_income_account",
+   "fieldtype": "Link",
+   "label": "Insurance Charge Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "miscellaneous_rental_income_account",
+   "fieldtype": "Link",
+   "label": "Miscellaneous Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "vehicle_sale_income_account",
+   "fieldtype": "Link",
+   "label": "Vehicle Sale Income Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "deposit_accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Deposit and Receivable Accounts"
+  },
+  {
+   "fieldname": "deposit_liability_account",
+   "fieldtype": "Link",
+   "label": "Deposit Liability Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "deposit_clearing_account",
+   "fieldtype": "Link",
+   "label": "Deposit Clearing Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "deposit_accounts_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "customer_receivable_account",
+   "fieldtype": "Link",
+   "label": "Customer Receivable Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "expense_accounts_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Expense Accounts"
+  },
+  {
+   "fieldname": "vehicle_operating_expense_account",
+   "fieldtype": "Link",
+   "label": "Vehicle Operating Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "maintenance_expense_account",
+   "fieldtype": "Link",
+   "label": "Maintenance Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "repair_expense_account",
+   "fieldtype": "Link",
+   "label": "Repair Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "accident_expense_account",
+   "fieldtype": "Link",
+   "label": "Accident Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "insurance_expense_account",
+   "fieldtype": "Link",
+   "label": "Insurance Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "expense_accounts_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "registration_expense_account",
+   "fieldtype": "Link",
+   "label": "Registration Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "fuel_expense_account",
+   "fieldtype": "Link",
+   "label": "Fuel Expense",
+   "options": "Account"
+  },
+  {
+   "fieldname": "gain_on_vehicle_sale_account",
+   "fieldtype": "Link",
+   "label": "Gain on Vehicle Sale",
+   "options": "Account"
+  },
+  {
+   "fieldname": "loss_on_vehicle_sale_account",
+   "fieldtype": "Link",
+   "label": "Loss on Vehicle Sale",
+   "options": "Account"
+  },
+  {
+   "fieldname": "dimensions_section",
+   "fieldtype": "Section Break",
+   "label": "Dimensions and Stock"
+  },
+  {
+   "fieldname": "default_cost_center",
+   "fieldtype": "Link",
+   "label": "Default Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "default_warehouse",
+   "fieldtype": "Link",
+   "label": "Default Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "default_project",
+   "fieldtype": "Link",
+   "label": "Default Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "dimensions_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "project_per_vehicle",
+   "fieldtype": "Check",
+   "label": "Create Project per Vehicle",
+   "default": "1"
+  },
+  {
+   "fieldname": "auto_create_vehicle_item",
+   "fieldtype": "Check",
+   "label": "Auto-create Item for Vehicle",
+   "default": "1"
+  },
+  {
+   "fieldname": "auto_create_vehicle_asset",
+   "fieldtype": "Check",
+   "label": "Auto-create Asset for Vehicle",
+   "default": "1"
+  },
+  {
+   "fieldname": "item_mapping_section",
+   "fieldtype": "Section Break",
+   "label": "Default Items"
+  },
+  {
+   "fieldname": "vehicle_item_group",
+   "fieldtype": "Link",
+   "label": "Vehicle Item Group",
+   "options": "Item Group",
+   "description": "Item Group used when the app creates a sellable Item for a vehicle."
+  },
+  {
+   "fieldname": "vehicle_asset_category",
+   "fieldtype": "Link",
+   "label": "Vehicle Asset Category",
+   "options": "Asset Category",
+   "description": "Optional. If empty, Motors will reuse a company asset category or create Motor Vehicles using the company Fixed Asset account."
+  },
+  {
+   "fieldname": "default_stock_uom",
+   "fieldtype": "Link",
+   "label": "Default Stock UOM",
+   "options": "UOM",
+   "default": "Nos"
+  },
+  {
+   "fieldname": "default_rental_item",
+   "fieldtype": "Link",
+   "label": "Rental Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "default_extension_item",
+   "fieldtype": "Link",
+   "label": "Extension Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "default_mileage_item",
+   "fieldtype": "Link",
+   "label": "Excess Mileage Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "default_fuel_item",
+   "fieldtype": "Link",
+   "label": "Fuel Charge Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "item_mapping_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "default_damage_item",
+   "fieldtype": "Link",
+   "label": "Damage Recovery Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "default_cleaning_item",
+   "fieldtype": "Link",
+   "label": "Cleaning Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "default_misc_item",
+   "fieldtype": "Link",
+   "label": "Miscellaneous Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "pricing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "pricing_defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Calculation Defaults"
+  },
+  {
+   "fieldname": "default_pricing_method",
+   "fieldtype": "Select",
+   "label": "Pricing Method",
+   "options": "Best Valid Rule\nFirst Matching Rule",
+   "default": "Best Valid Rule"
+  },
+  {
+   "fieldname": "rounding_minutes",
+   "fieldtype": "Int",
+   "label": "Rounding Minutes",
+   "default": "60"
+  },
+  {
+   "fieldname": "grace_period_minutes",
+   "fieldtype": "Int",
+   "label": "Grace Period Minutes",
+   "default": "15"
+  },
+  {
+   "fieldname": "minimum_rental_hours",
+   "fieldtype": "Float",
+   "label": "Minimum Rental Hours",
+   "default": "1"
+  },
+  {
+   "fieldname": "pricing_defaults_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "currency_precision",
+   "fieldtype": "Int",
+   "label": "Currency Precision",
+   "default": "2"
+  },
+  {
+   "fieldname": "rates_include_tax",
+   "fieldtype": "Check",
+   "label": "Rates Include Tax"
+  },
+  {
+   "fieldname": "default_tax_template",
+   "fieldtype": "Link",
+   "label": "Default Sales Tax Template",
+   "options": "Sales Taxes and Charges Template"
+  },
+  {
+   "fieldname": "weekend_days",
+   "fieldtype": "Data",
+   "label": "Weekend Days",
+   "default": "Friday,Saturday"
+  },
+  {
+   "fieldname": "pricing_controls_section",
+   "fieldtype": "Section Break",
+   "label": "Controls"
+  },
+  {
+   "fieldname": "prevent_overbooking",
+   "fieldtype": "Check",
+   "label": "Prevent Overbooking",
+   "default": "1"
+  },
+  {
+   "fieldname": "allow_manual_rate_override",
+   "fieldtype": "Check",
+   "label": "Allow Manual Rate Override"
+  },
+  {
+   "fieldname": "manual_rate_requires_approval",
+   "fieldtype": "Check",
+   "label": "Manual Rate Requires Approval",
+   "default": "1"
+  },
+  {
+   "fieldname": "default_salesperson_discount_percent",
+   "fieldtype": "Percent",
+   "label": "Default Salesperson Discount %"
+  },
+  {
+   "fieldname": "default_manager_discount_percent",
+   "fieldtype": "Percent",
+   "label": "Default Manager Discount %"
+  },
+  {
+   "fieldname": "rental_policy_tab",
+   "fieldtype": "Tab Break",
+   "label": "Rental Policy"
+  },
+  {
+   "fieldname": "deposit_policy_section",
+   "fieldtype": "Section Break",
+   "label": "Security Deposit"
+  },
+  {
+   "fieldname": "require_deposit",
+   "fieldtype": "Check",
+   "label": "Require Security Deposit",
+   "default": "1"
+  },
+  {
+   "fieldname": "default_deposit_amount",
+   "fieldtype": "Currency",
+   "label": "Default Deposit Amount",
+   "options": "default_currency"
+  },
+  {
+   "fieldname": "default_deposit_percentage",
+   "fieldtype": "Percent",
+   "label": "Default Deposit Percentage",
+   "default": "20",
+   "description": "Fallback security deposit as a percentage of the rental total, used when no Deposit Rule or category deposit applies. Ensures a deposit is always requested."
+  },
+  {
+   "fieldname": "allow_deposit_waiver",
+   "fieldtype": "Check",
+   "label": "Allow Deposit Waiver"
+  },
+  {
+   "fieldname": "deposit_waiver_requires_approval",
+   "fieldtype": "Check",
+   "label": "Waiver Requires Approval",
+   "default": "1"
+  },
+  {
+   "fieldname": "deposit_policy_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "default_deposit_payment_account",
+   "fieldtype": "Link",
+   "label": "Default Deposit Receipt Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "default_refund_payment_account",
+   "fieldtype": "Link",
+   "label": "Default Deposit Refund Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "mileage_fuel_section",
+   "fieldtype": "Section Break",
+   "label": "Mileage and Fuel"
+  },
+  {
+   "fieldname": "default_mileage_behavior",
+   "fieldtype": "Select",
+   "label": "Default Mileage Behavior",
+   "options": "Unlimited\nDaily Allowance\nTrip Allowance",
+   "default": "Daily Allowance"
+  },
+  {
+   "fieldname": "default_included_km_per_day",
+   "fieldtype": "Float",
+   "label": "Included KM per Day"
+  },
+  {
+   "fieldname": "default_excess_km_rate",
+   "fieldtype": "Currency",
+   "label": "Default Excess KM Rate",
+   "options": "default_currency"
+  },
+  {
+   "fieldname": "mileage_fuel_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "odometer_tolerance_km",
+   "fieldtype": "Float",
+   "label": "Odometer Tolerance KM"
+  },
+  {
+   "fieldname": "default_fuel_policy",
+   "fieldtype": "Select",
+   "label": "Default Fuel Policy",
+   "options": "Full to Full\nSame to Same\nPrepaid Fuel\nFull to Empty\nCustom",
+   "default": "Full to Full"
+  },
+  {
+   "fieldname": "fuel_unit_price",
+   "fieldtype": "Currency",
+   "label": "Fuel Unit Price",
+   "options": "default_currency"
+  },
+  {
+   "fieldname": "rental_limits_section",
+   "fieldtype": "Section Break",
+   "label": "Duration and Checkout"
+  },
+  {
+   "fieldname": "minimum_rental_duration_hours",
+   "fieldtype": "Float",
+   "label": "Minimum Duration Hours"
+  },
+  {
+   "fieldname": "maximum_rental_duration_days",
+   "fieldtype": "Int",
+   "label": "Maximum Duration Days"
+  },
+  {
+   "fieldname": "minimum_checkout_payment_percent",
+   "fieldtype": "Percent",
+   "label": "Minimum Checkout Payment %"
+  },
+  {
+   "fieldname": "require_checkout_inspection",
+   "fieldtype": "Check",
+   "label": "Require Checkout Inspection",
+   "default": "1"
+  },
+  {
+   "fieldname": "rental_limits_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "require_return_inspection",
+   "fieldtype": "Check",
+   "label": "Require Return Inspection",
+   "default": "1"
+  },
+  {
+   "fieldname": "checkout_inspection_template",
+   "fieldtype": "Link",
+   "label": "Checkout Inspection Template",
+   "options": "Inspection Template"
+  },
+  {
+   "fieldname": "return_inspection_template",
+   "fieldtype": "Link",
+   "label": "Return Inspection Template",
+   "options": "Inspection Template"
+  },
+  {
+   "fieldname": "automation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Automation"
+  },
+  {
+   "fieldname": "invoice_automation_section",
+   "fieldtype": "Section Break",
+   "label": "Invoicing"
+  },
+  {
+   "fieldname": "invoice_timing",
+   "fieldtype": "Select",
+   "label": "Original Invoice Timing",
+   "options": "Before Checkout\nOn Checkout\nOn Return\nPeriodic",
+   "default": "On Return",
+   "description": "On Return bills the customer for the actual days used (recommended). The security deposit is collected at checkout and the final invoice is deducted from it."
+  },
+  {
+   "fieldname": "auto_submit_rental_invoice",
+   "fieldtype": "Check",
+   "label": "Auto-submit Rental Invoice"
+  },
+  {
+   "fieldname": "auto_invoice_extensions",
+   "fieldtype": "Check",
+   "label": "Auto Invoice Extensions",
+   "default": "1"
+  },
+  {
+   "fieldname": "auto_invoice_return_charges",
+   "fieldtype": "Check",
+   "label": "Auto Invoice Return Charges",
+   "default": "1"
+  },
+  {
+   "fieldname": "invoice_automation_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "periodic_invoice_days",
+   "fieldtype": "Int",
+   "label": "Periodic Invoice Days"
+  },
+  {
+   "fieldname": "payment_terms_template",
+   "fieldtype": "Link",
+   "label": "Payment Terms Template",
+   "options": "Payment Terms Template"
+  },
+  {
+   "fieldname": "sale_automation_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Sale"
+  },
+  {
+   "fieldname": "block_sale_for_future_reservations",
+   "fieldtype": "Check",
+   "label": "Block Sale for Future Reservations",
+   "default": "1"
+  },
+  {
+   "fieldname": "vehicle_sale_below_minimum_requires_approval",
+   "fieldtype": "Check",
+   "label": "Below Minimum Price Requires Approval",
+   "default": "1"
+  },
+  {
+   "fieldname": "auto_mark_vehicle_sold",
+   "fieldtype": "Check",
+   "label": "Mark Vehicle Sold on Invoice Submit",
+   "default": "1"
+  },
+  {
+   "fieldname": "notifications_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notifications"
+  },
+  {
+   "fieldname": "notification_lead_section",
+   "fieldtype": "Section Break",
+   "label": "Reminder Lead Times"
+  },
+  {
+   "fieldname": "pickup_reminder_hours",
+   "fieldtype": "Int",
+   "label": "Pickup Reminder Hours",
+   "default": "24"
+  },
+  {
+   "fieldname": "return_reminder_hours",
+   "fieldtype": "Int",
+   "label": "Return Reminder Hours",
+   "default": "24"
+  },
+  {
+   "fieldname": "document_expiry_days",
+   "fieldtype": "Int",
+   "label": "Document Expiry Days",
+   "default": "30"
+  },
+  {
+   "fieldname": "notification_lead_col",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "maintenance_due_days",
+   "fieldtype": "Int",
+   "label": "Maintenance Due Days",
+   "default": "14"
+  },
+  {
+   "fieldname": "insurance_expiry_days",
+   "fieldtype": "Int",
+   "label": "Insurance Expiry Days",
+   "default": "30"
+  },
+  {
+   "fieldname": "registration_expiry_days",
+   "fieldtype": "Int",
+   "label": "Registration Expiry Days",
+   "default": "30"
+  },
+  {
+   "fieldname": "setup_tab",
+   "fieldtype": "Tab Break",
+   "label": "Setup Status"
+  },
+  {
+   "fieldname": "setup_status_section",
+   "fieldtype": "Section Break",
+   "label": "Readiness"
+  },
+  {
+   "fieldname": "setup_readiness_html",
+   "fieldtype": "HTML",
+   "label": "Setup Readiness"
+  },
+  {
+   "fieldname": "setup_complete",
+   "fieldtype": "Check",
+   "label": "Setup Complete",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_setup_validation",
+   "fieldtype": "Datetime",
+   "label": "Last Setup Validation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "setup_notes",
+   "fieldtype": "Small Text",
+   "label": "Setup Notes",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Dagaar Motors Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Dagaar Motors Administrator",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1,
+   "import": 1
+  },
+  {
+   "role": "Dagaar Motors Auditor",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  },
+  {
+   "role": "Dagaar Motors Read Only",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "issingle": 1
+}

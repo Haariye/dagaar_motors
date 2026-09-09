@@ -1,0 +1,46 @@
+{% set print_title = "Rental Extension" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set customer = frappe.db.get_value("Rental Agreement", doc.rental_agreement, "customer") if doc.rental_agreement else None %}
+{% set customer_name = frappe.db.get_value("Customer", customer, "customer_name") if customer else "—" %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% macro dt(value) -%}{{ frappe.utils.format_datetime(value, "MMM d, yyyy h:mm a") if value else "—" }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Rental agreement</span><strong>{{ doc.rental_agreement }}</strong></div>
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ doc.vehicle }}</strong></div>
+    <div class="dm-meta"><span>Extension duration</span><strong>{{ doc.duration_label or (doc.duration_units ~ " units" if doc.duration_units else "—") }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Approved period</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel"><div class="dm-kv"><span>Original end</span><strong>{{ dt(doc.original_end_datetime) }}</strong></div><div class="dm-kv"><span>New end</span><strong>{{ dt(doc.new_end_datetime) }}</strong></div><div class="dm-kv"><span>Reason</span><strong>{{ doc.reason or "—" }}</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Requested by</span><strong>{{ doc.requested_by or "—" }}</strong></div><div class="dm-kv"><span>Approved by</span><strong>{{ doc.approved_by or "—" }}</strong></div><div class="dm-kv"><span>Approved on</span><strong>{{ dt(doc.approval_timestamp) }}</strong></div></div>
+    </div>
+  </div>
+
+  {% if doc.pricing_breakdown %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Extension price breakdown</h2>
+    <table class="dm-table"><thead><tr><th>Component</th><th>Description</th><th class="dm-right">Quantity</th><th class="dm-right">Rate</th><th class="dm-right">Amount</th></tr></thead><tbody>{% for row in doc.pricing_breakdown %}<tr><td>{{ row.component }}</td><td>{{ row.description or "—" }}</td><td class="dm-right">{{ row.quantity or 0 }}</td><td class="dm-right">{{ money(row.rate) }}</td><td class="dm-right">{{ money(row.amount) }}</td></tr>{% endfor %}</tbody></table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <div class="dm-total-box">
+      <div class="dm-total-row"><span>Extension base</span><strong>{{ money(doc.base_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Discount</span><strong>-{{ money(doc.discount_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Tax</span><strong>{{ money(doc.tax_amount) }}</strong></div>
+      <div class="dm-total-row"><span>Extension total</span><strong>{{ money(doc.grand_total) }}</strong></div>
+    </div>
+  </div>
+  <div class="dm-alert">This extension bills only the additional interval from the original end date to the new end date. It does not alter the original rental period, agreed rate, or original invoice.</div>
+  {% if doc.sales_invoice %}<div class="dm-section"><h2 class="dm-section-title">Financial reference</h2><div class="dm-panel"><div class="dm-kv"><span>Extension invoice</span><strong>{{ doc.sales_invoice }}</strong></div><div class="dm-kv"><span>Pricing rule</span><strong>{{ doc.pricing_rule or "—" }}</strong></div></div></div>{% endif %}
+  <div class="dm-signatures"><div class="dm-signature"><strong>Customer acceptance</strong><span>Name, signature, and date</span></div><div class="dm-signature"><strong>Authorized approval</strong><span>{{ doc.approved_by or "Dagaar Motors representative" }}</span></div></div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

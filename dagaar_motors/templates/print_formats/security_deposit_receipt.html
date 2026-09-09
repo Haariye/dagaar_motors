@@ -1,0 +1,51 @@
+{% set print_title = "Security Deposit Receipt" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = doc.company %}
+{% set customer_name = frappe.db.get_value("Customer", doc.customer, "customer_name") if doc.customer else "—" %}
+{% set transaction = frappe.db.get_value("Deposit Transaction", doc.latest_transaction, ["transaction_type", "posting_date", "amount", "payment_method", "reference_number", "journal_entry", "status"], as_dict=True) if doc.latest_transaction else None %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=doc.currency) }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Rental agreement</span><strong>{{ doc.rental_agreement or "—" }}</strong></div>
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ doc.vehicle or "—" }}</strong></div>
+    <div class="dm-meta"><span>Deposit type</span><strong>{{ doc.deposit_type or "—" }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Deposit position</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Amount required</span><strong>{{ money(doc.amount_required) }}</strong></div>
+        <div class="dm-kv"><span>Amount received</span><strong>{{ money(doc.amount_received) }}</strong></div>
+        <div class="dm-kv"><span>Held amount</span><strong>{{ money(doc.held_amount) }}</strong></div>
+      </div>
+      <div class="dm-panel">
+        <div class="dm-kv"><span>Amount deducted</span><strong>{{ money(doc.deducted_amount) }}</strong></div>
+        <div class="dm-kv"><span>Refund amount</span><strong>{{ money(doc.refund_amount) }}</strong></div>
+        <div class="dm-kv"><span>Current balance</span><strong>{{ money(doc.balance) }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  {% if transaction %}
+  <div class="dm-section">
+    <h2 class="dm-section-title">Latest transaction</h2>
+    <table class="dm-table">
+      <thead><tr><th>Type</th><th>Date</th><th>Payment method</th><th>Reference</th><th class="dm-right">Amount</th></tr></thead>
+      <tbody><tr><td>{{ transaction.transaction_type }}</td><td>{{ frappe.utils.formatdate(transaction.posting_date, "MMM d, yyyy") if transaction.posting_date else "—" }}</td><td>{{ transaction.payment_method or doc.deposit_type or "—" }}</td><td>{{ transaction.reference_number or doc.transaction_reference or transaction.journal_entry or "—" }}</td><td class="dm-right">{{ money(transaction.amount) }}</td></tr></tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <div class="dm-section">
+    <div class="dm-alert">The security deposit is recorded separately from rental income. Any deduction, allocation, refund, waiver, or forfeiture must be supported by a posted deposit transaction and a clear business reason.</div>
+  </div>
+  {% if doc.notes %}<div class="dm-section"><h2 class="dm-section-title">Notes</h2><div class="dm-panel dm-terms">{{ doc.notes }}</div></div>{% endif %}
+  <div class="dm-signatures"><div class="dm-signature"><strong>Received from / Refunded to</strong><span>{{ customer_name }}</span></div><div class="dm-signature"><strong>Authorized cashier</strong><span>Name, signature, and date</span></div></div>
+  {% set print_footer_note = "Keep this receipt. Deposit status is governed by the linked rental agreement and posted transaction history." %}
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

@@ -1,0 +1,215 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"dm-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reservation to return, with fewer clicks</b></span>\",\"col\":12}},{\"id\":\"dm-spacer-top\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dm-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Daily Operations\",\"col\":4}},{\"id\":\"dm-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"People & Commercial\",\"col\":4}},{\"id\":\"dm-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Rental Reports\",\"col\":4}}]",
+ "creation": "2026-08-09 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "calendar",
+ "idx": 2,
+ "is_hidden": 0,
+ "label": "Dagaar Rental",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Operations",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Quotation",
+   "link_count": 0,
+   "link_to": "Rental Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Agreement",
+   "link_count": 0,
+   "link_to": "Rental Agreement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Extension",
+   "link_count": 0,
+   "link_to": "Rental Extension",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Return",
+   "link_count": 0,
+   "link_to": "Rental Return",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "People & Commercial",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Driver",
+   "link_count": 0,
+   "link_to": "Rental Driver",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Extra",
+   "link_count": 0,
+   "link_to": "Rental Extra",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Security Deposit",
+   "link_count": 0,
+   "link_to": "Security Deposit",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Deposit Transaction",
+   "link_count": 0,
+   "link_to": "Deposit Transaction",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Reports",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Active Rentals",
+   "link_count": 0,
+   "link_to": "Active Rentals",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Overdue Rentals",
+   "link_count": 0,
+   "link_to": "Overdue Rentals",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Rental Pipeline",
+   "link_count": 0,
+   "link_to": "Rental Pipeline",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Rental Extensions",
+   "link_count": 0,
+   "link_to": "Rental Extensions",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-08-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Dagaar Rental",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Dagaar Motors",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Dagaar Motors Administrator"
+  },
+  {
+   "role": "Dagaar Motors Rental Manager"
+  },
+  {
+   "role": "Dagaar Motors Rental Agent"
+  },
+  {
+   "role": "Dagaar Motors Reservation Agent"
+  },
+  {
+   "role": "Dagaar Motors Branch Manager"
+  },
+  {
+   "role": "Dagaar Motors Accountant"
+  },
+  {
+   "role": "Dagaar Motors Auditor"
+  },
+  {
+   "role": "Dagaar Motors Read Only"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 2.0,
+ "shortcuts": [],
+ "title": "Dagaar Rental",
+ "type": "Workspace"
+}

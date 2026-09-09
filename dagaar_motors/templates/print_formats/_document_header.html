@@ -1,0 +1,17 @@
+{% set dm_company_name = frappe.db.get_value("Company", print_company, "company_name") if print_company else "Dagaar Motors" %}
+{% set dm_company_logo = frappe.db.get_value("Company", print_company, "company_logo") if print_company else None %}
+{% set dm_logo = dm_company_logo or "/assets/dagaar_motors/images/dagaar-motors-logo.svg" %}
+<div class="dm-print-header">
+  <div class="dm-brand">
+    <div class="dm-brand-logo"><img src="{{ dm_logo }}" alt="{{ dm_company_name }}"></div>
+    <div>
+      <h1>{{ dm_company_name }}</h1>
+      <p>Automotive rental, fleet &amp; sales</p>
+    </div>
+  </div>
+  <div class="dm-doc-identity">
+    <div class="dm-doc-type">{{ print_title }}</div>
+    <div class="dm-doc-name">{{ print_subtitle or doc.name }}</div>
+    <div class="dm-doc-status">{{ print_status or doc.status or "Draft" }}</div>
+  </div>
+</div>

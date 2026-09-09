@@ -1,0 +1,250 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_section",
+    "naming_series",
+    "vehicle",
+    "company",
+    "source_branch",
+    "destination_branch",
+    "status",
+    "movement_section",
+    "driver",
+    "departure_datetime",
+    "arrival_datetime",
+    "actual_arrival_datetime",
+    "departure_odometer",
+    "arrival_odometer",
+    "movement_col",
+    "departure_fuel",
+    "arrival_fuel",
+    "transfer_cost",
+    "reason"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Vehicle Transfer"
+    },
+    {
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "VT-.YYYY.-.#####",
+      "default": "VT-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "vehicle",
+      "fieldtype": "Link",
+      "label": "Vehicle",
+      "options": "Motor Vehicle",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "source_branch",
+      "fieldtype": "Link",
+      "label": "Source Branch",
+      "options": "Motor Branch",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "destination_branch",
+      "fieldtype": "Link",
+      "label": "Destination Branch",
+      "options": "Motor Branch",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nApproved\nIn Transit\nArrived\nCompleted\nCancelled",
+      "default": "Draft",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "movement_section",
+      "fieldtype": "Section Break",
+      "label": "Movement"
+    },
+    {
+      "fieldname": "driver",
+      "fieldtype": "Link",
+      "label": "Driver / Employee",
+      "options": "Employee"
+    },
+    {
+      "fieldname": "departure_datetime",
+      "fieldtype": "Datetime",
+      "label": "Departure",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "arrival_datetime",
+      "fieldtype": "Datetime",
+      "label": "Expected Arrival",
+      "reqd": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "actual_arrival_datetime",
+      "fieldtype": "Datetime",
+      "label": "Actual Arrival",
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "departure_odometer",
+      "fieldtype": "Float",
+      "label": "Departure Odometer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "arrival_odometer",
+      "fieldtype": "Float",
+      "label": "Arrival Odometer",
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "movement_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "departure_fuel",
+      "fieldtype": "Select",
+      "label": "Departure Fuel",
+      "options": "Empty\n1/8\n1/4\n3/8\n1/2\n5/8\n3/4\n7/8\nFull"
+    },
+    {
+      "fieldname": "arrival_fuel",
+      "fieldtype": "Select",
+      "label": "Arrival Fuel",
+      "options": "Empty\n1/8\n1/4\n3/8\n1/2\n5/8\n3/4\n7/8\nFull",
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "transfer_cost",
+      "fieldtype": "Currency",
+      "label": "Transfer Cost"
+    },
+    {
+      "fieldname": "reason",
+      "fieldtype": "Small Text",
+      "label": "Reason",
+      "reqd": 1
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Vehicle Transfer",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Branch Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "naming_series:",
+  "is_submittable": 1,
+  "title_field": "vehicle",
+  "show_title_field_in_link": 1,
+  "search_fields": "vehicle,source_branch,destination_branch",
+  "allow_import": 1
+}

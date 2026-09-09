@@ -1,0 +1,238 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "transaction_section",
+    "naming_series",
+    "security_deposit",
+    "transaction_type",
+    "posting_date",
+    "amount",
+    "status",
+    "transaction_col",
+    "payment_method",
+    "reference_number",
+    "journal_entry",
+    "sales_invoice",
+    "allocations",
+    "remarks",
+    "request_token",
+    "idempotency_key"
+  ],
+  "fields": [
+    {
+      "fieldname": "transaction_section",
+      "fieldtype": "Section Break",
+      "label": "Deposit Transaction"
+    },
+    {
+      "fieldname": "naming_series",
+      "fieldtype": "Select",
+      "label": "Series",
+      "options": "DTX-.YYYY.-.#####",
+      "default": "DTX-.YYYY.-.#####",
+      "reqd": 1
+    },
+    {
+      "fieldname": "security_deposit",
+      "fieldtype": "Link",
+      "label": "Security Deposit",
+      "options": "Security Deposit",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "transaction_type",
+      "fieldtype": "Select",
+      "label": "Transaction Type",
+      "options": "Collection\nAllocation\nRefund\nForfeiture\nWaiver",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "posting_date",
+      "fieldtype": "Date",
+      "label": "Posting Date",
+      "reqd": 1,
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "amount",
+      "fieldtype": "Currency",
+      "label": "Amount",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Draft\nPosted\nReversed\nCancelled",
+      "default": "Draft",
+      "in_list_view": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "transaction_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "payment_method",
+      "fieldtype": "Link",
+      "label": "Payment Method",
+      "options": "Mode of Payment"
+    },
+    {
+      "fieldname": "reference_number",
+      "fieldtype": "Data",
+      "label": "Reference Number"
+    },
+    {
+      "fieldname": "journal_entry",
+      "fieldtype": "Link",
+      "label": "Journal Entry",
+      "options": "Journal Entry",
+      "read_only": 1,
+      "allow_on_submit": 1
+    },
+    {
+      "fieldname": "sales_invoice",
+      "fieldtype": "Link",
+      "label": "Sales Invoice",
+      "options": "Sales Invoice"
+    },
+    {
+      "fieldname": "allocations",
+      "fieldtype": "Table",
+      "label": "Allocations",
+      "options": "Deposit Allocation"
+    },
+    {
+      "fieldname": "remarks",
+      "fieldtype": "Small Text",
+      "label": "Remarks"
+    },
+    {
+      "fieldname": "request_token",
+      "fieldtype": "Data",
+      "label": "Request Token",
+      "hidden": 1,
+      "read_only": 1,
+      "no_copy": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "idempotency_key",
+      "fieldtype": "Data",
+      "label": "Idempotency Key",
+      "hidden": 1,
+      "unique": 1,
+      "no_copy": 1
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Deposit Transaction",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Accountant",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "cancel": 1
+    },
+    {
+      "role": "Dagaar Motors Cashier",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    },
+    {
+      "role": "Dagaar Motors Branch Manager",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "naming_series:",
+  "is_submittable": 1,
+  "title_field": "security_deposit",
+  "show_title_field_in_link": 1,
+  "search_fields": "security_deposit,reference_number,journal_entry",
+  "allow_import": 1
+}

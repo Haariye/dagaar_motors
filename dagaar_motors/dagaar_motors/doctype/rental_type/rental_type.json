@@ -1,0 +1,201 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "identity_section",
+    "type_name",
+    "code",
+    "active",
+    "identity_col",
+    "billing_method",
+    "mileage_behavior",
+    "rules_section",
+    "included_km",
+    "minimum_duration_hours",
+    "maximum_duration_days",
+    "default_deposit_amount",
+    "rules_col",
+    "late_return_method",
+    "geographic_restrictions",
+    "insurance_requirement",
+    "description"
+  ],
+  "fields": [
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Rental Type"
+    },
+    {
+      "fieldname": "type_name",
+      "fieldtype": "Data",
+      "label": "Rental Type",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "code",
+      "fieldtype": "Data",
+      "label": "Code",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "billing_method",
+      "fieldtype": "Select",
+      "label": "Billing Method",
+      "options": "Hourly\nDaily\nWeekly\nMonthly\nFixed Trip\nKilometer\nCustom Duration",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "mileage_behavior",
+      "fieldtype": "Select",
+      "label": "Mileage Behavior",
+      "options": "Unlimited\nDaily Allowance\nTrip Allowance\nCustom",
+      "default": "Daily Allowance"
+    },
+    {
+      "fieldname": "rules_section",
+      "fieldtype": "Section Break",
+      "label": "Rules"
+    },
+    {
+      "fieldname": "included_km",
+      "fieldtype": "Float",
+      "label": "Included KM"
+    },
+    {
+      "fieldname": "minimum_duration_hours",
+      "fieldtype": "Float",
+      "label": "Minimum Duration Hours"
+    },
+    {
+      "fieldname": "maximum_duration_days",
+      "fieldtype": "Int",
+      "label": "Maximum Duration Days"
+    },
+    {
+      "fieldname": "default_deposit_amount",
+      "fieldtype": "Currency",
+      "label": "Default Deposit"
+    },
+    {
+      "fieldname": "rules_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "late_return_method",
+      "fieldtype": "Select",
+      "label": "Late Return Method",
+      "options": "Hourly\nDaily\nNext Billing Unit\nCustom"
+    },
+    {
+      "fieldname": "geographic_restrictions",
+      "fieldtype": "Small Text",
+      "label": "Geographic Restrictions"
+    },
+    {
+      "fieldname": "insurance_requirement",
+      "fieldtype": "Small Text",
+      "label": "Insurance Requirement"
+    },
+    {
+      "fieldname": "description",
+      "fieldtype": "Small Text",
+      "label": "Description"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Rental Type",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Rental Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:code",
+  "title_field": "type_name",
+  "show_title_field_in_link": 1,
+  "search_fields": "type_name,code",
+  "allow_import": 1
+}

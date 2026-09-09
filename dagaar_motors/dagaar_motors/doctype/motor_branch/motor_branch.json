@@ -1,0 +1,309 @@
+{
+  "actions": [],
+  "allow_rename": 0,
+  "creation": "2026-08-09 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "general_tab",
+    "identity_section",
+    "branch_name",
+    "code",
+    "company",
+    "active",
+    "identity_col",
+    "currency",
+    "manager",
+    "phone",
+    "email",
+    "location_section",
+    "address",
+    "city",
+    "country",
+    "pickup_location",
+    "return_location",
+    "erp_tab",
+    "erp_dimension_section",
+    "warehouse",
+    "asset_location",
+    "cost_center",
+    "project",
+    "erp_dimension_col",
+    "rental_income_account",
+    "vehicle_operating_expense_account",
+    "deposit_liability_account",
+    "hours_section",
+    "opening_time",
+    "closing_time",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "general_tab",
+      "fieldtype": "Tab Break",
+      "label": "General"
+    },
+    {
+      "fieldname": "identity_section",
+      "fieldtype": "Section Break",
+      "label": "Branch Identity"
+    },
+    {
+      "fieldname": "branch_name",
+      "fieldtype": "Data",
+      "label": "Branch Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "code",
+      "fieldtype": "Data",
+      "label": "Code",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Company",
+      "options": "Company",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "identity_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "currency",
+      "fieldtype": "Link",
+      "label": "Currency",
+      "options": "Currency"
+    },
+    {
+      "fieldname": "manager",
+      "fieldtype": "Link",
+      "label": "Branch Manager",
+      "options": "User"
+    },
+    {
+      "fieldname": "phone",
+      "fieldtype": "Data",
+      "label": "Phone"
+    },
+    {
+      "fieldname": "email",
+      "fieldtype": "Data",
+      "label": "Email",
+      "options": "Email"
+    },
+    {
+      "fieldname": "location_section",
+      "fieldtype": "Section Break",
+      "label": "Location"
+    },
+    {
+      "fieldname": "address",
+      "fieldtype": "Link",
+      "label": "Address",
+      "options": "Address"
+    },
+    {
+      "fieldname": "city",
+      "fieldtype": "Data",
+      "label": "City"
+    },
+    {
+      "fieldname": "country",
+      "fieldtype": "Link",
+      "label": "Country",
+      "options": "Country"
+    },
+    {
+      "fieldname": "pickup_location",
+      "fieldtype": "Data",
+      "label": "Default Pickup Location"
+    },
+    {
+      "fieldname": "return_location",
+      "fieldtype": "Data",
+      "label": "Default Return Location"
+    },
+    {
+      "fieldname": "erp_tab",
+      "fieldtype": "Tab Break",
+      "label": "ERP Defaults"
+    },
+    {
+      "fieldname": "erp_dimension_section",
+      "fieldtype": "Section Break",
+      "label": "Dimensions"
+    },
+    {
+      "fieldname": "warehouse",
+      "fieldtype": "Link",
+      "label": "Warehouse",
+      "options": "Warehouse"
+    },
+    {
+      "fieldname": "asset_location",
+      "fieldtype": "Link",
+      "label": "Asset Location",
+      "options": "Location",
+      "read_only": 1,
+      "description": "Created automatically for vehicle assets."
+    },
+    {
+      "fieldname": "cost_center",
+      "fieldtype": "Link",
+      "label": "Cost Center",
+      "options": "Cost Center"
+    },
+    {
+      "fieldname": "project",
+      "fieldtype": "Link",
+      "label": "Project",
+      "options": "Project"
+    },
+    {
+      "fieldname": "erp_dimension_col",
+      "fieldtype": "Column Break",
+      "label": ""
+    },
+    {
+      "fieldname": "rental_income_account",
+      "fieldtype": "Link",
+      "label": "Rental Income Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "vehicle_operating_expense_account",
+      "fieldtype": "Link",
+      "label": "Operating Expense Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "deposit_liability_account",
+      "fieldtype": "Link",
+      "label": "Deposit Liability Account",
+      "options": "Account"
+    },
+    {
+      "fieldname": "hours_section",
+      "fieldtype": "Section Break",
+      "label": "Operating Hours"
+    },
+    {
+      "fieldname": "opening_time",
+      "fieldtype": "Time",
+      "label": "Opening Time"
+    },
+    {
+      "fieldname": "closing_time",
+      "fieldtype": "Time",
+      "label": "Closing Time"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "links": [],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Motor Branch",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "Dagaar Motors Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "share": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Branch Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1,
+      "email": 1,
+      "import": 1
+    },
+    {
+      "role": "Dagaar Motors Auditor",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    },
+    {
+      "role": "Dagaar Motors Read Only",
+      "read": 1,
+      "report": 1,
+      "export": 1,
+      "print": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1,
+  "autoname": "field:code",
+  "title_field": "branch_name",
+  "show_title_field_in_link": 1,
+  "search_fields": "branch_name,code,company",
+  "allow_import": 1
+}

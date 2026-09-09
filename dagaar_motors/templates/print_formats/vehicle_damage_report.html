@@ -1,0 +1,41 @@
+{% set print_title = "Vehicle Damage Report" %}
+{% set print_subtitle = doc.name %}
+{% set print_status = doc.status %}
+{% set print_company = frappe.db.get_value("Motor Vehicle", doc.vehicle, "company") if doc.vehicle else None %}
+{% set customer_name = frappe.db.get_value("Customer", doc.customer, "customer_name") if doc.customer else "—" %}
+{% set vehicle = frappe.db.get_value("Motor Vehicle", doc.vehicle, ["vehicle_title", "license_plate", "vin"], as_dict=True) if doc.vehicle else None %}
+{% set currency = frappe.db.get_value("Company", print_company, "default_currency") if print_company else None %}
+{% macro money(value) -%}{{ frappe.utils.fmt_money(value or 0, currency=currency) }}{%- endmacro %}
+{% include "templates/print_formats/dagaar_motors_style.html" %}
+<div class="dm-print">
+  {% include "templates/print_formats/_document_header.html" %}
+  <div class="dm-meta-grid">
+    <div class="dm-meta"><span>Vehicle</span><strong>{{ vehicle.vehicle_title if vehicle and vehicle.vehicle_title else doc.vehicle }}</strong></div>
+    <div class="dm-meta"><span>Customer</span><strong>{{ customer_name }}</strong></div>
+    <div class="dm-meta"><span>Reported</span><strong>{{ frappe.utils.format_datetime(doc.reported_on, "MMM d, yyyy h:mm a") if doc.reported_on else "—" }}</strong></div>
+    <div class="dm-meta"><span>Severity</span><strong>{{ doc.severity or "—" }}</strong></div>
+  </div>
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Incident identification</h2>
+    <div class="dm-two-col">
+      <div class="dm-panel"><div class="dm-kv"><span>Registration</span><strong>{{ vehicle.license_plate if vehicle else "—" }}</strong></div><div class="dm-kv"><span>VIN / Chassis</span><strong>{{ vehicle.vin if vehicle else "—" }}</strong></div><div class="dm-kv"><span>Rental agreement</span><strong>{{ doc.rental_agreement or "—" }}</strong></div><div class="dm-kv"><span>Driver</span><strong>{{ doc.driver or "—" }}</strong></div></div>
+      <div class="dm-panel"><div class="dm-kv"><span>Damage type</span><strong>{{ doc.damage_type or "—" }}</strong></div><div class="dm-kv"><span>Vehicle area</span><strong>{{ doc.location_on_vehicle or "—" }}</strong></div><div class="dm-kv"><span>Inspection</span><strong>{{ doc.inspection or "—" }}</strong></div><div class="dm-kv"><span>Insurance claim</span><strong>{{ doc.insurance_claim or "—" }}</strong></div></div>
+    </div>
+  </div>
+
+  <div class="dm-section"><h2 class="dm-section-title">Damage description</h2><div class="dm-panel dm-terms">{{ doc.description or "No description recorded." }}</div></div>
+
+  {% if doc.before_photo or doc.after_photo %}
+  <div class="dm-section"><h2 class="dm-section-title">Photographic evidence</h2><div class="dm-two-col">{% if doc.before_photo %}<div class="dm-photo"><strong>Before / Initial evidence</strong><br><img src="{{ doc.before_photo }}" alt="Initial damage evidence"></div>{% endif %}{% if doc.after_photo %}<div class="dm-photo"><strong>After repair / Follow-up</strong><br><img src="{{ doc.after_photo }}" alt="Follow-up damage evidence"></div>{% endif %}</div></div>
+  {% endif %}
+
+  <div class="dm-section">
+    <h2 class="dm-section-title">Financial responsibility</h2>
+    <div class="dm-two-col"><div class="dm-panel"><div class="dm-kv"><span>Repair estimate</span><strong>{{ money(doc.repair_estimate) }}</strong></div><div class="dm-kv"><span>Actual repair cost</span><strong>{{ money(doc.actual_repair_cost) }}</strong></div><div class="dm-kv"><span>Amount charged</span><strong>{{ money(doc.amount_charged) }}</strong></div></div><div class="dm-panel"><div class="dm-kv"><span>Customer liability</span><strong>{{ money(doc.customer_liability) }}</strong></div><div class="dm-kv"><span>Company liability</span><strong>{{ money(doc.company_liability) }}</strong></div><div class="dm-kv"><span>Sales invoice</span><strong>{{ doc.sales_invoice or "—" }}</strong></div></div></div>
+  </div>
+
+  <div class="dm-section"><h2 class="dm-section-title">Repair tracking</h2><div class="dm-panel"><div class="dm-kv"><span>Maintenance work order</span><strong>{{ doc.maintenance_work_order or "—" }}</strong></div><div class="dm-kv"><span>Current status</span><strong>{{ doc.status }}</strong></div></div></div>
+  <div class="dm-signatures"><div class="dm-signature"><strong>Customer / Driver acknowledgment</strong><span>{{ customer_name }}</span></div><div class="dm-signature"><strong>Inspector / Fleet representative</strong><span>Name, signature, and date</span></div></div>
+  {% include "templates/print_formats/_document_footer.html" %}
+</div>

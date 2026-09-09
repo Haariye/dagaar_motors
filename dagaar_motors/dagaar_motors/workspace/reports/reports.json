@@ -1,0 +1,200 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"m-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Only the reports needed to run the business</b></span>\",\"col\":12}},{\"id\":\"m-spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Management\",\"col\":4}},{\"id\":\"m-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Rental\",\"col\":4}},{\"id\":\"m-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Fleet\",\"col\":4}}]",
+  "creation": "2026-08-10 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "chart",
+  "idx": 6,
+  "is_hidden": 0,
+  "label": "Reports",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Management",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Dashboard",
+      "link_count": 0,
+      "link_to": "dagaar-motors-dashboard",
+      "link_type": "Page",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Profitability",
+      "link_count": 0,
+      "link_to": "Vehicle Profitability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Branch Performance",
+      "link_count": 0,
+      "link_to": "Branch Performance",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Rental",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Rental Revenue",
+      "link_count": 0,
+      "link_to": "Rental Revenue",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Active Rentals",
+      "link_count": 0,
+      "link_to": "Active Rentals",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Deposit Liability",
+      "link_count": 0,
+      "link_to": "Deposit Liability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Fleet",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Utilization",
+      "link_count": 0,
+      "link_to": "Fleet Utilization",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Maintenance Due",
+      "link_count": 0,
+      "link_to": "Maintenance Due",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicles for Sale",
+      "link_count": 0,
+      "link_to": "Vehicles for Sale",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-10 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Reports",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "Dagaar Motors Rental Manager"
+    },
+    {
+      "role": "Dagaar Motors Rental Agent"
+    },
+    {
+      "role": "Dagaar Motors Reservation Agent"
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager"
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager"
+    },
+    {
+      "role": "Dagaar Motors Workshop User"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Sales Manager"
+    },
+    {
+      "role": "Dagaar Motors Vehicle Salesperson"
+    },
+    {
+      "role": "Dagaar Motors Accountant"
+    },
+    {
+      "role": "Dagaar Motors Cashier"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    },
+    {
+      "role": "Dagaar Motors Read Only"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 6.0,
+  "shortcuts": [],
+  "title": "Reports",
+  "type": "Workspace"
+}

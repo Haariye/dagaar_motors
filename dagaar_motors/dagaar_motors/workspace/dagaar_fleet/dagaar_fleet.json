@@ -1,0 +1,256 @@
+{
+  "charts": [],
+  "content": "[{\"id\":\"dm-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Every vehicle, status, movement, and incident</b></span>\",\"col\":12}},{\"id\":\"dm-spacer-top\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dm-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Fleet Master\",\"col\":4}},{\"id\":\"dm-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"Control & Movement\",\"col\":4}},{\"id\":\"dm-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Fleet Reports\",\"col\":4}}]",
+  "creation": "2026-08-09 00:00:00.000000",
+  "custom_blocks": [],
+  "docstatus": 0,
+  "doctype": "Workspace",
+  "for_user": "",
+  "hide_custom": 0,
+  "icon": "truck",
+  "idx": 3,
+  "is_hidden": 0,
+  "label": "Dagaar Fleet",
+  "links": [
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Fleet Master",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Motor Vehicle",
+      "link_count": 0,
+      "link_to": "Motor Vehicle",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Category",
+      "link_count": 0,
+      "link_to": "Vehicle Category",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Mileage Log",
+      "link_count": 0,
+      "link_to": "Vehicle Mileage Log",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Document",
+      "link_count": 0,
+      "link_to": "Vehicle Document",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Insurance",
+      "link_count": 0,
+      "link_to": "Vehicle Insurance",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Control & Movement",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Inspection",
+      "link_count": 0,
+      "link_to": "Vehicle Inspection",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Block",
+      "link_count": 0,
+      "link_to": "Vehicle Block",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Transfer",
+      "link_count": 0,
+      "link_to": "Vehicle Transfer",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Accident",
+      "link_count": 0,
+      "link_to": "Vehicle Accident",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Vehicle Damage Report",
+      "link_count": 0,
+      "link_to": "Vehicle Damage Report",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Traffic Fine",
+      "link_count": 0,
+      "link_to": "Traffic Fine",
+      "link_type": "DocType",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "hidden": 0,
+      "is_query_report": 0,
+      "label": "Fleet Reports",
+      "link_count": 0,
+      "onboard": 0,
+      "type": "Card Break"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Availability",
+      "link_count": 0,
+      "link_to": "Fleet Availability",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Utilization",
+      "link_count": 0,
+      "link_to": "Fleet Utilization",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Vehicle Mileage",
+      "link_count": 0,
+      "link_to": "Vehicle Mileage",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Fleet Aging",
+      "link_count": 0,
+      "link_to": "Fleet Aging",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    },
+    {
+      "dependencies": "",
+      "hidden": 0,
+      "is_query_report": 1,
+      "label": "Insurance Expiry",
+      "link_count": 0,
+      "link_to": "Insurance Expiry",
+      "link_type": "Report",
+      "onboard": 0,
+      "type": "Link"
+    }
+  ],
+  "modified": "2026-08-09 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "Dagaar Motors",
+  "name": "Dagaar Fleet",
+  "number_cards": [],
+  "owner": "Administrator",
+  "parent_page": "Dagaar Motors",
+  "public": 1,
+  "quick_lists": [],
+  "restrict_to_domain": "",
+  "roles": [
+    {
+      "role": "Dagaar Motors Administrator"
+    },
+    {
+      "role": "Dagaar Motors Fleet Manager"
+    },
+    {
+      "role": "Dagaar Motors Rental Manager"
+    },
+    {
+      "role": "Dagaar Motors Branch Manager"
+    },
+    {
+      "role": "Dagaar Motors Maintenance Manager"
+    },
+    {
+      "role": "Dagaar Motors Auditor"
+    },
+    {
+      "role": "Dagaar Motors Read Only"
+    },
+    {
+      "role": "System Manager"
+    }
+  ],
+  "sequence_id": 3.0,
+  "shortcuts": [],
+  "title": "Dagaar Fleet",
+  "type": "Workspace"
+}

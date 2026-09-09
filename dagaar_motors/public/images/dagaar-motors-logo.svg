@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Dagaar Motors">
+  <defs>
+    <linearGradient id="dm-bg" x1="16" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#123d46"/>
+    </linearGradient>
+    <linearGradient id="dm-accent" x1="30" y1="30" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="118" height="118" rx="30" fill="url(#dm-bg)"/>
+  <path d="M30 92V36h27c24 0 39 10 39 28S81 92 57 92H30Zm18-16h10c12 0 20-4 20-12s-8-12-20-12H48v24Z" fill="#f8fafc"/>
+  <path d="M61 38h17l18 52H79l-4-13H58l3-14h10l-6-20-4-5Z" fill="url(#dm-accent)"/>
+  <path d="M46 104c12-8 24-12 36-12 8 0 16 2 24 5" fill="none" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+</svg>
