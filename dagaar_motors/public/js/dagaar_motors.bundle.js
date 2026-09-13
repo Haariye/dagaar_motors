@@ -125,7 +125,7 @@ Object.assign(dagaar_motors.forms, {
     const values = await frappe.xcall("dagaar_motors.api.forms.agreement", { agreement });
     const fields = [
       "company", "branch", "customer", "contact", "vehicle", "vehicle_category", "rental_type",
-      "currency", "checkout_odometer", "checkout_fuel_level", "security_deposit", "pickup_location", "return_location",
+      "currency", "checkout_odometer", "checkout_fuel_level", "pickup_location", "return_location",
     ];
     for (const fieldname of fields) {
       if (frm.fields_dict[fieldname] && values?.[fieldname] != null && !frm.doc[fieldname]) {

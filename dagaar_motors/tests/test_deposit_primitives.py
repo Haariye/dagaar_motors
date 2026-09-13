@@ -2,67 +2,22 @@ from __future__ import annotations
 
 from frappe.tests.utils import FrappeTestCase
 
-from dagaar_motors.services.deposits import _deposit_status
+from dagaar_motors.services.deposits import _deposit_rule_amount
 
 
 class TestDepositPrimitives(FrappeTestCase):
-    def test_uncollected_deposit_is_required_not_held(self):
-        self.assertEqual(
-            _deposit_status(
-                required=1_000,
-                received=0,
-                allocated=0,
-                forfeited=0,
-                refunded=0,
-            ),
-            "Required",
-        )
+    def test_fixed_amount(self):
+        rule = {"amount_type": "Fixed", "amount": 500}
+        self.assertEqual(_deposit_rule_amount(rule, rental_total=2_000, duration_days=5), 500)
 
-    def test_partial_collection_is_tracked(self):
-        self.assertEqual(
-            _deposit_status(
-                required=1_000,
-                received=400,
-                allocated=0,
-                forfeited=0,
-                refunded=0,
-            ),
-            "Partially Collected",
-        )
+    def test_percentage_of_rental(self):
+        rule = {"amount_type": "Percentage of Rental", "percentage": 20}
+        self.assertEqual(_deposit_rule_amount(rule, rental_total=1_000, duration_days=3), 200)
 
-    def test_mixed_allocation_and_refund_is_fully_used(self):
-        self.assertEqual(
-            _deposit_status(
-                required=1_000,
-                received=1_000,
-                allocated=600,
-                forfeited=0,
-                refunded=400,
-            ),
-            "Fully Used",
-        )
+    def test_per_day(self):
+        rule = {"amount_type": "Per Day", "amount": 50}
+        self.assertEqual(_deposit_rule_amount(rule, rental_total=1_000, duration_days=4), 200)
 
-    def test_complete_forfeiture_is_distinct(self):
-        self.assertEqual(
-            _deposit_status(
-                required=1_000,
-                received=1_000,
-                allocated=0,
-                forfeited=1_000,
-                refunded=0,
-            ),
-            "Forfeited",
-        )
-
-    def test_waiver_has_priority(self):
-        self.assertEqual(
-            _deposit_status(
-                required=1_000,
-                received=0,
-                allocated=0,
-                forfeited=0,
-                refunded=0,
-                waived_count=1,
-            ),
-            "Waived",
-        )
+    def test_per_day_minimum_one_day(self):
+        rule = {"amount_type": "Per Day", "amount": 50}
+        self.assertEqual(_deposit_rule_amount(rule, rental_total=0, duration_days=0), 50)

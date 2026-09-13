@@ -12,7 +12,6 @@ frappe.ui.form.on("Rental Return", {
       }, "check");
     }
     if (frm.doc.final_sales_invoice) frm.add_custom_button(__("Open Final Invoice"), () => frappe.set_route("Form", "Sales Invoice", frm.doc.final_sales_invoice), __("View"));
-    if (frm.doc.security_deposit) frm.add_custom_button(__("Open Security Deposit"), () => frappe.set_route("Form", "Security Deposit", frm.doc.security_deposit), __("View"));
   },
 });
 

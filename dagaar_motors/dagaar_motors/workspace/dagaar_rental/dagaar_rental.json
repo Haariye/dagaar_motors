@@ -95,28 +95,6 @@
    "type": "Link"
   },
   {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Security Deposit",
-   "link_count": 0,
-   "link_to": "Security Deposit",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Deposit Transaction",
-   "link_count": 0,
-   "link_to": "Deposit Transaction",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "hidden": 0,
    "is_query_report": 0,
    "label": "Rental Reports",
@@ -164,6 +142,17 @@
    "label": "Rental Extensions",
    "link_count": 0,
    "link_to": "Rental Extensions",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Deposit Liability",
+   "link_count": 0,
+   "link_to": "Deposit Liability",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"

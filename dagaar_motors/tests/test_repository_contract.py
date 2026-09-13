@@ -29,7 +29,7 @@ class TestRepositoryContract(FrappeTestCase):
             self.assertEqual(set(fields), set(order), path)
         self.assertIn("Motor Vehicle", names)
         self.assertIn("Rental Agreement", names)
-        self.assertIn("Deposit Transaction", names)
+        self.assertIn("Dagaar Deposit Waiver Role", names)
 
     def test_report_and_workspace_bundles_are_complete(self):
         reports = [path for path in (DOMAIN_ROOT / "report").iterdir() if path.is_dir() and path.name != "__pycache__"]
@@ -104,35 +104,6 @@ class TestRepositoryContract(FrappeTestCase):
         self.assertIn("def before_submit", controller)
         self.assertIn("validate_vehicle_sale_submission", controller)
         self.assertIn("def _protect_sale_approval", service)
-
-    def test_deposit_transactions_are_api_controlled_and_retry_safe(self):
-        transaction_path = (
-            DOMAIN_ROOT
-            / "doctype"
-            / "deposit_transaction"
-            / "deposit_transaction.json"
-        )
-        definition = json.loads(transaction_path.read_text(encoding="utf-8"))
-        fields = {row["fieldname"]: row for row in definition["fields"]}
-        transaction_types = fields["transaction_type"]["options"].splitlines()
-        self.assertIn("request_token", fields)
-        self.assertNotIn("Reversal", transaction_types)
-        cashier = next(
-            row
-            for row in definition["permissions"]
-            if row.get("role") == "Dagaar Motors Cashier"
-        )
-        self.assertFalse(cashier.get("create"))
-        self.assertFalse(cashier.get("submit"))
-
-        service = (PACKAGE_ROOT / "services" / "deposits.py").read_text(encoding="utf-8")
-        client = (PACKAGE_ROOT / "public" / "js" / "security_deposit.js").read_text(
-            encoding="utf-8"
-        )
-        self.assertIn('"balance": 0', service)
-        self.assertIn('"request_token": request_token', service)
-        self.assertIn("request_token: requestToken", client)
-        self.assertIn("received - deducted - refunded", service)
 
     def test_services_never_commit_inside_domain_commands(self):
         for path in (PACKAGE_ROOT / "services").glob("*.py"):

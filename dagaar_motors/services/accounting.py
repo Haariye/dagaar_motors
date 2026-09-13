@@ -133,6 +133,7 @@ def create_sales_invoice(
     submit: bool | None = None,
     update_stock: bool = False,
     remarks: str | None = None,
+    allocate_advances: bool = False,
 ) -> object:
     require_any_role(
         "Dagaar Motors Rental Manager",
@@ -197,6 +198,27 @@ def create_sales_invoice(
         frappe.throw(_("No billable lines were supplied for the Sales Invoice."))
 
     invoice.set_missing_values()
+    if allocate_advances:
+        # Apply the customer's unallocated advances (e.g. the security deposit
+        # collected via Payment Entry) against this invoice. We allocate manually
+        # and cap each row to the invoice total so ERPNext never tries to
+        # over-allocate an advance to an already-covered invoice.
+        try:
+            invoice.calculate_taxes_and_totals()
+            invoice.set("advances", [])
+            invoice.set_advances()
+            remaining = flt(invoice.rounded_total or invoice.grand_total)
+            kept = []
+            for adv in list(invoice.get("advances") or []):
+                allocatable = min(flt(adv.advance_amount), remaining)
+                if allocatable > 0:
+                    adv.allocated_amount = allocatable
+                    remaining = flt(remaining) - allocatable
+                    kept.append(adv)
+            invoice.set("advances", kept)
+        except Exception:
+            invoice.set("advances", [])
+            frappe.log_error(frappe.get_traceback(), "Dagaar Motors: advance allocation failed")
     invoice.calculate_taxes_and_totals()
     invoice.insert(ignore_permissions=True)
     persist_source_references(invoice, source_key=source_key)
@@ -204,6 +226,110 @@ def create_sales_invoice(
     if should_submit:
         invoice.submit()
     return invoice
+
+
+def create_customer_payment_entry(
+    *,
+    company: str,
+    customer: str,
+    amount: float,
+    currency: str | None = None,
+    branch: str | None = None,
+    vehicle: str | None = None,
+    payment_type: str = "Receive",
+    mode_of_payment: str | None = None,
+    reference_no: str | None = None,
+    reference_date: str | None = None,
+    bank_account: str | None = None,
+    source_references: dict | None = None,
+    remarks: str | None = None,
+    submit: bool | None = True,
+) -> object:
+    """Create an ERPNext Payment Entry against a Customer.
+
+    Using a Payment Entry (rather than a Journal Entry) means the money is
+    posted to the customer's party ledger, so security deposits and rental
+    payments appear in the customer's balance/statement and can be reconciled
+    against invoices natively. A "Receive" with no invoice reference becomes an
+    unallocated advance (credit) on the customer; "Pay" is used for refunds.
+    """
+    from erpnext.accounts.party import get_party_account
+
+    settings = get_settings_dict()
+    amount = quantize(flt(amount), 2)
+    if amount <= 0:
+        frappe.throw(_("Payment amount must be greater than zero."))
+
+    party_account = settings.get("customer_receivable_account") or get_party_account("Customer", customer, company)
+    if not party_account:
+        frappe.throw(_("Configure a Customer Receivable Account for company {0}.").format(company))
+    validate_account_company(party_account, company)
+
+    if payment_type == "Receive":
+        bank = bank_account or settings.get("default_deposit_payment_account")
+        if not bank:
+            frappe.throw(_("Configure a Default Deposit Receipt Account (bank/cash) in Motors Settings."))
+        paid_from, paid_to = party_account, bank
+    else:  # "Pay" — refund to the customer
+        bank = bank_account or settings.get("default_refund_payment_account") or settings.get("default_deposit_payment_account")
+        if not bank:
+            frappe.throw(_("Configure a Default Deposit Refund Account (bank/cash) in Motors Settings."))
+        paid_from, paid_to = bank, party_account
+    validate_account_company(bank, company)
+
+    company_currency = resolve_currency(company)
+    from_currency = frappe.db.get_value("Account", paid_from, "account_currency") or company_currency
+    to_currency = frappe.db.get_value("Account", paid_to, "account_currency") or company_currency
+
+    pe = frappe.new_doc("Payment Entry")
+    pe.payment_type = payment_type
+    pe.company = company
+    pe.posting_date = nowdate()
+    pe.party_type = "Customer"
+    pe.party = customer
+    pe.paid_from = paid_from
+    pe.paid_to = paid_to
+    pe.paid_from_account_currency = from_currency
+    pe.paid_to_account_currency = to_currency
+    pe.paid_amount = amount
+    pe.received_amount = amount
+    pe.source_exchange_rate = 1
+    pe.target_exchange_rate = 1
+    if mode_of_payment:
+        pe.mode_of_payment = mode_of_payment
+        # Non-cash modes need a reference; fall back to the source doc reference.
+        pe.reference_no = reference_no or f"{payment_type}-{customer}"
+        pe.reference_date = reference_date or nowdate()
+    elif reference_no:
+        pe.reference_no = reference_no
+        pe.reference_date = reference_date or nowdate()
+    # Establish the party account fields up front. ERPNext normally does this in
+    # setup_party_account_field() during validate(); doing it here means the
+    # party account exists no matter what order later code runs in (and avoids an
+    # AttributeError when a third-party app overrides the Payment Entry class).
+    pe.party_account = paid_from if payment_type == "Receive" else paid_to
+    pe.party_account_field = "paid_from" if payment_type == "Receive" else "paid_to"
+    pe.party_account_currency = from_currency if payment_type == "Receive" else to_currency
+
+    set_if_present(pe, "branch", branch)
+    cost_center = resolve_cost_center(company, branch, vehicle)
+    if cost_center:
+        set_if_present(pe, "cost_center", cost_center)
+    if source_references:
+        set_source_references(pe, **source_references)
+    if remarks:
+        pe.remarks = remarks
+
+    # insert() runs validate(), which calls setup_party_account_field() and then
+    # set_missing_values() in the correct order, so we don't call the latter here.
+    pe.flags.ignore_permissions = True
+    pe.insert(ignore_permissions=True)
+    if source_references:
+        persist_source_references(pe)
+    should_submit = True if submit is None else submit
+    if should_submit:
+        pe.submit()
+    return pe
 
 
 def create_agreement_invoice(agreement: str | object, submit: bool | None = None):
@@ -292,6 +418,7 @@ def create_return_invoice(rental_return: str | object, submit: bool | None = Non
         },
         submit=submit,
         remarks=f"Final return charges for {doc.name}",
+        allocate_advances=True,
     )
     frappe.db.set_value("Rental Return", doc.name, {"final_sales_invoice": invoice.name, "status": "Invoiced"}, update_modified=False)
     return invoice

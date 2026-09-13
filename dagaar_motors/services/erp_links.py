@@ -10,7 +10,6 @@ LEGACY_TO_LINK_FIELD = {
     "dagaar_rental_agreement": "rental_agreement",
     "dagaar_rental_extension": "rental_extension",
     "dagaar_rental_return": "rental_return",
-    "dagaar_security_deposit": "security_deposit",
     "dagaar_traffic_fine": "traffic_fine",
     "dagaar_vehicle_damage_report": "vehicle_damage_report",
     "dagaar_motor_vehicle": "motor_vehicle",

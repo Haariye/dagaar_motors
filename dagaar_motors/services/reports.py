@@ -448,7 +448,6 @@ def active_rentals(filters) -> ReportResult:
             ra.currency,
             ra.grand_total,
             ra.deposit_required,
-            ra.security_deposit,
             ra.rental_agent
         from `tabRental Agreement` ra
         left join `tabMotor Vehicle` v on v.name = ra.vehicle
@@ -489,7 +488,6 @@ def overdue_rentals(filters) -> ReportResult:
             ra.currency,
             ra.grand_total,
             ra.deposit_required,
-            ra.security_deposit,
             ra.rental_agent
         from `tabRental Agreement` ra
         left join `tabMotor Vehicle` v on v.name = ra.vehicle
@@ -681,96 +679,64 @@ def rental_discounts(filters) -> ReportResult:
 
 @report("Deposit Liability")
 def deposit_liability(filters) -> ReportResult:
-    conditions, params = _conditions(filters, "d", date_field=None)
-    conditions.append("d.status not in ('Refunded', 'Fully Used', 'Forfeited', 'Cancelled')")
-    _append_optional(conditions, params, "d.status", "status", filters.get("status"))
+    conditions, params = _conditions(filters, "ra", date_field=None)
     data = _sql(
         """
         select
-            d.name as security_deposit,
-            d.status,
-            d.customer,
-            d.rental_agreement,
-            d.vehicle,
-            d.branch,
-            d.currency,
-            d.amount_required,
-            d.amount_received,
-            d.held_amount,
-            d.deducted_amount,
-            d.refund_amount,
-            d.balance,
-            d.deposit_type,
-            d.transaction_reference,
-            d.modified
-        from `tabSecurity Deposit` d
+            ra.name as rental_agreement,
+            ra.status,
+            ra.customer,
+            ra.vehicle,
+            ra.branch,
+            ra.currency,
+            ra.deposit_required,
+            pe.paid_amount as amount_received,
+            (pe.paid_amount - pe.unallocated_amount) as deducted_amount,
+            pe.unallocated_amount as held_amount,
+            ra.deposit_payment_entry,
+            ra.deposit_refund_payment_entry,
+            ra.modified
+        from `tabRental Agreement` ra
+        inner join `tabPayment Entry` pe on pe.name = ra.deposit_payment_entry and pe.docstatus = 1
         where {where}
         {order_by}
         """,
         conditions,
         params,
-        order_by="d.modified desc",
+        order_by="ra.modified desc",
     )
     columns = _deposit_columns()
-    return columns, data, _status_chart(data), [_currency_summary("Deposits Held", sum(flt(row.held_amount) for row in data), filters, "Blue"), _currency_summary("Refund Due", sum(max(0, flt(row.balance)) for row in data if row.status == "Refund Pending"), filters, "Orange"), _summary("Open Deposits", len(data), "Int")]
+    return columns, data, None, [_currency_summary("Deposits Held", sum(flt(row.held_amount) for row in data), filters, "Blue"), _currency_summary("Applied to Invoices", sum(flt(row.deducted_amount) for row in data), filters, "Orange"), _summary("Open Deposits", len(data), "Int")]
 
 
 @report("Deposit Refunds")
 def deposit_refunds(filters) -> ReportResult:
-    conditions, params = _conditions(
-        filters,
-        "d",
-        company_field=None,
-        branch_field=None,
-        date_field="posting_date",
-        datetime_range=False,
-    )
-    conditions.extend(
-        [
-            "s.company = %(company)s",
-            "d.transaction_type in ('Refund', 'Reversal')",
-            "d.status in ('Posted', 'Reversed')",
-        ]
-    )
-    if filters.branch:
-        conditions.append("s.branch = %(branch)s")
-    elif filters.allowed_branches:
-        placeholders = []
-        for index, branch in enumerate(filters.allowed_branches):
-            key = f"refund_branch_{index}"
-            params[key] = branch
-            placeholders.append(f"%({key})s")
-        conditions.append(f"s.branch in ({', '.join(placeholders)})")
+    conditions, params = _conditions(filters, "ra", date_field=None)
     data = _sql(
         """
         select
-            d.name as deposit_transaction,
-            d.security_deposit,
-            d.transaction_type,
-            d.posting_date,
-            d.amount,
-            d.status,
-            d.payment_method,
-            d.reference_number,
-            d.journal_entry,
-            s.customer,
-            s.rental_agreement,
-            s.vehicle,
-            s.branch,
-            s.currency
-        from `tabDeposit Transaction` d
-        inner join `tabSecurity Deposit` s on s.name = d.security_deposit
+            pe.name as payment_entry,
+            ra.name as rental_agreement,
+            pe.posting_date,
+            ra.customer,
+            ra.vehicle,
+            ra.branch,
+            ra.currency,
+            pe.paid_amount as amount,
+            pe.mode_of_payment as payment_method,
+            pe.reference_no as reference_number,
+            pe.docstatus
+        from `tabPayment Entry` pe
+        inner join `tabRental Agreement` ra on ra.deposit_refund_payment_entry = pe.name and pe.docstatus = 1
         where {where}
         {order_by}
         """,
         conditions,
         params,
-        order_by="d.posting_date desc, d.name desc",
+        order_by="pe.posting_date desc, pe.name desc",
     )
     columns = [
-        _col("Transaction", "deposit_transaction", "Link", 130, "Deposit Transaction"),
-        _col("Deposit", "security_deposit", "Link", 125, "Security Deposit"),
-        _col("Type", "transaction_type", "Data", 95),
+        _col("Refund Payment", "payment_entry", "Link", 145, "Payment Entry"),
         _col("Date", "posting_date", "Date", 100),
         _col("Customer", "customer", "Link", 145, "Customer"),
         _col("Agreement", "rental_agreement", "Link", 125, "Rental Agreement"),
@@ -780,29 +746,24 @@ def deposit_refunds(filters) -> ReportResult:
         _col("Amount", "amount", "Currency", 110, "currency"),
         _col("Method", "payment_method", "Data", 105),
         _col("Reference", "reference_number", "Data", 120),
-        _col("Journal Entry", "journal_entry", "Link", 125, "Journal Entry"),
-        _col("Status", "status", "Data", 90),
     ]
-    return columns, data, None, [_currency_summary("Refunded", sum(flt(row.amount) for row in data if row.transaction_type == "Refund"), filters, "Green"), _currency_summary("Reversed", sum(flt(row.amount) for row in data if row.transaction_type == "Reversal"), filters, "Orange"), _summary("Transactions", len(data), "Int")]
+    return columns, data, None, [_currency_summary("Refunded", sum(flt(row.amount) for row in data), filters, "Green"), _summary("Refunds", len(data), "Int")]
 
 
 def _deposit_columns():
     return [
-        _col("Deposit", "security_deposit", "Link", 130, "Security Deposit"),
+        _col("Agreement", "rental_agreement", "Link", 130, "Rental Agreement"),
         _col("Status", "status", "Data", 110),
         _col("Customer", "customer", "Link", 145, "Customer"),
-        _col("Agreement", "rental_agreement", "Link", 125, "Rental Agreement"),
         _col("Vehicle", "vehicle", "Link", 115, "Motor Vehicle"),
         _col("Branch", "branch", "Link", 110, "Motor Branch"),
         _col("Currency", "currency", "Link", 85, "Currency"),
-        _col("Required", "amount_required", "Currency", 105, "currency"),
+        _col("Required", "deposit_required", "Currency", 105, "currency"),
         _col("Received", "amount_received", "Currency", 105, "currency"),
+        _col("Applied", "deducted_amount", "Currency", 105, "currency"),
         _col("Held", "held_amount", "Currency", 105, "currency"),
-        _col("Deducted", "deducted_amount", "Currency", 105, "currency"),
-        _col("Refunded", "refund_amount", "Currency", 105, "currency"),
-        _col("Balance", "balance", "Currency", 105, "currency"),
-        _col("Type", "deposit_type", "Data", 105),
-        _col("Reference", "transaction_reference", "Data", 130),
+        _col("Deposit PE", "deposit_payment_entry", "Link", 140, "Payment Entry"),
+        _col("Refund PE", "deposit_refund_payment_entry", "Link", 140, "Payment Entry"),
         _col("Modified", "modified", "Datetime", 145),
     ]
 
@@ -1913,9 +1874,10 @@ def branch_performance(filters) -> ReportResult:
         )
         held_deposits = _scalar(
             """
-            select coalesce(sum(d.held_amount), 0)
-            from `tabSecurity Deposit` d
-            where d.company = %(company)s and d.branch = %(branch)s and d.status in ('Held', 'Partially Used', 'Refund Pending')
+            select coalesce(sum(pe.unallocated_amount), 0)
+            from `tabPayment Entry` pe
+            inner join `tabRental Agreement` ra on ra.deposit_payment_entry = pe.name
+            where pe.docstatus = 1 and ra.company = %(company)s and ra.branch = %(branch)s
             """,
             {"company": filters.company, "branch": branch.name},
         )

@@ -31,7 +31,6 @@ doctype_js = {
     "Rental Agreement": "public/js/rental_agreement.js",
     "Rental Extension": "public/js/rental_extension.js",
     "Rental Return": "public/js/rental_return.js",
-    "Security Deposit": "public/js/security_deposit.js",
     "Vehicle Maintenance": "public/js/vehicle_maintenance.js",
     "Vehicle Sale": "public/js/vehicle_sale.js",
     "Vehicle Expense": "public/js/vehicle_context.js",
@@ -56,7 +55,6 @@ permission_query_conditions = {
     "Rental Reservation": "dagaar_motors.api.permissions.reservation_query_conditions",
     "Rental Agreement": "dagaar_motors.api.permissions.agreement_query_conditions",
     "Rental Return": "dagaar_motors.api.permissions.return_query_conditions",
-    "Security Deposit": "dagaar_motors.api.permissions.deposit_query_conditions",
     "Vehicle Maintenance": "dagaar_motors.api.permissions.maintenance_query_conditions",
     "Vehicle Sale": "dagaar_motors.api.permissions.sale_query_conditions",
 }
@@ -66,7 +64,6 @@ has_permission = {
     "Rental Reservation": "dagaar_motors.api.permissions.has_branch_permission",
     "Rental Agreement": "dagaar_motors.api.permissions.has_branch_permission",
     "Rental Return": "dagaar_motors.api.permissions.has_branch_permission",
-    "Security Deposit": "dagaar_motors.api.permissions.has_branch_permission",
     "Vehicle Maintenance": "dagaar_motors.api.permissions.has_branch_permission",
     "Vehicle Sale": "dagaar_motors.api.permissions.has_branch_permission",
 }

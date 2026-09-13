@@ -1,7 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"m-heading\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Rental from booking to return</b></span>\",\"col\":12}},{\"id\":\"m-spacer\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"m-card-1\",\"type\":\"card\",\"data\":{\"card_name\":\"Daily Work\",\"col\":4}},{\"id\":\"m-card-2\",\"type\":\"card\",\"data\":{\"card_name\":\"More\",\"col\":4}},{\"id\":\"m-card-3\",\"type\":\"card\",\"data\":{\"card_name\":\"Watch\",\"col\":4}}]",
- "creation": "2026-08-10 00:00:00.000000",
+ "creation": "2026-08-10 00:00:00",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -73,17 +73,6 @@
    "type": "Link"
   },
   {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Security Deposits",
-   "link_count": 0,
-   "link_to": "Security Deposit",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "hidden": 0,
    "is_query_report": 0,
    "label": "Watch",
@@ -125,7 +114,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-08-10 00:00:00.000000",
+ "modified": "2026-09-13 01:37:12.663206",
  "modified_by": "Administrator",
  "module": "Dagaar Motors",
  "name": "Rental",
@@ -184,6 +173,5 @@
  ],
  "sequence_id": 2.0,
  "shortcuts": [],
- "title": "Rental",
- "type": "Workspace"
+ "title": "Rental"
 }

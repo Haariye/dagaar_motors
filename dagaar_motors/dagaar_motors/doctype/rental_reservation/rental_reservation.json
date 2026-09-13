@@ -48,7 +48,6 @@
   "deposit_section",
   "deposit_required",
   "deposit_collected",
-  "security_deposit",
   "deposit_waived",
   "deposit_waiver_approved_by",
   "documents_tab",
@@ -356,13 +355,6 @@
    "fieldtype": "Currency",
    "label": "Deposit Collected",
    "options": "currency",
-   "read_only": 1
-  },
-  {
-   "fieldname": "security_deposit",
-   "fieldtype": "Link",
-   "label": "Security Deposit",
-   "options": "Security Deposit",
    "read_only": 1
   },
   {

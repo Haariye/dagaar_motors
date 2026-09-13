@@ -104,7 +104,6 @@ def get_agreement_defaults(agreement: str | None) -> dict:
         "expected_return_datetime": doc.expected_return_datetime,
         "checkout_odometer": doc.checkout_odometer,
         "checkout_fuel_level": doc.checkout_fuel_level,
-        "security_deposit": doc.security_deposit,
         "pickup_location": doc.pickup_location,
         "return_location": doc.return_location,
     }

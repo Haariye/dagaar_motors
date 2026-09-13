@@ -12,7 +12,7 @@ from dagaar_motors.compat.db import lock_document
 from dagaar_motors.services.accounting import create_agreement_invoice
 from dagaar_motors.services.audit import append_audit_event
 from dagaar_motors.services.availability import assert_available, lock_vehicle
-from dagaar_motors.services.deposits import ensure_security_deposit
+from dagaar_motors.services.deposits import get_deposit_status
 from dagaar_motors.services.documents import validate_required_documents
 from dagaar_motors.services.fleet import add_mileage_log, transition_vehicle
 from dagaar_motors.services.form_defaults import (
@@ -381,9 +381,9 @@ def validate_checkout(doc):
     if not doc.checkout_fuel_level:
         frappe.throw(_("Enter the checkout fuel level."))
     required = flt(doc.deposit_required)
-    if required:
-        deposit = frappe.get_doc("Security Deposit", doc.security_deposit) if doc.security_deposit else None
-        if not deposit or flt(deposit.amount_received) < required:
+    if required and not doc.get("deposit_waived"):
+        status = get_deposit_status(doc.name)
+        if flt(status["collected"]) < required:
             frappe.throw(_("Collect the required security deposit of {0} before checkout.").format(required))
 
 
@@ -407,10 +407,6 @@ def checkout_agreement(agreement_name: str):
         exclude_name=doc.name,
         exclude_documents={"Rental Reservation": doc.reservation} if doc.reservation else None,
     )
-    if flt(doc.deposit_required) and not doc.security_deposit:
-        deposit = ensure_security_deposit(doc)
-        if deposit:
-            doc.security_deposit = deposit
     validate_checkout(doc)
     doc.status = "Active"
     doc.checkout_completed_on = now_datetime()
@@ -453,9 +449,6 @@ def activate_agreement(doc):
     )
     if doc.reservation:
         frappe.db.set_value("Rental Reservation", doc.reservation, "status", "Checked Out", update_modified=True)
-    deposit = ensure_security_deposit(doc)
-    if deposit:
-        frappe.db.set_value("Rental Agreement", doc.name, "security_deposit", deposit, update_modified=False)
     settings = get_settings_dict()
     if settings.get("invoice_timing") in {"Before Checkout", "On Checkout"} and not doc.current_invoice:
         invoice = create_agreement_invoice(doc)

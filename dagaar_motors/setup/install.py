@@ -19,11 +19,9 @@ LEGACY_CUSTOM_FIELDS = {
     ),
     "Payment Entry": (
         "dagaar_rental_agreement",
-        "dagaar_security_deposit",
         "dagaar_motor_vehicle",
     ),
     "Journal Entry": (
-        "dagaar_security_deposit",
         "dagaar_motor_vehicle",
     ),
     "Purchase Invoice": (
@@ -51,7 +49,6 @@ PRINT_FORMATS = (
     ("Dagaar Motors - Reservation Confirmation", "Rental Reservation", "reservation_confirmation.html"),
     ("Dagaar Motors - Rental Extension", "Rental Extension", "rental_extension.html"),
     ("Dagaar Motors - Rental Return", "Rental Return", "rental_return.html"),
-    ("Dagaar Motors - Security Deposit Receipt", "Security Deposit", "security_deposit_receipt.html"),
     ("Dagaar Motors - Vehicle Sale Agreement", "Vehicle Sale", "vehicle_sale_agreement.html"),
     ("Dagaar Motors - Vehicle Inspection", "Vehicle Inspection", "vehicle_inspection.html"),
     ("Dagaar Motors - Vehicle Damage Report", "Vehicle Damage Report", "vehicle_damage_report.html"),

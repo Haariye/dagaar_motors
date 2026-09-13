@@ -1,69 +1,220 @@
 {
-  "actions": [],
-  "allow_rename": 0,
-  "autoname": "field:reference_key",
-  "creation": "2026-08-09 00:00:00.000000",
-  "doctype": "DocType",
-  "engine": "InnoDB",
-  "field_order": [
-    "reference_section",
-    "reference_key",
-    "reference_doctype",
-    "reference_name",
-    "source_key",
-    "scope_section",
-    "company",
-    "branch",
-    "motor_vehicle",
-    "rental_section",
-    "rental_agreement",
-    "rental_extension",
-    "rental_return",
-    "security_deposit",
-    "incident_section",
-    "traffic_fine",
-    "vehicle_damage_report",
-    "sale_section",
-    "vehicle_sale",
-    "vehicle_expense",
-    "maintenance_work_order"
-  ],
-  "fields": [
-    {"fieldname": "reference_section", "fieldtype": "Section Break", "label": "ERP Document"},
-    {"fieldname": "reference_key", "fieldtype": "Data", "label": "Reference Key", "reqd": 1, "unique": 1, "read_only": 1, "hidden": 1},
-    {"fieldname": "reference_doctype", "fieldtype": "Link", "label": "ERP DocType", "options": "DocType", "reqd": 1, "in_list_view": 1, "in_standard_filter": 1, "search_index": 1, "read_only": 1},
-    {"fieldname": "reference_name", "fieldtype": "Dynamic Link", "label": "ERP Document", "options": "reference_doctype", "reqd": 1, "in_list_view": 1, "search_index": 1, "read_only": 1},
-    {"fieldname": "source_key", "fieldtype": "Data", "label": "Source Key", "search_index": 1, "read_only": 1},
-    {"fieldname": "scope_section", "fieldtype": "Section Break", "label": "Scope"},
-    {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company", "in_standard_filter": 1, "read_only": 1},
-    {"fieldname": "branch", "fieldtype": "Link", "label": "Branch", "options": "Motor Branch", "in_standard_filter": 1, "read_only": 1},
-    {"fieldname": "motor_vehicle", "fieldtype": "Link", "label": "Motor Vehicle", "options": "Motor Vehicle", "in_list_view": 1, "in_standard_filter": 1, "search_index": 1, "read_only": 1},
-    {"fieldname": "rental_section", "fieldtype": "Section Break", "label": "Rental Sources"},
-    {"fieldname": "rental_agreement", "fieldtype": "Link", "label": "Rental Agreement", "options": "Rental Agreement", "in_standard_filter": 1, "search_index": 1, "read_only": 1},
-    {"fieldname": "rental_extension", "fieldtype": "Link", "label": "Rental Extension", "options": "Rental Extension", "search_index": 1, "read_only": 1},
-    {"fieldname": "rental_return", "fieldtype": "Link", "label": "Rental Return", "options": "Rental Return", "search_index": 1, "read_only": 1},
-    {"fieldname": "security_deposit", "fieldtype": "Link", "label": "Security Deposit", "options": "Security Deposit", "search_index": 1, "read_only": 1},
-    {"fieldname": "incident_section", "fieldtype": "Section Break", "label": "Incidents"},
-    {"fieldname": "traffic_fine", "fieldtype": "Link", "label": "Traffic Fine", "options": "Traffic Fine", "search_index": 1, "read_only": 1},
-    {"fieldname": "vehicle_damage_report", "fieldtype": "Link", "label": "Vehicle Damage Report", "options": "Vehicle Damage Report", "search_index": 1, "read_only": 1},
-    {"fieldname": "sale_section", "fieldtype": "Section Break", "label": "Sales / Cost Sources"},
-    {"fieldname": "vehicle_sale", "fieldtype": "Link", "label": "Vehicle Sale", "options": "Vehicle Sale", "search_index": 1, "read_only": 1},
-    {"fieldname": "vehicle_expense", "fieldtype": "Link", "label": "Vehicle Expense", "options": "Vehicle Expense", "search_index": 1, "read_only": 1},
-    {"fieldname": "maintenance_work_order", "fieldtype": "Link", "label": "Maintenance Work Order", "options": "Maintenance Work Order", "search_index": 1, "read_only": 1}
-  ],
-  "index_web_pages_for_search": 0,
-  "links": [],
-  "modified": "2026-08-09 00:00:00.000000",
-  "modified_by": "Administrator",
-  "module": "Dagaar Motors",
-  "name": "Dagaar Motors ERP Link",
-  "owner": "Administrator",
-  "permissions": [
-    {"role": "Dagaar Motors Administrator", "read": 1, "report": 1, "export": 1},
-    {"role": "Dagaar Motors Accountant", "read": 1, "report": 1, "export": 1},
-    {"role": "Dagaar Motors Auditor", "read": 1, "report": 1, "export": 1},
-    {"role": "System Manager", "read": 1, "report": 1, "export": 1}
-  ],
-  "sort_field": "modified",
-  "sort_order": "DESC"
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:reference_key",
+ "creation": "2026-08-09 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_section",
+  "reference_key",
+  "reference_doctype",
+  "reference_name",
+  "source_key",
+  "scope_section",
+  "company",
+  "branch",
+  "motor_vehicle",
+  "rental_section",
+  "rental_agreement",
+  "rental_extension",
+  "rental_return",
+  "incident_section",
+  "traffic_fine",
+  "vehicle_damage_report",
+  "sale_section",
+  "vehicle_sale",
+  "vehicle_expense",
+  "maintenance_work_order"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_section",
+   "fieldtype": "Section Break",
+   "label": "ERP Document"
+  },
+  {
+   "fieldname": "reference_key",
+   "fieldtype": "Data",
+   "label": "Reference Key",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "ERP DocType",
+   "options": "DocType",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "ERP Document",
+   "options": "reference_doctype",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_key",
+   "fieldtype": "Data",
+   "label": "Source Key",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "scope_section",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Motor Branch",
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "motor_vehicle",
+   "fieldtype": "Link",
+   "label": "Motor Vehicle",
+   "options": "Motor Vehicle",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rental_section",
+   "fieldtype": "Section Break",
+   "label": "Rental Sources"
+  },
+  {
+   "fieldname": "rental_agreement",
+   "fieldtype": "Link",
+   "label": "Rental Agreement",
+   "options": "Rental Agreement",
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rental_extension",
+   "fieldtype": "Link",
+   "label": "Rental Extension",
+   "options": "Rental Extension",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rental_return",
+   "fieldtype": "Link",
+   "label": "Rental Return",
+   "options": "Rental Return",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "incident_section",
+   "fieldtype": "Section Break",
+   "label": "Incidents"
+  },
+  {
+   "fieldname": "traffic_fine",
+   "fieldtype": "Link",
+   "label": "Traffic Fine",
+   "options": "Traffic Fine",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "vehicle_damage_report",
+   "fieldtype": "Link",
+   "label": "Vehicle Damage Report",
+   "options": "Vehicle Damage Report",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sale_section",
+   "fieldtype": "Section Break",
+   "label": "Sales / Cost Sources"
+  },
+  {
+   "fieldname": "vehicle_sale",
+   "fieldtype": "Link",
+   "label": "Vehicle Sale",
+   "options": "Vehicle Sale",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "vehicle_expense",
+   "fieldtype": "Link",
+   "label": "Vehicle Expense",
+   "options": "Vehicle Expense",
+   "search_index": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "maintenance_work_order",
+   "fieldtype": "Link",
+   "label": "Maintenance Work Order",
+   "options": "Maintenance Work Order",
+   "search_index": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-09 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Dagaar Motors",
+ "name": "Dagaar Motors ERP Link",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "Dagaar Motors Administrator",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Dagaar Motors Accountant",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Dagaar Motors Auditor",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
 }

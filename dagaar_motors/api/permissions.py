@@ -166,10 +166,6 @@ def return_query_conditions(user: str | None = None) -> str:
     return branch_query_conditions(user=user, doctype="Rental Return")
 
 
-def deposit_query_conditions(user: str | None = None) -> str:
-    return branch_query_conditions(user=user, doctype="Security Deposit")
-
-
 def maintenance_query_conditions(user: str | None = None) -> str:
     return branch_query_conditions(user=user, doctype="Vehicle Maintenance")
 

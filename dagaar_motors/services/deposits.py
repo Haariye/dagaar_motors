@@ -4,583 +4,406 @@ import math
 
 import frappe
 from frappe import _
-from frappe.utils import cint, flt, nowdate
+from frappe.utils import add_days, cint, flt, get_datetime, now_datetime, nowdate
 
 from dagaar_motors.api.permissions import require_any_role
-from dagaar_motors.compat.accounting import set_source_references
-from dagaar_motors.services.erp_links import persist_source_references
-from dagaar_motors.compat.db import lock_document
-from dagaar_motors.services.idempotency import make_key
-from dagaar_motors.services.settings import get_settings_dict, resolve_account, resolve_company, resolve_currency
+from dagaar_motors.services.accounting import create_customer_payment_entry
+from dagaar_motors.services.settings import get_settings_dict
 from dagaar_motors.utils.money import quantize
-from dagaar_motors.utils.validation import validate_account_company
 
+DEPOSIT_ROLES = (
+    "Dagaar Motors Rental Agent",
+    "Dagaar Motors Rental Manager",
+    "Dagaar Motors Branch Manager",
+    "Dagaar Motors Accountant",
+    "Dagaar Motors Cashier",
+)
 
-ALLOWED_TRANSACTION_TYPES = {"Collection", "Allocation", "Refund", "Forfeiture", "Waiver"}
 DEPOSIT_APPROVAL_ROLES = (
     "Dagaar Motors Rental Manager",
     "Dagaar Motors Branch Manager",
-    "Dagaar Motors Administrator",
 )
 
 
-DEPOSIT_MATCH_FIELDS = (
-    "company",
-    "branch",
-    "vehicle",
-    "vehicle_category",
-    "rental_type",
-    "customer_group",
-    "country",
-    "risk_classification",
-)
+def _require_deposit_role():
+    require_any_role(*DEPOSIT_ROLES)
+
+
+# ---------------------------------------------------------------------------
+# Required deposit resolution (Deposit Rule -> Settings fallback)
+# ---------------------------------------------------------------------------
+def _match_deposit_rule(context: dict):
+    rules = frappe.get_all(
+        "Deposit Rule", filters={"enabled": 1}, fields=["*"], order_by="priority desc, modified desc"
+    )
+    duration_days = flt(context.get("duration_days") or 0)
+    customer_group = None
+    if context.get("customer"):
+        customer_group = frappe.db.get_value("Customer", context["customer"], "customer_group")
+    for rule in rules:
+        if rule.get("company") and rule["company"] != context.get("company"):
+            continue
+        if rule.get("branch") and rule["branch"] != context.get("branch"):
+            continue
+        if rule.get("vehicle") and rule["vehicle"] != context.get("vehicle"):
+            continue
+        if rule.get("vehicle_category") and rule["vehicle_category"] != context.get("vehicle_category"):
+            continue
+        if rule.get("rental_type") and rule["rental_type"] != context.get("rental_type"):
+            continue
+        if rule.get("customer_group") and rule["customer_group"] != customer_group:
+            continue
+        if flt(rule.get("minimum_days")) and duration_days < flt(rule["minimum_days"]):
+            continue
+        if flt(rule.get("maximum_days")) and duration_days > flt(rule["maximum_days"]):
+            continue
+        return rule
+    return None
+
+
+def _deposit_rule_amount(rule, rental_total: float, duration_days: int) -> float:
+    amount_type = rule.get("amount_type")
+    if amount_type == "Percentage of Rental":
+        return flt(rental_total) * flt(rule.get("percentage")) / 100.0
+    if amount_type == "Per Day":
+        return flt(rule.get("amount")) * max(1, cint(duration_days))
+    return flt(rule.get("amount"))
 
 
 def resolve_required_deposit(context: dict) -> dict:
-    context = frappe._dict(context or {})
-    company = resolve_company(context.company)
+    """Determine the deposit a rental requires. Matches an enabled Deposit Rule
+    (by company/branch/vehicle/category/rental type/customer group/day range,
+    highest priority first); otherwise falls back to Motors Settings."""
     settings = get_settings_dict()
-    if not cint(settings.get("require_deposit")):
-        return {"amount": 0.0, "rule": None, "deposit_type": None, "waiver_allowed": True}
+    rental_total = flt(context.get("rental_total"))
+    duration_days = max(1, cint(context.get("duration_days") or 1))
 
-    if context.customer and not context.customer_group:
-        context.customer_group = frappe.get_cached_value("Customer", context.customer, "customer_group")
-    if context.vehicle:
-        vehicle = frappe.get_cached_doc("Motor Vehicle", context.vehicle)
-        context.vehicle_category = context.vehicle_category or vehicle.category
-        context.branch = context.branch or vehicle.branch
-
-    rules = frappe.get_all(
-        "Deposit Rule",
-        filters={"enabled": 1},
-        fields=[
-            "name",
-            "priority",
-            *DEPOSIT_MATCH_FIELDS,
-            "minimum_days",
-            "maximum_days",
-            "deposit_type",
-            "amount_type",
-            "amount",
-            "percentage",
-            "waiver_allowed",
-            "waiver_requires_approval",
-        ],
-        order_by="priority desc, modified desc",
-    )
-    matches = []
-    for rule in rules:
-        score = 0
-        rejected = False
-        for fieldname in DEPOSIT_MATCH_FIELDS:
-            expected = rule.get(fieldname)
-            if expected not in (None, ""):
-                if str(expected) != str(context.get(fieldname) or ""):
-                    rejected = True
-                    break
-                score += 1
-        if rejected:
-            continue
-        duration_days = flt(context.duration_days)
-        if flt(rule.minimum_days) and duration_days < flt(rule.minimum_days):
-            continue
-        if flt(rule.maximum_days) and duration_days > flt(rule.maximum_days):
-            continue
-        matches.append((cint(rule.priority), score, rule))
-
-    if matches:
-        matches.sort(key=lambda item: (item[0], item[1]), reverse=True)
-        rule = matches[0][2]
-        amount = _rule_amount(rule, context)
+    rule = _match_deposit_rule(context)
+    if rule:
         return {
-            "amount": quantize(amount, _precision()),
-            "rule": rule.name,
-            "deposit_type": rule.deposit_type,
-            "waiver_allowed": bool(rule.waiver_allowed),
-            "waiver_requires_approval": bool(rule.waiver_requires_approval),
+            "amount": quantize(_deposit_rule_amount(rule, rental_total, duration_days), 2),
+            "deposit_type": rule.get("deposit_type") or "Cash",
+            "rule": rule.get("name"),
+            "waiver_allowed": cint(rule.get("waiver_allowed")),
         }
 
-    amount = 0.0
-    if context.vehicle:
-        vehicle = frappe.get_cached_doc("Motor Vehicle", context.vehicle)
-        if vehicle.category:
-            amount = flt(frappe.get_cached_value("Vehicle Category", vehicle.category, "default_deposit_amount"))
-    if not amount and context.vehicle_category:
-        amount = flt(frappe.get_cached_value("Vehicle Category", context.vehicle_category, "default_deposit_amount"))
-    amount = amount or flt(settings.get("default_deposit_amount"))
-    # Ensure a deposit is always requested: when nothing else applies, fall back
-    # to a percentage of the rental total so checkout always collects a deposit.
+    if not cint(settings.get("require_deposit", 1)):
+        return {"amount": 0.0, "deposit_type": "Cash", "rule": None, "waiver_allowed": cint(settings.get("allow_deposit_waiver"))}
+
+    amount = flt(settings.get("default_deposit_amount"))
     if not amount:
-        percentage = flt(settings.get("default_deposit_percentage"))
-        if percentage and flt(context.rental_total):
-            amount = flt(context.rental_total) * percentage / 100
+        amount = rental_total * flt(settings.get("default_deposit_percentage")) / 100.0
     return {
-        "amount": quantize(amount, _precision()),
-        "rule": None,
+        "amount": quantize(amount, 2),
         "deposit_type": "Cash",
-        "waiver_allowed": bool(settings.get("allow_deposit_waiver")),
-        "waiver_requires_approval": bool(settings.get("deposit_waiver_requires_approval")),
+        "rule": None,
+        "waiver_allowed": cint(settings.get("allow_deposit_waiver")),
     }
 
 
-def _rule_amount(rule, context) -> float:
-    if rule.amount_type == "Percentage of Rental":
-        return flt(context.rental_total) * flt(rule.percentage) / 100
-    if rule.amount_type == "Per Day":
-        return flt(rule.amount) * max(1, math.ceil(flt(context.duration_days)))
-    return flt(rule.amount)
+# ---------------------------------------------------------------------------
+# Deposit status (derived entirely from Payment Entries)
+# ---------------------------------------------------------------------------
+def get_deposit_status(agreement_name: str) -> dict:
+    """Deposit state for an agreement, derived from its Payment Entries.
 
+    collected  : amount received on the deposit Payment Entry
+    applied    : portion of the deposit allocated to invoices (advance used)
+    unallocated: portion of the deposit still sitting as a customer advance
+    refunded   : amount already paid back to the customer
+    refundable : unallocated - refunded (what the Refund button will return)
+    """
+    agreement = frappe.get_doc("Rental Agreement", agreement_name)
+    required = flt(agreement.deposit_required)
+    collected = applied = unallocated = refunded = 0.0
 
-def ensure_security_deposit(source_doc, amount: float | None = None) -> str | None:
-    if source_doc.get("deposit_waived"):
-        if not source_doc.get("deposit_waiver_approved_by"):
-            frappe.throw(_("Deposit waiver requires an authorized approver."))
-        return None
-
-    required = flt(amount if amount is not None else source_doc.get("deposit_required"))
-    if required <= 0:
-        return None
-    existing = source_doc.get("security_deposit")
-    if existing and frappe.db.exists("Security Deposit", existing):
-        deposit = frappe.get_doc("Security Deposit", existing)
-        if deposit.amount_required != required and not deposit.amount_received:
-            frappe.db.set_value(
-                "Security Deposit",
-                deposit.name,
-                {
-                    "amount_required": required,
-                    "held_amount": 0,
-                    "balance": 0,
-                    "status": "Required",
-                },
-                update_modified=True,
-            )
-        return deposit.name
-
-    company = source_doc.company
-    settings = get_settings_dict()
-    deposit = frappe.get_doc(
-        {
-            "doctype": "Security Deposit",
-            "company": company,
-            "branch": source_doc.branch,
-            "customer": source_doc.customer,
-            "reservation": source_doc.name if source_doc.doctype == "Rental Reservation" else source_doc.get("reservation"),
-            "rental_agreement": source_doc.name if source_doc.doctype == "Rental Agreement" else source_doc.get("rental_agreement"),
-            "vehicle": source_doc.get("vehicle"),
-            "currency": source_doc.get("currency") or resolve_currency(company),
-            "amount_required": required,
-            "held_amount": 0,
-            "balance": 0,
-            "deposit_type": "Cash",
-            "receipt_account": settings.get("default_deposit_payment_account"),
-            "refund_account": settings.get("default_refund_payment_account"),
-            "status": "Required",
-            "idempotency_key": make_key("security_deposit", source_doc.doctype, source_doc.name),
-        }
-    )
-    deposit.insert(ignore_permissions=True)
-    return deposit.name
-
-
-def prepare_transaction_identity(tx):
-    tx.transaction_type = (tx.transaction_type or "").strip()
-    if tx.transaction_type not in ALLOWED_TRANSACTION_TYPES:
-        frappe.throw(_("Unsupported deposit transaction type {0}.").format(tx.transaction_type or _("blank")))
-    tx.request_token = (tx.request_token or "").strip() or (
-        f"reference:{tx.reference_number}" if tx.reference_number else frappe.generate_hash(length=20)
-    )
-    tx.idempotency_key = make_key(
-        "deposit_transaction",
-        "Security Deposit",
-        tx.security_deposit,
-        {"request_token": tx.request_token},
-    )
-
-
-def validate_transaction_document(tx):
-    if not tx.security_deposit or not frappe.db.exists("Security Deposit", tx.security_deposit):
-        frappe.throw(_("Select a valid Security Deposit."))
-    lock_document("Security Deposit", tx.security_deposit)
-    deposit = frappe.get_doc("Security Deposit", tx.security_deposit)
-    tx.transaction_type = (tx.transaction_type or "").strip()
-    tx.amount = _validate_transaction_values(deposit, tx.transaction_type, tx.amount)
-    return deposit
-
-
-def _validate_transaction_values(deposit, transaction_type: str, amount: float) -> float:
-    if transaction_type not in ALLOWED_TRANSACTION_TYPES:
-        frappe.throw(_("Unsupported deposit transaction type {0}.").format(transaction_type or _("blank")))
-
-    amount = quantize(amount, _precision())
-    if transaction_type == "Waiver":
-        require_any_role(*DEPOSIT_APPROVAL_ROLES)
-        if any(
-            flt(deposit.get(fieldname)) > 0
-            for fieldname in ("amount_received", "deducted_amount", "refund_amount")
-        ):
-            frappe.throw(
-                _("Security Deposit {0} cannot be waived after money has been collected or used.").format(
-                    deposit.name
-                )
-            )
-        amount = quantize(amount or deposit.amount_required, _precision())
-
-    if amount <= 0:
-        frappe.throw(_("Deposit transaction amount must be greater than zero."))
-
-    received = flt(deposit.amount_received)
-    deducted = flt(deposit.deducted_amount)
-    refunded = flt(deposit.refund_amount)
-    available = quantize(max(0, received - deducted - refunded), _precision())
-
-    if transaction_type == "Collection":
-        remaining_required = quantize(max(0, flt(deposit.amount_required) - received), _precision())
-        if amount > remaining_required:
-            frappe.throw(
-                _("Security Deposit {0} requires only {1} more; requested collection is {2}.").format(
-                    deposit.name,
-                    frappe.format_value(remaining_required, {"fieldtype": "Currency", "options": deposit.currency}),
-                    frappe.format_value(amount, {"fieldtype": "Currency", "options": deposit.currency}),
-                )
-            )
-    elif transaction_type in {"Allocation", "Refund", "Forfeiture"} and amount > available:
-        frappe.throw(
-            _("Security Deposit {0} has only {1} collected and available; requested {2}.").format(
-                deposit.name,
-                frappe.format_value(available, {"fieldtype": "Currency", "options": deposit.currency}),
-                frappe.format_value(amount, {"fieldtype": "Currency", "options": deposit.currency}),
-            )
+    pe = agreement.get("deposit_payment_entry")
+    if pe and frappe.db.exists("Payment Entry", pe):
+        info = frappe.db.get_value(
+            "Payment Entry", pe, ["docstatus", "paid_amount", "unallocated_amount"], as_dict=True
         )
-    return amount
+        if info and info.docstatus == 1:
+            collected = flt(info.paid_amount)
+            unallocated = flt(info.unallocated_amount)
+            applied = collected - unallocated
 
+    rpe = agreement.get("deposit_refund_payment_entry")
+    if rpe and frappe.db.exists("Payment Entry", rpe):
+        rinfo = frappe.db.get_value("Payment Entry", rpe, ["docstatus", "paid_amount"], as_dict=True)
+        if rinfo and rinfo.docstatus == 1:
+            refunded = flt(rinfo.paid_amount)
 
-def _assert_idempotent_match(existing, transaction_type, amount, reference_number, sales_invoice):
-    expected = {
-        "transaction_type": transaction_type,
-        "amount": quantize(amount, _precision()),
-        "reference_number": reference_number or None,
-        "sales_invoice": sales_invoice or None,
+    return {
+        "required": quantize(required, 2),
+        "collected": quantize(collected, 2),
+        "applied": quantize(applied, 2),
+        "unallocated": quantize(unallocated, 2),
+        "refunded": quantize(refunded, 2),
+        "refundable": quantize(max(0.0, unallocated - refunded), 2),
+        "outstanding": quantize(max(0.0, required - collected), 2),
+        "waived": bool(agreement.get("deposit_waived")),
+        "deposit_payment_entry": pe,
+        "deposit_refund_payment_entry": rpe,
     }
-    actual = {
-        "transaction_type": existing.transaction_type,
-        "amount": quantize(existing.amount, _precision()),
-        "reference_number": existing.reference_number or None,
-        "sales_invoice": existing.sales_invoice or None,
-    }
-    if actual != expected:
-        frappe.throw(
-            _("This deposit request token was already used with different transaction details."),
-            frappe.ValidationError,
-        )
 
 
-def create_transaction(
-    deposit_name: str,
-    transaction_type: str,
-    amount: float,
-    *,
+# ---------------------------------------------------------------------------
+# Collect deposit -> Payment Entry (Receive) advance on the customer
+# ---------------------------------------------------------------------------
+def collect_agreement_deposit(
+    agreement_name: str,
+    amount: float | None = None,
     payment_method: str | None = None,
     reference_number: str | None = None,
-    sales_invoice: str | None = None,
-    allocations: list[dict] | None = None,
-    remarks: str | None = None,
-    request_token: str | None = None,
-    submit: bool = True,
 ):
-    transaction_type = (transaction_type or "").strip()
-    if transaction_type not in ALLOWED_TRANSACTION_TYPES:
-        frappe.throw(_("Unsupported deposit transaction type {0}.").format(transaction_type or _("blank")))
+    _require_deposit_role()
+    agreement = frappe.get_doc("Rental Agreement", agreement_name)
+    required = flt(agreement.deposit_required)
+    if required <= 0:
+        frappe.throw(_("No security deposit is required for this rental agreement."))
 
-    lock_document("Security Deposit", deposit_name)
-    deposit = frappe.get_doc("Security Deposit", deposit_name)
-    amount = quantize(amount, _precision())
-    if transaction_type == "Waiver":
-        require_any_role(*DEPOSIT_APPROVAL_ROLES)
-        amount = quantize(amount or deposit.amount_required, _precision())
-    if amount <= 0:
-        frappe.throw(_("Deposit transaction amount must be greater than zero."))
+    status = get_deposit_status(agreement_name)
+    outstanding = flt(status["outstanding"])
+    if outstanding <= 0:
+        if agreement.get("deposit_payment_entry"):
+            return frappe.get_doc("Payment Entry", agreement.deposit_payment_entry)
+        return None
 
-    request_token = (request_token or "").strip() or (
-        f"reference:{reference_number}" if reference_number else frappe.generate_hash(length=20)
+    collect = quantize(flt(amount) if amount else outstanding, 2)
+    if collect <= 0 or collect > outstanding:
+        collect = outstanding
+
+    pe = create_customer_payment_entry(
+        company=agreement.company,
+        customer=agreement.customer,
+        amount=collect,
+        currency=agreement.currency,
+        branch=agreement.branch,
+        vehicle=agreement.vehicle,
+        payment_type="Receive",
+        mode_of_payment=payment_method,
+        reference_no=reference_number or agreement.name,
+        source_references={
+            "dagaar_rental_agreement": agreement.name,
+            "dagaar_motor_vehicle": agreement.vehicle,
+        },
+        remarks=f"Security deposit for {agreement.name}",
+        submit=True,
     )
-    key = make_key(
-        "deposit_transaction",
-        "Security Deposit",
-        deposit_name,
-        {"request_token": request_token},
+    frappe.db.set_value("Rental Agreement", agreement.name, "deposit_payment_entry", pe.name)
+    return pe
+
+
+# ---------------------------------------------------------------------------
+# Refund deposit -> Payment Entry (Pay) + reconcile against the advance
+# ---------------------------------------------------------------------------
+def refund_agreement_deposit(
+    agreement_name: str,
+    amount: float | None = None,
+    payment_method: str | None = None,
+    reference_number: str | None = None,
+):
+    _require_deposit_role()
+    agreement = frappe.get_doc("Rental Agreement", agreement_name)
+    status = get_deposit_status(agreement_name)
+    refundable = flt(status["refundable"])
+    if refundable <= 0:
+        frappe.throw(_("There is no refundable deposit balance on this agreement."))
+
+    refund = quantize(flt(amount) if amount else refundable, 2)
+    if refund <= 0 or refund > refundable:
+        refund = refundable
+
+    pe = create_customer_payment_entry(
+        company=agreement.company,
+        customer=agreement.customer,
+        amount=refund,
+        currency=agreement.currency,
+        branch=agreement.branch,
+        vehicle=agreement.vehicle,
+        payment_type="Pay",
+        mode_of_payment=payment_method,
+        reference_no=reference_number or agreement.name,
+        source_references={
+            "dagaar_rental_agreement": agreement.name,
+            "dagaar_motor_vehicle": agreement.vehicle,
+        },
+        remarks=f"Security deposit refund for {agreement.name}",
+        submit=True,
     )
-    existing_name = frappe.db.get_value(
-        "Deposit Transaction", {"idempotency_key": key, "docstatus": ["<", 2]}, "name"
-    )
-    if existing_name:
-        existing = frappe.get_doc("Deposit Transaction", existing_name)
-        _assert_idempotent_match(existing, transaction_type, amount, reference_number, sales_invoice)
-        return existing
-
-    amount = _validate_transaction_values(deposit, transaction_type, amount)
-    tx = frappe.get_doc(
-        {
-            "doctype": "Deposit Transaction",
-            "security_deposit": deposit_name,
-            "transaction_type": transaction_type,
-            "posting_date": nowdate(),
-            "amount": amount,
-            "payment_method": payment_method,
-            "reference_number": reference_number,
-            "sales_invoice": sales_invoice,
-            "remarks": remarks,
-            "request_token": request_token,
-            "idempotency_key": key,
-            "allocations": allocations or [],
-        }
-    )
-    tx.insert(ignore_permissions=True)
-    if submit:
-        tx.flags.ignore_permissions = True
-        tx.submit()
-    return tx
+    frappe.db.set_value("Rental Agreement", agreement.name, "deposit_refund_payment_entry", pe.name)
+    _reconcile_refund_against_deposit(agreement, pe)
+    return pe
 
 
-def post_transaction(tx):
-    lock_document("Security Deposit", tx.security_deposit)
-    deposit = frappe.get_doc("Security Deposit", tx.security_deposit)
-    if tx.transaction_type != "Waiver":
-        tx.journal_entry = _create_deposit_journal_entry(tx, deposit)
-    else:
-        frappe.db.set_value(
-            "Security Deposit",
-            deposit.name,
-            {"waiver_approved_by": frappe.session.user, "deposit_type": "Waiver"},
-            update_modified=False,
-        )
-    tx.status = "Posted"
-    update_deposit_totals(deposit.name)
+def _reconcile_refund_against_deposit(agreement, refund_pe) -> None:
+    """Best-effort: net the refund (Pay) against the deposit advance (Receive)
+    via ERPNext Payment Reconciliation so both are marked reconciled. If it
+    can't run on this setup, the ledger still nets correctly and the entries can
+    be reconciled manually."""
+    deposit_pe = agreement.get("deposit_payment_entry")
+    if not deposit_pe:
+        return
+    try:
+        account = frappe.db.get_value("Payment Entry", deposit_pe, "paid_from")
+        pr = frappe.new_doc("Payment Reconciliation")
+        pr.company = agreement.company
+        pr.party_type = "Customer"
+        pr.party = agreement.customer
+        pr.receivable_payable_account = account
+        pr.get_unreconciled_entries()
+        invoices = [row.as_dict() for row in (pr.get("invoices") or []) if row.get("invoice_number") == refund_pe]
+        payments = [row.as_dict() for row in (pr.get("payments") or []) if row.get("reference_name") == deposit_pe]
+        if invoices and payments:
+            pr.set("allocation", [])
+            pr.allocate_entries({"invoices": invoices, "payments": payments})
+            pr.reconcile()
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Dagaar Motors: deposit refund reconciliation")
 
 
-def reverse_transaction(tx):
-    if tx.journal_entry and frappe.db.exists("Journal Entry", tx.journal_entry):
-        journal_entry = frappe.get_doc("Journal Entry", tx.journal_entry)
-        if journal_entry.docstatus == 1:
-            journal_entry.cancel()
-    update_deposit_totals(tx.security_deposit)
+# ---------------------------------------------------------------------------
+# Waiver (role-gated)
+# ---------------------------------------------------------------------------
+def deposit_waiver_roles() -> list:
+    settings = frappe.get_single("Dagaar Motors Settings")
+    roles = [row.role for row in (settings.get("deposit_waiver_roles") or []) if row.role]
+    return roles or list(DEPOSIT_APPROVAL_ROLES)
 
 
-def _create_deposit_journal_entry(tx, deposit) -> str:
+def can_user_waive_deposit(user: str | None = None) -> bool:
+    user = user or frappe.session.user
+    if user == "Administrator":
+        return True
+    user_roles = set(frappe.get_roles(user))
+    if "System Manager" in user_roles:
+        return True
+    return bool(set(deposit_waiver_roles()) & user_roles)
+
+
+def waive_agreement_deposit(agreement_name: str, reason: str | None = None):
     settings = get_settings_dict()
-    company = deposit.company
-    liability = resolve_account("deposit_liability_account", company, deposit.branch, deposit.vehicle)
-    clearing = resolve_account("deposit_clearing_account", company, deposit.branch, deposit.vehicle)
-    if not liability:
-        frappe.throw(_("Configure a Deposit Liability Account for company {0}.").format(company))
-
-    receipt_account = deposit.receipt_account or settings.get("default_deposit_payment_account")
-    refund_account = deposit.refund_account or settings.get("default_refund_payment_account") or receipt_account
-    validate_account_company(receipt_account, company)
-    validate_account_company(refund_account, company)
-
-    remark = f"Dagaar Motors {tx.transaction_type}: {deposit.name} / {tx.name}"
-    existing = frappe.db.get_value(
-        "Journal Entry",
-        {"user_remark": remark, "docstatus": ["<", 2]},
-        "name",
-    )
-    if existing:
-        return existing
-
-    journal = frappe.new_doc("Journal Entry")
-    journal.voucher_type = "Journal Entry"
-    journal.company = company
-    journal.posting_date = tx.posting_date
-    journal.user_remark = remark
-    set_source_references(journal, dagaar_security_deposit=deposit.name, dagaar_motor_vehicle=deposit.vehicle)
-    amount = flt(tx.amount)
-
-    if tx.transaction_type == "Collection":
-        if not receipt_account:
-            frappe.throw(_("Select a receipt account on Security Deposit {0}.").format(deposit.name))
-        journal.append("accounts", {"account": receipt_account, "debit_in_account_currency": amount})
-        journal.append("accounts", {"account": liability, "credit_in_account_currency": amount})
-    elif tx.transaction_type == "Refund":
-        if not refund_account:
-            frappe.throw(_("Select a refund account on Security Deposit {0}.").format(deposit.name))
-        journal.append("accounts", {"account": liability, "debit_in_account_currency": amount})
-        journal.append("accounts", {"account": refund_account, "credit_in_account_currency": amount})
-    elif tx.transaction_type == "Allocation":
-        destination = clearing
-        account_row = {"account": destination, "credit_in_account_currency": amount}
-        if tx.sales_invoice:
-            invoice = frappe.get_doc("Sales Invoice", tx.sales_invoice)
-            if invoice.docstatus != 1:
-                frappe.throw(_("Sales Invoice {0} must be submitted before deposit allocation.").format(invoice.name))
-            if invoice.company != company:
-                frappe.throw(
-                    _("Sales Invoice {0} belongs to company {1}, not {2}.").format(
-                        invoice.name, invoice.company, company
-                    )
-                )
-            if invoice.customer != deposit.customer:
-                frappe.throw(
-                    _("Sales Invoice {0} belongs to customer {1}, not {2}.").format(
-                        invoice.name, invoice.customer, deposit.customer
-                    )
-                )
-            if invoice.currency != deposit.currency:
-                frappe.throw(
-                    _(
-                        "Sales Invoice {0} uses currency {1}, while Security Deposit {2} uses {3}. "
-                        "Use matching currencies for deposit allocation."
-                    ).format(invoice.name, invoice.currency, deposit.name, deposit.currency)
-                )
-            outstanding = max(0, flt(invoice.outstanding_amount))
-            if amount > outstanding:
-                frappe.throw(
-                    _("Sales Invoice {0} has only {1} outstanding; requested allocation is {2}.").format(
-                        invoice.name,
-                        frappe.format_value(outstanding, {"fieldtype": "Currency", "options": invoice.currency}),
-                        frappe.format_value(amount, {"fieldtype": "Currency", "options": invoice.currency}),
-                    )
-                )
-            destination = invoice.debit_to
-            account_row = {
-                "account": destination,
-                "party_type": "Customer",
-                "party": deposit.customer,
-                "reference_type": "Sales Invoice",
-                "reference_name": invoice.name,
-                "credit_in_account_currency": amount,
-            }
-        if not destination:
-            frappe.throw(_("Configure a Deposit Clearing Account or select a Sales Invoice."))
-        journal.append("accounts", {"account": liability, "debit_in_account_currency": amount})
-        journal.append("accounts", account_row)
-    elif tx.transaction_type == "Forfeiture":
-        income = resolve_account("miscellaneous_rental_income_account", company, deposit.branch, deposit.vehicle)
-        if not income:
-            frappe.throw(_("Configure a Miscellaneous Rental Income Account."))
-        journal.append("accounts", {"account": liability, "debit_in_account_currency": amount})
-        journal.append("accounts", {"account": income, "credit_in_account_currency": amount})
-    else:
-        frappe.throw(_("Unsupported deposit transaction type {0}.").format(tx.transaction_type))
-
-    journal.insert(ignore_permissions=True)
-    persist_source_references(journal)
-    journal.submit()
-    return journal.name
-
-
-def update_deposit_totals(deposit_name: str):
-    lock_document("Security Deposit", deposit_name)
-    deposit = frappe.get_doc("Security Deposit", deposit_name)
-    totals = frappe.db.sql(
-        """
-        select
-            sum(case when transaction_type = 'Collection' then amount else 0 end) as collected,
-            sum(case when transaction_type = 'Allocation' then amount else 0 end) as allocated,
-            sum(case when transaction_type = 'Forfeiture' then amount else 0 end) as forfeited,
-            sum(case when transaction_type = 'Refund' then amount else 0 end) as refunded,
-            sum(case when transaction_type = 'Waiver' then 1 else 0 end) as waived_count
-        from `tabDeposit Transaction`
-        where security_deposit = %s and docstatus = 1
-        """,
-        (deposit_name,),
-        as_dict=True,
-    )[0]
-    received = flt(totals.collected)
-    allocated = flt(totals.allocated)
-    forfeited = flt(totals.forfeited)
-    deducted = allocated + forfeited
-    refunded = flt(totals.refunded)
-    balance = max(0, received - deducted - refunded)
-    required = flt(deposit.amount_required)
-    status = _deposit_status(
-        required=required,
-        received=received,
-        allocated=allocated,
-        forfeited=forfeited,
-        refunded=refunded,
-        waived_count=cint(totals.waived_count),
-        precision=_precision(),
-    )
-
-    waiver_approved_by = None
-    if cint(totals.waived_count):
-        waiver_approved_by = frappe.db.get_value(
-            "Deposit Transaction",
-            {"security_deposit": deposit_name, "transaction_type": "Waiver", "docstatus": 1},
-            "owner",
-            order_by="creation desc",
-        )
-
+    if not cint(settings.get("allow_deposit_waiver")):
+        frappe.throw(_("Deposit waivers are disabled. Enable 'Allow Deposit Waiver' in Motors Settings."))
+    if not can_user_waive_deposit():
+        frappe.throw(_("You are not permitted to waive security deposits."), frappe.PermissionError)
+    agreement = frappe.get_doc("Rental Agreement", agreement_name)
     frappe.db.set_value(
-        "Security Deposit",
-        deposit_name,
+        "Rental Agreement",
+        agreement.name,
         {
-            "amount_received": quantize(received, _precision()),
-            "held_amount": quantize(balance, _precision()),
-            "deducted_amount": quantize(deducted, _precision()),
-            "refund_amount": quantize(refunded, _precision()),
-            "balance": quantize(balance, _precision()),
-            "status": status,
-            "waiver_approved_by": waiver_approved_by,
-            "deposit_type": (
-                "Waiver"
-                if waiver_approved_by
-                else "Cash" if deposit.deposit_type == "Waiver" else deposit.deposit_type
-            ),
+            "deposit_waived": 1,
+            "deposit_waiver_approved_by": frappe.session.user,
+            "deposit_waiver_reason": reason,
         },
         update_modified=True,
     )
-    latest = frappe.db.get_value(
-        "Deposit Transaction",
-        {"security_deposit": deposit_name, "docstatus": 1},
-        "name",
-        order_by="posting_date desc, creation desc",
+    return frappe.get_doc("Rental Agreement", agreement_name)
+
+
+# ---------------------------------------------------------------------------
+# Account statement (rent accrual vs. payments)
+# ---------------------------------------------------------------------------
+def build_account_statement(agreement_name: str) -> dict:
+    agreement = frappe.get_doc("Rental Agreement", agreement_name)
+    currency = agreement.currency
+    pickup = get_datetime(agreement.pickup_datetime) if agreement.pickup_datetime else None
+
+    actual_return = frappe.db.get_value(
+        "Rental Return", {"rental_agreement": agreement.name, "docstatus": 1}, "return_datetime"
     )
-    frappe.db.set_value(
-        "Security Deposit",
-        deposit_name,
-        "latest_transaction",
-        latest,
-        update_modified=False,
-    )
+    accrual_end = get_datetime(actual_return) if actual_return else now_datetime()
 
+    lines: list[dict] = []
+    total_debit = 0.0
+    total_credit = 0.0
 
+    daily_rate = flt(agreement.base_rate) or (flt(agreement.base_amount) / max(flt(agreement.duration_units), 1))
+    days = 0
+    if pickup and accrual_end and accrual_end > pickup:
+        hours = (accrual_end - pickup).total_seconds() / 3600.0
+        days = int(math.ceil(hours / 24.0))
+    for i in range(days):
+        total_debit += daily_rate
+        lines.append({
+            "date": str(add_days(pickup, i))[:10],
+            "description": _("Rental day {0}").format(i + 1),
+            "debit": quantize(daily_rate, 2),
+            "credit": 0,
+        })
 
-def _deposit_status(
-    *,
-    required: float,
-    received: float,
-    allocated: float,
-    forfeited: float,
-    refunded: float,
-    waived_count: int = 0,
-    precision: int = 2,
-) -> str:
-    precision = max(0, int(precision))
-    tolerance = 10 ** -precision
-    deducted = flt(allocated) + flt(forfeited)
-    balance = max(0, flt(received) - deducted - flt(refunded))
+    for row in agreement.get("charges") or []:
+        amt = flt(row.amount)
+        if amt:
+            total_debit += amt
+            lines.append({
+                "date": nowdate(),
+                "description": row.description or row.charge_type or _("Charge"),
+                "debit": quantize(amt, 2),
+                "credit": 0,
+            })
 
-    if waived_count:
-        return "Waived"
-    if flt(received) <= tolerance:
-        return "Required"
-    if balance <= tolerance:
-        if flt(refunded) >= flt(received) - tolerance and deducted <= tolerance:
-            return "Refunded"
-        if (
-            flt(forfeited) >= flt(received) - tolerance
-            and flt(allocated) <= tolerance
-            and flt(refunded) <= tolerance
-        ):
-            return "Forfeited"
-        return "Fully Used"
-    if deducted > tolerance or flt(refunded) > tolerance:
-        return "Partially Used"
-    if flt(received) < flt(required) - tolerance:
-        return "Partially Collected"
-    return "Held"
+    tax = flt(agreement.tax_amount)
+    if tax:
+        total_debit += tax
+        lines.append({"date": nowdate(), "description": _("Tax"), "debit": quantize(tax, 2), "credit": 0})
 
-def _precision() -> int:
-    return max(0, cint(get_settings_dict().get("currency_precision") or 2))
+    discount = flt(agreement.discount_amount)
+    if discount:
+        total_credit += discount
+        lines.append({"date": nowdate(), "description": _("Discount"), "debit": 0, "credit": quantize(discount, 2)})
+
+    status = get_deposit_status(agreement_name)
+    if status["collected"]:
+        total_credit += flt(status["collected"])
+        lines.append({
+            "date": nowdate(),
+            "description": _("Security deposit received"),
+            "debit": 0,
+            "credit": quantize(flt(status["collected"]), 2),
+        })
+    if status["refunded"]:
+        total_debit += flt(status["refunded"])
+        lines.append({
+            "date": nowdate(),
+            "description": _("Security deposit refunded"),
+            "debit": quantize(flt(status["refunded"]), 2),
+            "credit": 0,
+        })
+
+    # Other (non-deposit) customer payments linked to this agreement.
+    exclude = {status.get("deposit_payment_entry"), status.get("deposit_refund_payment_entry")}
+    if frappe.db.exists("DocType", "Dagaar Motors ERP Link"):
+        pe_names = frappe.get_all(
+            "Dagaar Motors ERP Link",
+            filters={"reference_doctype": "Payment Entry", "rental_agreement": agreement.name},
+            pluck="reference_name",
+        )
+        for pe in set(pe_names) - exclude:
+            info = frappe.db.get_value(
+                "Payment Entry", pe, ["payment_type", "paid_amount", "docstatus", "posting_date"], as_dict=True
+            )
+            if not info or info.docstatus != 1:
+                continue
+            if info.payment_type == "Receive":
+                total_credit += flt(info.paid_amount)
+                lines.append({"date": str(info.posting_date), "description": _("Payment {0}").format(pe), "debit": 0, "credit": quantize(flt(info.paid_amount), 2)})
+            else:
+                total_debit += flt(info.paid_amount)
+                lines.append({"date": str(info.posting_date), "description": _("Payment out {0}").format(pe), "debit": quantize(flt(info.paid_amount), 2), "credit": 0})
+
+    return {
+        "agreement": agreement.name,
+        "customer": agreement.customer,
+        "currency": currency,
+        "accrued_days": days,
+        "daily_rate": quantize(daily_rate, 2),
+        "agreed_total": quantize(flt(agreement.grand_total), 2),
+        "deposit_required": flt(status["required"]),
+        "deposit_received": flt(status["collected"]),
+        "deposit_refundable": flt(status["refundable"]),
+        "total_debit": quantize(total_debit, 2),
+        "total_credit": quantize(total_credit, 2),
+        "balance": quantize(total_debit - total_credit, 2),
+        "lines": lines,
+    }

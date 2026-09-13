@@ -21,7 +21,11 @@
   "vehicle_category",
   "rental_agent",
   "current_invoice",
-  "security_deposit",
+  "deposit_payment_entry",
+  "deposit_refund_payment_entry",
+  "deposit_waiver_reason",
+  "deposit_waived",
+  "deposit_waiver_approved_by",
   "status_reason",
   "period_section",
   "pickup_datetime",
@@ -205,12 +209,42 @@
    "read_only": 1
   },
   {
-   "allow_on_submit": 1,
-   "fieldname": "security_deposit",
+   "fieldname": "deposit_payment_entry",
    "fieldtype": "Link",
-   "label": "Security Deposit",
-   "options": "Security Deposit",
-   "read_only": 1
+   "label": "Deposit Payment Entry",
+   "options": "Payment Entry",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "deposit_refund_payment_entry",
+   "fieldtype": "Link",
+   "label": "Deposit Refund Payment Entry",
+   "options": "Payment Entry",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "deposit_waiver_reason",
+   "fieldtype": "Small Text",
+   "label": "Deposit Waiver Reason",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "deposit_waived",
+   "fieldtype": "Check",
+   "label": "Deposit Waived",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "deposit_waiver_approved_by",
+   "fieldtype": "Link",
+   "label": "Deposit Waiver Approved By",
+   "read_only": 1,
+   "no_copy": 1,
+   "options": "User"
   },
   {
    "allow_on_submit": 1,

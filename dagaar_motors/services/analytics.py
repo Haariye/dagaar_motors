@@ -78,10 +78,16 @@ def get_management_dashboard(
     sales_revenue = sum(flt(row.base_net_total) for row in invoices if row.dagaar_vehicle_sale)
     outstanding = sum(flt(row.outstanding_amount) for row in invoices)
 
-    held_deposits = _sum_value(
-        "Security Deposit",
-        "held_amount",
-        {"company": company, "status": ["in", ["Held", "Partially Used", "Refund Pending"]], **({"branch": branch_filter} if branch_filter else {})},
+    held_deposits = flt(
+        frappe.db.sql(
+            """
+            select coalesce(sum(pe.unallocated_amount), 0)
+            from `tabPayment Entry` pe
+            inner join `tabRental Agreement` ra on ra.deposit_payment_entry = pe.name
+            where pe.docstatus = 1 and pe.company = %(company)s
+            """,
+            {"company": company},
+        )[0][0]
     )
     maintenance_cost = _sum_value(
         "Maintenance Work Order",
@@ -204,9 +210,9 @@ def get_operations_board(company: str | None = None, branch: str | None = None) 
             limit_page_length=50,
         ),
         "deposits_pending": frappe.get_all(
-            "Security Deposit",
-            filters={**common, "status": ["in", ["Required", "Pending", "Partially Collected", "Refund Pending"]]},
-            fields=["name", "customer", "rental_agreement", "amount_required", "amount_received", "balance", "status"],
+            "Rental Agreement",
+            filters={**common, "docstatus": ["<", 2], "deposit_required": [">", 0], "deposit_payment_entry": ["is", "not set"], "deposit_waived": 0},
+            fields=["name", "customer", "vehicle", "deposit_required", "status"],
             order_by="modified desc",
             limit_page_length=50,
         ),

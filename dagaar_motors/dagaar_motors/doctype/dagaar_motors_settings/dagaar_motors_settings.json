@@ -96,6 +96,7 @@
   "default_deposit_percentage",
   "allow_deposit_waiver",
   "deposit_waiver_requires_approval",
+  "deposit_waiver_roles",
   "deposit_policy_col",
   "default_deposit_payment_account",
   "default_refund_payment_account",
@@ -671,6 +672,13 @@
    "fieldtype": "Check",
    "label": "Waiver Requires Approval",
    "default": "1"
+  },
+  {
+   "fieldname": "deposit_waiver_roles",
+   "fieldtype": "Table",
+   "label": "Deposit Waiver Roles",
+   "options": "Dagaar Deposit Waiver Role",
+   "description": "Only users holding one of these roles can waive a security deposit. Leave empty to fall back to the standard deposit approval roles."
   },
   {
    "fieldname": "deposit_policy_col",

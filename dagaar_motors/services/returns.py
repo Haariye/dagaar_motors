@@ -10,7 +10,7 @@ from dagaar_motors.api.permissions import require_any_role
 from dagaar_motors.compat.db import lock_document
 from dagaar_motors.services.accounting import create_return_invoice
 from dagaar_motors.services.audit import append_audit_event
-from dagaar_motors.services.deposits import create_transaction, update_deposit_totals
+from dagaar_motors.services.deposits import get_deposit_status
 from dagaar_motors.services.fleet import add_mileage_log, refresh_vehicle_availability_status
 from dagaar_motors.services.idempotency import ensure_idempotency_key
 from dagaar_motors.services.settings import get_settings_dict
@@ -89,7 +89,9 @@ def process_return(doc):
 
     invoice = None
     if flt(doc.additional_charge_total) > 0:
-        # Submit immediately so the amount can be settled against the deposit.
+        # Submit immediately. create_return_invoice applies the customer's
+        # deposit advance (Payment Entry) to this invoice automatically, so the
+        # deposit is deducted natively on the customer ledger.
         invoice = create_return_invoice(doc, submit=True)
         frappe.db.set_value(
             "Rental Return",
@@ -98,29 +100,15 @@ def process_return(doc):
             update_modified=False,
         )
 
-    if flt(doc.deposit_utilized) > 0:
-        if not doc.security_deposit:
-            frappe.throw(_("A security deposit is required before applying a deposit amount."))
-        if not invoice or invoice.docstatus != 1:
-            frappe.throw(_("Submit the final return invoice before applying the security deposit."))
-        create_transaction(
-            doc.security_deposit,
-            "Allocation",
-            doc.deposit_utilized,
-            sales_invoice=invoice.name,
-            allocations=[
-                {
-                    "allocation_type": "Outstanding Rent",
-                    "amount": doc.deposit_utilized,
-                    "source_doctype": "Rental Return",
-                    "source_name": doc.name,
-                    "description": f"Return reconciliation {doc.name}",
-                }
-            ],
-            remarks=f"Applied during return {doc.name}",
-            request_token=f"rental-return:{doc.name}:deposit-allocation",
-        )
-        update_deposit_totals(doc.security_deposit)
+    # Surface the remaining refundable deposit for the Refund button on the
+    # agreement (the refund itself is issued from that button).
+    status = get_deposit_status(doc.rental_agreement)
+    frappe.db.set_value(
+        "Rental Return",
+        doc.name,
+        {"deposit_available": status["collected"], "deposit_utilized": status["applied"]},
+        update_modified=False,
+    )
 
     add_mileage_log(
         doc.vehicle,
@@ -163,12 +151,7 @@ def process_return(doc):
     if next_status == "Available":
         refresh_vehicle_availability_status(doc.vehicle)
 
-    if doc.security_deposit:
-        update_deposit_totals(doc.security_deposit)
-        balance = flt(frappe.db.get_value("Security Deposit", doc.security_deposit, "balance"))
-        if balance > 0:
-            frappe.db.set_value("Security Deposit", doc.security_deposit, "status", "Refund Pending")
-            frappe.db.set_value("Rental Return", doc.name, "refund_amount", balance, update_modified=False)
+    frappe.db.set_value("Rental Return", doc.name, "refund_amount", status["refundable"], update_modified=False)
 
     frappe.db.set_value("Rental Return", doc.name, "status", "Completed", update_modified=False)
 
@@ -190,13 +173,6 @@ def cancel_return(doc):
         invoice = frappe.get_doc("Sales Invoice", doc.final_sales_invoice)
         if invoice.docstatus == 1:
             frappe.throw(_("Cancel Sales Invoice {0} before cancelling this return.").format(invoice.name))
-    allocations = frappe.get_all(
-        "Deposit Transaction",
-        filters={"security_deposit": doc.security_deposit, "sales_invoice": doc.final_sales_invoice, "docstatus": 1},
-        pluck="name",
-    ) if doc.security_deposit and doc.final_sales_invoice else []
-    if allocations:
-        frappe.throw(_("Cancel the linked deposit allocation before cancelling this return."))
     frappe.db.set_value(
         "Rental Agreement",
         doc.rental_agreement,
@@ -232,7 +208,6 @@ def _copy_agreement_context(doc, agreement):
         "company": agreement.company,
         "branch": agreement.branch,
         "currency": agreement.currency,
-        "security_deposit": agreement.security_deposit,
     }
     for fieldname, value in values.items():
         if doc.get(fieldname) and doc.get(fieldname) != value:
@@ -423,12 +398,8 @@ def _calculate_reconciliation(doc, agreement):
     total_invoiced = flt(original.total) + flt(extensions.total)
     total_outstanding = flt(original.outstanding) + flt(extensions.outstanding)
     doc.payments_received = max(0, total_invoiced - total_outstanding)
-    if doc.security_deposit:
-        doc.deposit_available = flt(
-            frappe.db.get_value("Security Deposit", doc.security_deposit, "balance")
-        )
-    else:
-        doc.deposit_available = 0
+    _status = get_deposit_status(agreement.name)
+    doc.deposit_available = flt(_status["refundable"])
 
     # Total the customer owes for this rental. When the base was billed in full
     # at checkout and the vehicle came back early, reduce what is still owed by
@@ -440,11 +411,8 @@ def _calculate_reconciliation(doc, agreement):
     # Deduct the final amount from the security deposit automatically. The agent
     # can still override the amount before submitting; only auto-fill when the
     # field is empty.
-    if not flt(doc.deposit_utilized) and doc.security_deposit and amount_owed > 0:
+    if not flt(doc.deposit_utilized) and amount_owed > 0:
         doc.deposit_utilized = min(flt(doc.deposit_available), amount_owed)
-
-    if flt(doc.deposit_utilized) > flt(doc.deposit_available):
-        frappe.throw(_("Deposit utilized cannot exceed the available security deposit."))
 
     doc.outstanding_balance = max(0, amount_owed - flt(doc.deposit_utilized))
     doc.refund_amount = max(0, flt(doc.deposit_available) - flt(doc.deposit_utilized))

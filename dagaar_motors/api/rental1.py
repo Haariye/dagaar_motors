@@ -3,14 +3,6 @@ from __future__ import annotations
 import frappe
 
 from dagaar_motors.api.permissions import enforce_document_scope, enforce_vehicle_scope
-from dagaar_motors.services.deposits import (
-    build_account_statement,
-    can_user_waive_deposit,
-    collect_agreement_deposit,
-    get_deposit_status,
-    refund_agreement_deposit,
-    waive_agreement_deposit,
-)
 from dagaar_motors.services.extensions import approve_and_submit_extension
 from dagaar_motors.services.rental import (
     assign_vehicle,
@@ -51,51 +43,6 @@ def create_agreement(reservation):
 def checkout(agreement):
     enforce_document_scope("Rental Agreement", agreement)
     return checkout_agreement(agreement).as_dict()
-
-
-@frappe.whitelist()
-def collect_deposit(agreement, amount=None, payment_method=None, reference_number=None):
-    enforce_document_scope("Rental Agreement", agreement)
-    return collect_agreement_deposit(
-        agreement,
-        amount=amount,
-        payment_method=payment_method,
-        reference_number=reference_number,
-    ).as_dict()
-
-
-@frappe.whitelist()
-def waive_deposit(agreement, reason=None):
-    enforce_document_scope("Rental Agreement", agreement)
-    return waive_agreement_deposit(agreement, reason=reason).as_dict()
-
-
-@frappe.whitelist()
-def can_waive_deposit():
-    return can_user_waive_deposit()
-
-
-@frappe.whitelist()
-def account_statement(agreement):
-    enforce_document_scope("Rental Agreement", agreement)
-    return build_account_statement(agreement)
-
-
-@frappe.whitelist()
-def deposit_status(agreement):
-    enforce_document_scope("Rental Agreement", agreement)
-    return get_deposit_status(agreement)
-
-
-@frappe.whitelist()
-def refund_deposit(agreement, amount=None, payment_method=None, reference_number=None):
-    enforce_document_scope("Rental Agreement", agreement)
-    return refund_agreement_deposit(
-        agreement,
-        amount=amount,
-        payment_method=payment_method,
-        reference_number=reference_number,
-    ).as_dict()
 
 
 @frappe.whitelist()
